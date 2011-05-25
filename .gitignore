@@ -1,0 +1,14 @@
+bin
+obj
+.*~
+*resharper*
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.swp
+debug
+*.dbmdl
+TestResults
+sql
+*.docstates
