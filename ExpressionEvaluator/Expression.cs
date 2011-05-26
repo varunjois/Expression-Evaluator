@@ -1,14 +1,30 @@
+/*****************************************************************************************
+* Jeremy Roberts                                                           Expression.cs *
+* 23 Jul 2004                                                                     Wfccm2 *
+*****************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Threading;
 using System.Collections.ObjectModel;
+//using System.Reflection;
+//using System.Reflection.Emit;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
+//using System.Threading;
+using System.Linq;
 
-namespace Wfccm2
+namespace Vanderbilt.Biostatistics.Wfccm2
 {
+    [Serializable]
+    public class ExpressionException : Exception
+    {
+        public ExpressionException(string description) : base (description)
+        {
+        }
+
+        protected ExpressionException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+
     /// <summary>
     /// Evaluatable mathmatical function.
     /// </summary>
@@ -45,13 +61,18 @@ namespace Wfccm2
         #endregion
 
         #region Member data
+        
+        /// <summary>
+        /// The function.
+        /// </summary>
         protected string inFunction = string.Empty; // Infix function.
         protected string postFunction = string.Empty; // Postfix function.
         protected Dictionary<string, double> variables = new Dictionary<string, double>();
         protected const double TRUE = 1;
         protected const double FALSE = 0;
         protected string[] splitPostFunction;
-        private bool compilecode = false;
+        //private bool compilecode = false;
+
         #endregion
 
         ~Expression()
@@ -79,24 +100,9 @@ namespace Wfccm2
         /// <param name="function">The function to be evaluated.</param>
         public Expression(string function)
         {
-            this.Function = function;
+            Function = function;
         }
 
-        ///// <summary>
-        ///// Copy constructor.
-        ///// </summary>
-        ///// <remarks><pre>
-        ///// 19 Jul 2004 - Jeremy Roberts
-        ///// </pre></remarks>
-        ///// <param name="function">The function to be evaluated.</param>
-        //public Expression(Expression cloneMe)
-        //{
-        //    this.Function = cloneMe.Function;
-        //    foreach (string key in cloneMe.variables.Keys)
-        //    {
-        //        this.AddSetVariable(key, (double)cloneMe.variables[key]);
-        //    }
-        //}
         #endregion
 
         #region properties
@@ -108,18 +114,18 @@ namespace Wfccm2
         /// </pre></remarks>
         public string Function
         {
-            get { return this.inFunction; }
-            set {
+            get{return this.inFunction;}
+            set{
                 // This will throw an error if it does not validate.
-                this.Validate(value);
+                Validate(value);
 
                 // Function is valid.
-                this.inFunction = value;
-                this.postFunction = this.Infix2Postfix(this.inFunction);
-                this.splitPostFunction = postFunction.Split(new char[] { ' ' });
-                this.ClearVariables();
-                if (this.compilecode)
-                    this.compile();
+                inFunction = value; 
+                postFunction = Infix2Postfix(inFunction);
+                splitPostFunction = postFunction.Split(new [] { ' ' });
+                ClearVariables();
+                //if (compilecode)
+                //    this.compile();
             }
         }
 
@@ -142,15 +148,70 @@ namespace Wfccm2
         /// </pre></remarks>
         public string InFix
         {
-            get { return this.Expand(inFunction); }
+            get { return Expand(inFunction); }
         }
 
-        public bool Compile
+        //private bool Compile
+        //{
+        //    get
+        //    {
+        //        return compilecode;
+        //    }
+        //    set
+        //    {
+        //        compilecode = value;
+        //    }
+        //}
+
+        static private readonly List<string> _operators = new List<string>
         {
-            get { return this.compilecode; }
-            set { this.compilecode = value; }
-        }
+            "+",
+            "-",
+            "*",
+            "/",
+            "^",
+            "&&",
+            "||",
+            "==",
+            ">=",
+            "<=",
+            ">",
+            "<",
+            "!="
+        };
+
+        static private readonly List<string> _functions = new List<string>
+        {
+            "sign",
+            "abs",
+            "neg",
+            "ln"
+        };
+
+        static private readonly List<String> _openGroupOperators = new List<String>
+        {
+            "(",
+            "{"
+        };
+
+        static private readonly List<String> _closeGroupOperators = new List<String>
+        {
+            ")",
+            "}"
+        };
+
+        static private readonly List<String> _conditionalOperators = new List<String>
+        {
+            "if",
+            "else",
+            "elseif"
+        };
+
+        static private readonly List<string> _groupOperators = _openGroupOperators.Union(_closeGroupOperators).ToList();
+
+
         #endregion
+
 
         /// <summary>
         /// Convecs an infix string to a post fix string.
@@ -162,72 +223,67 @@ namespace Wfccm2
         /// <returns>A post fix string.</returns>
         protected string Infix2Postfix(string func)
         {
-            func = this.Expand(func);
+            func = Expand(func);
 
-            string[] inFix = func.Split(new char[]{' '});
+            string[] inFix = func.Split(new []{' '});
 
-            Stack<string> postFix = new Stack<string>();
-
-            //          inFix = evaluateLogic(inFix);
-
-            Stack<string> operators = new Stack<string>();
+            var postFix = new Stack<string>();
+            var operators = new Stack<string>();
+            
             string currOperator;
 
             foreach (string token in inFix)
             {
-                // If the token is an operand
-                if (this.IsOperand(token))
+                if (IsOperand(token))
                 {
-                    //push on the postfix vector
                     postFix.Push(token);
                 }
-                // If the token is a "("
-                else if (token == "(")
+                else if (token == "(" || token == "{")
                 {
-                    //push on the operatorVector
                     operators.Push(token);
                 }
-                // If the token is a ")"
                 else if (token == ")")
                 {
-                    // pop the operatorVector and store operator
                     currOperator = operators.Pop();
 
-                    // while operator is not a "("
                     while (currOperator != "(")
                     {
-                        // push the operator on the postfixVector
                         postFix.Push(currOperator);
-                        // pop the operatorVector and store operator
                         currOperator = operators.Pop();
                     }
                 }
-                // If the token is an operator
-                else if (this.IsOperator(token))
+                else if (token == "}")
                 {
-                    // while precedence of the operator is <= precedence of the token
+                    currOperator = operators.Pop();
+
+                    while (currOperator != "{")
+                    {
+                        postFix.Push(currOperator);
+                        currOperator = operators.Pop();
+                    }
+                }
+                else if (IsOperator(token))
+                {
+                    // while precedence of the operator is <= precedence of the token 
                     while (operators.Count > 0)
                     {
-                        if (this.GetPrecedence(token) <= this.GetPrecedence(operators.Peek()))
+                        if (GetPrecedence(token) <= GetPrecedence(operators.Peek()))
                         {
-                            // pop the operatorVector and store operator
                             currOperator = operators.Pop();
-                            //push operator on the postfix vector
                             postFix.Push(currOperator);
                         }
                         else
+                        {
                             break;
+                        }
                     }
-                    //push token on the postfix vector
+
                     operators.Push(token);
                 }
             }
-            // while operatorVector is not empty
             while (operators.Count > 0)
             {
-                // pop the operatorVector and store operator
                 currOperator = operators.Pop();
-                //push operator on the postfix vector
                 postFix.Push(currOperator);
             }
 
@@ -238,8 +294,10 @@ namespace Wfccm2
                 psString = item + " " + psString;
             }
             psString = psString.Trim();
-
+ 
             return psString;
+
+
         }
 
         /// <summary>
@@ -250,16 +308,13 @@ namespace Wfccm2
         /// </pre></remarks>
         /// <param name="token">String to check</param>
         /// <returns></returns>
-        protected bool IsOperand(string token)
+        public bool IsOperand(string token)
         {
-            if (!this.IsOperator(token) &&
-                token != "(" &&
-                token != ")" &&
-                token != "{" &&
-                token != "}")
+            if (!IsOperator(token) &&
+                !_groupOperators.Contains(token))
                 return true;
-            else
-                return false;
+             
+            return false;
         }
 
         /// <summary>
@@ -270,27 +325,9 @@ namespace Wfccm2
         /// </pre></remarks>
         /// <param name="token">String to check</param>
         /// <returns></returns>
-        protected bool IsOperator(string token)
+        public bool IsOperator(string token)
         {
-            if (token == "+"    ||
-                token == "-"    ||
-                token == "*"    ||
-                token == "/"    ||
-                token == "^"    ||
-                token == "&&"   ||
-                token == "||"   ||
-                token == "sign" ||
-                token == "abs"  ||
-                token == "neg"  ||
-                token == "=="   ||
-                token == ">="   ||
-                token == "<="   ||
-                token == ">"    ||
-                token == "<"    ||
-                token == "!=")
-                return true;
-            else
-                return false;
+            return _operators.Union(_functions).Union(_conditionalOperators).Contains(token);
         }
 
         /// <summary>
@@ -301,39 +338,59 @@ namespace Wfccm2
         /// </pre></remarks>
         /// <param name="function">Function to expand.</param>
         /// <returns></returns>
+
         public string Expand(string function)
         {
             // Clean the function.
-            function = Regex.Replace(function, @"[ ]+", @"");
-            function = function.Replace("(", " ( ");
-            function = function.Replace(")", " ) ");
-            function = function.Replace("+", " + ");
-            function = function.Replace("-", " - ");
-            function = function.Replace("*", " * ");
-            function = function.Replace("/", " / ");
-            function = function.Replace("^", " ^ ");
-            function = function.Replace("||", " || ");
-            function = function.Replace("&&", " && ");
-            function = function.Replace("==", " == ");
-            function = function.Replace(">=", " >= ");
-            function = function.Replace("<=", " <= ");
+            //function = Regex.Replace(function, @"[ ]+", @""); // Remove spaces
+
+            function = Regex.Replace(function, "\r\n", " ");
+
+            foreach (var x in _operators.Union(_groupOperators))
+            {
+                function = function.Replace(x, " " + x + " ");
+            }
+
+            // Join the else if into a single operator.
+            function = function.Replace("else if", "elseif");
+
+            //function = function.Replace("(", " ( ");
+            //function = function.Replace(")", " ) ");
+
+            //function = function.Replace("+", " + ");
+            //function = function.Replace("-", " - ");
+            //function = function.Replace("*", " * ");
+            //function = function.Replace("/", " / ");
+            //function = function.Replace("^", " ^ ");
+            //function = function.Replace("||", " || ");
+            //function = function.Replace("&&", " && ");
+            //function = function.Replace("==", " == ");
+            //function = function.Replace(">=", " >= ");
+            //function = function.Replace("<=", " <= ");
+            //function = function.Replace("!=", " != ");
+            //function = function.Replace("sign", " sign ");
+            //function = function.Replace("abs", " abs ");
+            //function = function.Replace("neg", " neg ");
+            //function = function.Replace("ln", " ln ");
             //function = function.Replace("<", " < ");
-            function = Regex.Replace(function, @"<([^=]|$)", @" < $1");
             //function = function.Replace(">", " > ");
-            function = Regex.Replace(function, @">([^=]|$)", @" > $1");
-            function = function.Replace("!=", " != ");
-            function = function.Replace("sign", " sign ");
-            function = function.Replace("abs", " abs ");
-            function = function.Replace("neg", " neg ");
+
+            
+            function = function.Replace("< =", "<=");
+            function = function.Replace("> =", ">=");
+            
+            //function = Regex.Replace(function, @"<([^=]|$)", @" < $1"); // Expands "<5" to " < 5", but not "<=52 
+            //function = Regex.Replace(function, @">([^=]|$)", @" > $1");
+
             function = function.Trim();
-            function = Regex.Replace(function, @"[ ]+", @" ");
+            function = Regex.Replace(function, @"[ ]+", @" "); // Collapses multiple spaces
 
             // Find and correct for scientific notation
             function = Expression.ScientificNotationCorrection(function);
 
             // Fix negative real values. Ex:  "1 + - 2" = "1 + -2". "1 + - 2e-1" = "1 + -2e-1".
             function = Regex.Replace(
-                function,
+                function, 
                 @"([<>=/*+(-] -|sign -|^-) (\d+|[0-9]+[eE][+-]\d+)(\s|$)",
                 @"$1$2$3");
 
@@ -355,26 +412,24 @@ namespace Wfccm2
                 // Find the previous space.
                 int prevCut=-1;
                 int nextCut=-1;
-
+                
                 if (n-2 <= 0)
                     prevCut = 0;
                 else
                     prevCut = function.LastIndexOf(" ", n-2, n-2) + 1;
-                //prevCut = n-2 <= 0 ? 0 : function.LastIndexOf(" ", n-2, n-2) + 1;
-                //prevSpace = function.LastIndexOf(" ", n-2, n-2);
-
+                
                 if (n + 2 < function.Length)
                     nextCut = function.IndexOf(" ", n+2);
-                else
+                else 
                     nextCut = function.Length;
                 nextCut = (nextCut == -1 ? function.Length : nextCut);
-
+                
                 string checkMeSpace = function.Substring(prevCut, nextCut - prevCut);
                 string checkMe = checkMeSpace.Replace(" ", string.Empty);
 
                 bool realValue=false;
                 double val = Double.NaN;
-                try
+                try 
                 {
                     val = Double.Parse(checkMe);
                     realValue = true;
@@ -384,7 +439,6 @@ namespace Wfccm2
                 if (realValue)
                 {
                     function = function.Replace(checkMeSpace, checkMe);
-                    //n = n - checkMeSpace.Length + checkMe.Length;
                     n = prevCut + checkMe.Length-1;
                 }
 
@@ -409,12 +463,12 @@ namespace Wfccm2
                 token == "+"    ||
                 token == "-"    ||
                 token == "||"   )
-                return 1;
+                return 10;
             else if (
-                token == "*" ||
-                token == "/" ||
+                token == "*"    ||
+                token == "/"    ||
                 token == "&&")
-                return 2;
+                return 20;
             else if (
                 token == "=="   ||
                 token == ">="   ||
@@ -422,13 +476,19 @@ namespace Wfccm2
                 token == ">"    ||
                 token == "<"    ||
                 token == "!="   ||
-                token == "sign" ||
                 token == "^" )
-                return 3;
+                return 30;
             else if (
-                token == "abs" ||
-                token == "neg")
-                return 4;
+                token == "abs"  ||
+                token == "neg"  ||
+                token == "ln"   ||
+                token == "sign")
+                return 40;
+            else if (
+                token == "if"   ||
+                token == "else" ||
+                token == "elseif")
+                return 50;
             else
                 return 0;
         }
@@ -507,10 +567,10 @@ namespace Wfccm2
             if (token == "true" || token == "false")
                 return false;
 
-            if (!this.IsOperand(token))
+            if (!IsOperand(token))
                 return false;
 
-            if (this.IsNumber(token))
+            if (IsNumber(token))
                 return false;
 
             return true;
@@ -521,11 +581,11 @@ namespace Wfccm2
             get
             {
                 // Check to see that the function is valid.
-                if (this.inFunction.Equals(string.Empty) || this.inFunction == null)
-                    throw new Exception("Function does not exist");
+                if (inFunction.Equals(string.Empty) || this.inFunction == null)
+                    throw new ExpressionException("Function does not exist");
 
                 // Expand the function.
-                string func = this.Expand(inFunction);
+                string func = Expand(inFunction);
 
                 // Tokenize the funcion.
                 string[] inFix = func.Split(new char[] { ' ' });
@@ -560,68 +620,38 @@ namespace Wfccm2
             }
             catch
             {
-                return double.NaN;
+                return double.NaN;                
             }
         }
 
         protected bool Validate(string inFix)
         {
-            string inFixClean = this.Expand(inFix);
-            string[] func = inFixClean.Split(new char[]{' '});
+            string inFixClean = Expand(inFix);
+            string[] tokens = inFixClean.Split(new []{' '});
 
-            // Check parenthesis
-            int parCount = 0;
-            for ( int i = 0; i < func.Length; i++){
-                // Make sure the abs function is formatted correctly.
-                if (func[i] == "abs")
-                {
-                    if (i == func.Length - 1)
-                        throw new Exception("Operator error! abs does not have a \"(\"" + inFix);
-                    else if ((string)func[i+1] != "(")
-                        throw new Exception("Operator error! abs does not have a \"(\"" + inFix);
-                }
+            CheckFunctionFormatting(inFixClean, tokens);
+            CheckGrouping(inFixClean);
+            CheckConditionals(inFixClean, tokens);
 
-                // Make sure the neg function is formatted correctly.
-                if (func[i] == "neg")
-                    if (i != 0)
-                        if (this.IsOperand(func[i-1]))
-                            throw new Exception("Operator error! neg used improperly." + inFix);
+            tokens = Infix2Postfix(inFixClean).Split(new char[] { ' ' });
 
-                if (i > 0 && i < func.Length - 1)
-                    if (func[i] == "(" || func[i] == ")")
-                        if (this.IsOperand(func[i-1]) && this.IsOperand(func[i+1]))
-                            throw new Exception("Operator error!" + func[i] + " used improperly." + inFix);
+            CheckPostVectorForEvaluability(inFixClean, tokens);            
 
-                if (func[i] == "(")
-                    parCount++;
-                else if (func[i] == ")")
-                    parCount--;
-                if (parCount < 0)
-                    // TODO: Make the exception better.
-                    throw new Exception("Parenthesis error! No matching opening parenthesis." + " " + inFix);
-            }
-            if (parCount != 0)
-                // TODO: Make the exception better.
-                throw new Exception("Parenthesis error! No matching closeing parenthesis." + " " + inFix);
+            return true;
+        }
 
-            // Check operators
+        private void CheckPostVectorForEvaluability(string inFix, string[] tokens)
+        {
+            var workstack = new Stack<string>();
 
-            // Create a temporary vector to hold the secondary stack.
-            Stack<string> workstack = new Stack<string>();
-            func = this.Infix2Postfix(inFix).Split(new char[]{' '});
-
-            // loop through the postfix vector
-            string token = string.Empty;
-            for (int i = 0; i < func.Length; i++)
+            for (int index = 0; index < tokens.Length; index++)
             {
-                token = func[i];
+                string token = tokens[index];
 
-                // If the current string is an operator
-                if (this.IsOperator(token))
+                if (IsOperator(token))
                 {
-                    if (token == "abs" ||
-                        token == "neg" ||
-                        token == "sign")
+                    if (_functions.Contains(token) ||
+                        token == "else")
                     {
                         try
                         {
@@ -630,7 +660,19 @@ namespace Wfccm2
                         }
                         catch
                         {
-                            throw new Exception("Operator error! \"" + token + "\". " + inFix);
+                            throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
+                        }
+                    }
+                    else if (token == "if" || token == "elseif")
+                    {
+                        try
+                        {
+                            workstack.Pop();
+                            workstack.Pop();
+                        }
+                        catch
+                        {
+                            throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
                         }
                     }
                     else
@@ -643,74 +685,209 @@ namespace Wfccm2
                         }
                         catch
                         {
-                            throw new Exception("Operator error! \"" + token + "\". " + inFix);
+                            throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
                         }
                     }
                 }
                 else
                 {
-                    // push the string on the workstack
                     workstack.Push(token);
                 }
             }
 
-            // Check to see if the value on the back is a variable.
-            //return convertString((string)workstack.Peek());
+            if (workstack.Count != 1)
+            {
+                throw new ExpressionException("Expression formatted incorrecty! " + inFix);
+            }
+        }
 
-            return true;
+
+        private void CheckFunctionFormatting(string inFix, string[] tokens)
+        {
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                var token = tokens[i];
+                if (_functions.Contains(token))
+                {
+                    if (i + 3 >= tokens.Count() || tokens[i+1] != "(" )
+                        throw new ExpressionException("Function error! " + 
+                            token + " not formatted correctly. Open and close parenthesis required. " + 
+                            inFix);
+                }
+            }
+        }
+
+        private void CheckGrouping(string inFix)
+        {
+            string errorMsg = "Grouping error! Open missing. " + " " + inFix;
+
+            var groupingStack = new Stack<char>();
+            foreach (var token in inFix.ToArray())
+            {
+                if (!_groupOperators.Contains(token.ToString()))
+                {
+                    continue;
+                }
+
+                if (_openGroupOperators.Contains(token.ToString()))
+                {
+                    groupingStack.Push(token);
+                    continue;
+                }
+
+                if (groupingStack.Count == 0)
+                {
+                    throw new ExpressionException(errorMsg);
+                }
+
+                var last = groupingStack.Pop();
+
+                if ((token == ')' && last != '(') ||
+                    (token == '}' && last != '{'))
+                {
+                    throw new ExpressionException(errorMsg);
+                }
+            }
+
+            if (groupingStack.Count != 0)
+            {
+                throw new ExpressionException("Grouping error! Close missing. " + " " + inFix);
+            }
+        }
+
+        private void CheckConditionals(string inFix, string[] tokens)
+        {
+            CheckForMatchingIfElse(inFix, tokens);
+            CheckConditionalFormatting(inFix);
+        }
+
+        private void CheckConditionalFormatting(string inFix)
+        {
+            string errorMsg = "Conditional Error! Boolean statement formatted incorrectly. " + inFix;
+
+            // Find any instances of an "if" followed by something othern then a "(".
+            if (Regex.IsMatch(inFix, @" if(?! *\()"))
+            {
+                throw new ExpressionException(errorMsg);
+            }
+
+            // Find any instances of an "else" followed by something othern then a "{" or an "if".
+            if (Regex.IsMatch(inFix, @"else(?! *(if|{))"))
+            {
+                throw new ExpressionException(errorMsg);
+            }
+
+        }
+
+        private void CheckForMatchingIfElse(string inFix, string[] tokens)
+        {
+            string errorMsg = "Conditional Error! If/Else mismatch. if (...) {...} else if (...) {...} else {...}. " + inFix;
+
+            var workStack = new Stack<string>();
+            foreach (var token in tokens)
+            {
+                if (!_conditionalOperators.Contains(token.ToString()))
+                {
+                    continue;
+                }
+
+                if (token == "if")
+                {
+                    workStack.Push(token);
+                    continue;
+                }
+
+                if (workStack.Count == 0)
+                {
+                    throw new ExpressionException(errorMsg);
+                }
+
+                var last = workStack.Pop();
+
+                if (last != "if")
+                {
+                    throw new ExpressionException(errorMsg);
+                }
+
+                if (token == "elseif")
+                {
+                    workStack.Push("if");
+                }
+            }
+
+            if (workStack.Count != 0)
+            {
+                throw new ExpressionException(errorMsg + " " + inFix);
+            }
         }
 
         /// <summary>
-        /// Evaluates the funcion as for a double.
+        /// Evaluates the function as a double.
         /// </summary>
         /// <remarks><pre>
         /// 19 Jul 2004 - Jeremy Roberts
         /// </pre></remarks>
         /// <returns></returns>
-        public double EvaluateD()
+        public double EvaluateNumeric()
         {
-            if (dynamicFunction != null)
-                return dynamicFunction.EvaluateD(variables);
-
             // TODO! Check to see that we have the variable that we need.
 
             // Create a temporary vector to hold the secondary stack.
+            return ConvertString(Evaluate());
+        }
+
+        /// <summary>
+        /// Evaluates the function given as a boolean expression.
+        /// </summary>
+        /// <remarks><pre>
+        /// 20 Jul 2004 - Jeremy Roberts
+        /// </pre></remarks>
+        public bool EvaluateBoolean()
+        {
+            string result = Evaluate();
+
+            if (this.ConvertString(result) == TRUE)
+                return true;
+            return false;
+        }
+
+        private string Evaluate()
+        {
             Stack<string> workstack = new Stack<string>();
-            string sLeft;
-            string sRight;
+            string sLeft = "";
+            string sRight = "";
             double dLeft = 0;
             double dRight = 0;
-            double dResult = 0;
+            string sResult = "";
+            int currentConditionalDepth = 0;
 
             //this.splitPostFunction = postFunction.Split(new char[] { ' ' });
 
             // loop through the postfix vector
             string token = string.Empty;
-            for (int i = 0, numCount = this.splitPostFunction.Length; i < numCount; i++)
+            for (int i = 0, numCount = splitPostFunction.Length; i < numCount; i++)
             {
-                token = this.splitPostFunction[i];
+                token = splitPostFunction[i];
 
                 // If the current string is an operator
                 if (this.IsOperator(token))
                 {
-                    // Single operand operators.
-                    if (token == "abs" ||
-                        token == "neg" ||
-                        token == "sign")
+                    // Single operand operators. 
+                    if (token == "abs"  ||
+                        token == "neg"  ||
+                        token == "ln"   ||
+                        token == "sign" ||
+                        token == "else")
                     {
-                        // Get right operand
                         sLeft = workstack.Pop();
 
                         // Convert the operands
-                        dLeft = this.ConvertString(sLeft);
+                        dLeft = this.ConvertString(sLeft);  
                     }
-                    // Double operand operators
+                        // Double operand operators
                     else
                     {
-                        // Get right operand
                         sRight = workstack.Pop();
-
-                        // Get left operand
                         sLeft = workstack.Pop();
 
                         // Convert the operands
@@ -718,65 +895,151 @@ namespace Wfccm2
                         dRight = this.ConvertString(sRight);
                     }
 
-                    // call the operator
+                    // call the operator 
                     switch (token)
                     {
-                    case "+":
-                        // Add the operands
-                        dResult = dLeft + dRight;
-                        break;
+                        case "+":
+                            sResult = (dLeft + dRight).ToString();
+                            break;
 
-                    case"-":
-                        // Add the operands
-                        dResult = dLeft - dRight;
-                        break;
+                        case"-":
+                            sResult = (dLeft - dRight).ToString();
+                            break;
 
-                    case "*":
-                        // Multiply the operands
-                        dResult = dLeft * dRight;
-                        break;
+                        case "*":
+                            sResult = (dLeft * dRight).ToString();
+                            break;
 
-                    case "/":
-                        // Divide the operands
-                        if (dRight == 0)
-                            dResult = double.NaN;
-                        else
-                            dResult = dLeft / dRight;
-                        break;
+                        case "/":
+                            if (dRight == 0) 
+                                sResult = (double.NaN).ToString();
+                            else
+                                sResult = (dLeft / dRight).ToString();
+                            break;
 
-                    case "^":
-                        // Raise the number to the power.
-                        dResult = Math.Pow(dLeft, dRight);
-                        break;
+                        case "^":
+                            sResult = Math.Pow(dLeft, dRight).ToString();
+                            break;
 
-                    case "sign":
-                        // Get the sign.
-                        dResult = dLeft >= 0 ? 1 : -1;
-                        break;
+                        case "sign":
+                            sResult = (dLeft >= 0 ? 1 : -1).ToString();
+                            break;
 
-                    case "abs":
-                        // Convert to postive.
-                        dResult = Math.Abs(dLeft);
-                        break;
+                        case "abs":
+                            sResult = Math.Abs(dLeft).ToString();
+                            break;
 
-                    case "neg":
-                        // Change the sign.
-                        dResult = -1 * dLeft;
-                        break;
+                        case "neg":
+                            sResult = (-1 * dLeft).ToString();
+                            break;
+
+                        case "ln":
+                            // calcualte the natural log.
+                            sResult = Math.Log(dLeft).ToString();
+                            break;
+
+                        case "<=":
+                            if (dLeft <= dRight)
+                                sResult = "true";
+                            else
+                                sResult = "false";
+                            break;
+
+                        case "<":
+                            if (dLeft < dRight)
+                                sResult = "true";
+                            else
+                                sResult = "false";
+                            break;
+
+                        case ">=":
+                            if (dLeft >= dRight)
+                                sResult = "true";
+                            else
+                                sResult = "false";
+                            break;
+
+                        case ">":
+                            if (dLeft > dRight)
+                                sResult = "true";
+                            else
+                                sResult = "false";
+                            break;
+
+                        case "==":
+                            if (dLeft == dRight)
+                                sResult = "true";
+                            else
+                                sResult = "false";
+                            break;
+
+                        case "!=":
+                            if (dLeft != dRight)
+                                sResult = "true";
+                            else
+                                sResult = "false";
+                            break;
+
+                        case "||":
+                            if (dRight == TRUE || dLeft == TRUE)
+                                sResult = "true";
+                            else
+                                sResult = "false";
+                            break;
+
+                        case "&&":
+                            if (dRight == TRUE && dLeft == TRUE)
+                                sResult = "true";
+                            else
+                                sResult = "false";
+                            break;
+
+                        case "elseif":
+                            if (currentConditionalDepth > 0)
+                            {
+                                // Eat the result.
+                                continue;
+                            }
+                            goto case "if";
+
+                        case "if":
+                            if (sLeft == "true")
+                            {
+                                sResult = sRight;
+                                currentConditionalDepth++;
+                            }
+                            else
+                            {
+                                // Eat the result.
+                                continue;
+                            }
+                            break;
+
+                        case "else":
+                            if (currentConditionalDepth > 0)
+                            {
+                                currentConditionalDepth--;
+                                // Eat the result.
+                                continue;
+                            }
+                            else
+                            {
+                                sResult = sLeft;
+                            }
+                            break;
                     }
 
                     // Push the result on the stack
-                    workstack.Push(dResult.ToString());
+                    workstack.Push(sResult);
                 }
-                else
+                else 
                 {
                     // push the string on the workstack
                     workstack.Push(token);
                 }
             }
 
-            // Check to see if the value on the back is a variable.
-            return this.ConvertString(workstack.Peek());
+            return workstack.Peek();
         }
 
         /// <summary>
@@ -803,20 +1066,6 @@ namespace Wfccm2
                     // Convert the operand
                     return double.Parse(token);
             }
-
-            /*
-            // If operand is a variable
-            if (this.IsVariable(token))
-                // Get variable value
-                return this.GetVariableValue(token);
-            else if (token == "true")
-                return TRUE;
-            else if (token == "false")
-                return FALSE;
-            else
-                // Convert the operand
-                return double.Parse(token);
-            */
         }
 
         /// <summary>
@@ -844,165 +1093,6 @@ namespace Wfccm2
         }
 
         /// <summary>
-        /// Evaluates the function given as a boolean expression.
-        /// </summary>
-        /// <remarks><pre>
-        /// 20 Jul 2004 - Jeremy Roberts
-        /// </pre></remarks>
-        public bool EvaluateB()
-        {
-            if (dynamicFunction != null)
-                return dynamicFunction.EvaluateB(variables);
-
-            // TODO! Check to see that we have the variable that we need.
-
-            // Create a temporary vector to hold the secondary stack.
-            Stack<string> workstack = new Stack<string>();
-            string sLeft = string.Empty;
-            string sRight = string.Empty;
-            string sResult = string.Empty;
-            double dLeft = 0;
-            double dRight = 0;
-            double dResult = 0;
-
-            string[] func = postFunction.Split(new char[]{' '});
-
-            // loop through the postfix vector
-            string token = string.Empty;
-            for (int i = 0; i < func.Length;i++)
-            {
-                token = func[i];
-
-                // If the current string is an operator
-                if (this.IsOperator(token))
-                {
-                    // Single operand operators.
-                    if (token == "abs" ||
-                        token == "neg")
-                    {
-                        // Get right operand
-                        sLeft = workstack.Pop();
-
-                        // Convert the operands
-                        dLeft = this.ConvertString(sLeft);
-                    }
-                    // Double operand operators
-                    else
-                    {
-                        // Get right operand
-                        sRight = workstack.Pop();
-
-                        // Get left operand
-                        sLeft = workstack.Pop();
-
-                        // Convert the operands
-                        dLeft = this.ConvertString(sLeft);
-                        dRight = this.ConvertString(sRight);
-                    }
-
-                    // call the operator
-                    switch (token)
-                    {
-                    case "<=":
-                        // Make the comparison.
-                        if (dLeft <= dRight)
-                            sResult = "true";
-                        else
-                            sResult = "false";
-                        break;
-
-                    case "<":
-                        // Make the comparison.
-                        if (dLeft < dRight)
-                            sResult = "true";
-                        else
-                            sResult = "false";
-                        break;
-
-                    case ">=":
-                        // Make the comparison.
-                        if (dLeft >= dRight)
-                            sResult = "true";
-                        else
-                            sResult = "false";
-                        break;
-
-                    case ">":
-                        // Make the comparison.
-                        if (dLeft > dRight)
-                            sResult = "true";
-                        else
-                            sResult = "false";
-                        break;
-
-                    case "==":
-                        // Get right operand
-                        // Make the comparison.
-                        if (dLeft == dRight)
-                            sResult = "true";
-                        else
-                            sResult = "false";
-                        break;
-
-                    case "!=":
-                        // Make the comparison.
-                        if (dLeft != dRight)
-                            sResult = "true";
-                        else
-                            sResult = "false";
-                        break;
-
-                    case "||":
-                        // OR the operands.
-                        if (dRight == TRUE || dLeft == TRUE)
-                            sResult = "true";
-                        else
-                            sResult = "false";
-                        break;
-
-                    case "&&":
-                        // AND the operands
-                        if (dRight == TRUE && dLeft == TRUE)
-                            sResult = "true";
-                        else
-                            sResult = "false";
-                        break;
-
-                    case "abs":
-                        // Convert to postive.
-                        dResult = Math.Abs(dLeft);
-                        sResult = dResult.ToString();
-                        break;
-
-                    case "neg":
-                        // Convert to postive.
-                        dResult = -1 * dLeft;
-                        sResult = dResult.ToString();
-                        break;
-                    }
-
-                    // Push the result on the stack
-                    workstack.Push(sResult);
-                }
-                else
-                {
-                    // push the string on the workstack
-                    workstack.Push(token);
-                }
-            }
-
-            //if (workstack.back() == "true")
-            //    return true;
-            //else
-            //    return false;
-
-            if (this.ConvertString(workstack.Peek()) == TRUE)
-                return true;
-            //if (this.ConvertString(workstack.Peek()) == FALSE)
-            return false;
-        }
-
-        /// <summary>
         /// Checks to see if a string is a number.
         /// </summary>
         /// <remarks><pre>
@@ -1012,395 +1102,402 @@ namespace Wfccm2
         /// <returns>True if is a number, false otherwise.</returns>
         protected bool IsNumber(string token)
         {
-            try
+            try 
             {
                 double.Parse(token);
                 return true;
             }
-            catch
+            catch 
             {
                 return false;
             }
 
         }
 
-        /// <summary>
-        /// Compiles the functions.
-        /// </summary>
-        /// <remarks><pre>
-        /// 20 Dec 2005 - Jeremy Roberts
-        /// </pre></remarks>
-        protected void compile()
-        {
-            // Code to set up the object.
 
-            // Create a new AppDomain.
-            // Set up assembly.
-            //
-            //NewAppDomain = System.AppDomain.CreateDomain("NewApplicationDomain");
-            //NewAppDomain = appDomain;
+        #region compilation
 
-            AssemblyName assemblyName = new AssemblyName();
-            assemblyName.Name = "EmittedAssembly";
-            AssemblyBuilder assembly = Thread.GetDomain().DefineDynamicAssembly(
-            //AssemblyBuilder assembly = NewAppDomain.DefineDynamicAssembly(
-                assemblyName,
-                //AssemblyBuilderAccess.Save);
-                AssemblyBuilderAccess.Run);
-                //AssemblyBuilderAccess.RunAndSave);
+        ///// <summary>
+        ///// Compiles the functions.
+        ///// </summary>
+        ///// <remarks><pre>
+        ///// 20 Dec 2005 - Jeremy Roberts
+        ///// </pre></remarks>
+        //protected void compile() 
+        //{
+        //    // Code to set up the object.
 
-            // Add Dynamic Module
-            //
-            ModuleBuilder module;
-            module = assembly.DefineDynamicModule("EmittedModule");
-            TypeBuilder dynamicFunctionClass = module.DefineType(
-                "DynamicFunction",
-                TypeAttributes.Public,
-                typeof(DynamicFunction));
+        //    // Create a new AppDomain.
+        //    // Set up assembly.
+        //    //
+        //    //NewAppDomain = System.AppDomain.CreateDomain("NewApplicationDomain");
+        //    //NewAppDomain = appDomain;
 
-            // Define class constructor
-            //
-            Type objType = Type.GetType("System.Object");
-            ConstructorInfo objConstructor = objType.GetConstructor(new Type[0]);
-            Type[] constructorParams = { };
-            ConstructorBuilder constructor = dynamicFunctionClass.DefineConstructor(
-                MethodAttributes.Public,
-                CallingConventions.Standard,
-                constructorParams);
+        //    AssemblyName assemblyName = new AssemblyName();
+        //    assemblyName.Name = "EmittedAssembly";
+        //    AssemblyBuilder assembly = Thread.GetDomain().DefineDynamicAssembly(
+        //    //AssemblyBuilder assembly = NewAppDomain.DefineDynamicAssembly(
+        //        assemblyName,
+        //        //AssemblyBuilderAccess.Save);
+        //        AssemblyBuilderAccess.Run);
+        //        //AssemblyBuilderAccess.RunAndSave);
 
-            // Emit the class constructor.
-            //
-            ILGenerator constructorIL = constructor.GetILGenerator();
-            constructorIL.Emit(OpCodes.Ldarg_0);
-            constructorIL.Emit(OpCodes.Call, objConstructor);
-            constructorIL.Emit(OpCodes.Ret);
+        //    // Add Dynamic Module
+        //    //
+        //    ModuleBuilder module;
+        //    module = assembly.DefineDynamicModule("EmittedModule");
+        //    TypeBuilder dynamicFunctionClass = module.DefineType(
+        //        "DynamicFunction",
+        //        TypeAttributes.Public,
+        //        typeof(DynamicFunction));
 
-            // Define "EvaluateD" function.
-            //
-            Type[] args = { typeof(Dictionary<string, double>) };
-            MethodBuilder evalMethodD = dynamicFunctionClass.DefineMethod(
-                "EvaluateD",
-                MethodAttributes.Public | MethodAttributes.Virtual,
-                typeof(double),
-                args);
-            ILGenerator methodILD;
-            methodILD = evalMethodD.GetILGenerator();
-            emitFunction(this.PostFix, methodILD);
+        //    // Define class constructor
+        //    //
+        //    Type objType = Type.GetType("System.Object");
+        //    ConstructorInfo objConstructor = objType.GetConstructor(new Type[0]);
+        //    Type[] constructorParams = { };
+        //    ConstructorBuilder constructor = dynamicFunctionClass.DefineConstructor(
+        //        MethodAttributes.Public,
+        //        CallingConventions.Standard,
+        //        constructorParams);
 
-            // Define "EvaluateB" function.
-            //
-            MethodBuilder evalMethodB = dynamicFunctionClass.DefineMethod(
-                "EvaluateB",
-                MethodAttributes.Public | MethodAttributes.Virtual,
-                typeof(bool),
-                args);
-            ILGenerator methodILB;
-            methodILB = evalMethodB.GetILGenerator();
-            emitFunction(this.PostFix, methodILB);
+        //    // Emit the class constructor.
+        //    //
+        //    ILGenerator constructorIL = constructor.GetILGenerator();
+        //    constructorIL.Emit(OpCodes.Ldarg_0);
+        //    constructorIL.Emit(OpCodes.Call, objConstructor);
+        //    constructorIL.Emit(OpCodes.Ret);
 
-            // Create an object to use.
-            //
-            Type dt = dynamicFunctionClass.CreateType();
-            //assembly.Save("assem.dll");
-            //assembly.Save("x.exe");
-            //return (function)Activator.CreateInstance(dt, new Object[] { });
-            this.dynamicFunction = (DynamicFunction)Activator.CreateInstance(dt, new Object[] { });
-        }
+        //    // Define "EvaluateD" function.
+        //    //
+        //    Type[] args = { typeof(Dictionary<string, double>) };
+        //    MethodBuilder evalMethodD = dynamicFunctionClass.DefineMethod(
+        //        "EvaluateD",
+        //        MethodAttributes.Public | MethodAttributes.Virtual,
+        //        typeof(double),
+        //        args);
+        //    ILGenerator methodILD;
+        //    methodILD = evalMethodD.GetILGenerator();
+        //    emitFunction(this.PostFix, methodILD);
 
-        protected void emitFunction(string function, ILGenerator ilGen)
-        {
-            string[] splitFunction = function.Split(new char[] { ' ' });
+        //    // Define "EvaluateB" function.
+        //    //
+        //    MethodBuilder evalMethodB = dynamicFunctionClass.DefineMethod(
+        //        "EvaluateB",
+        //        MethodAttributes.Public | MethodAttributes.Virtual,
+        //        typeof(bool),
+        //        args);
+        //    ILGenerator methodILB;
+        //    methodILB = evalMethodB.GetILGenerator();
+        //    emitFunction(this.PostFix, methodILB);
 
-            // Set up two double variables.
-            ilGen.DeclareLocal(typeof(System.Double));
-            ilGen.DeclareLocal(typeof(System.Double));
+        //    // Create an object to use.
+        //    //
+        //    Type dt = dynamicFunctionClass.CreateType();
+        //    //assembly.Save("assem.dll");
+        //    //assembly.Save("x.exe");
+        //    //return (function)Activator.CreateInstance(dt, new Object[] { });
+        //    this.dynamicFunction = (DynamicFunction)Activator.CreateInstance(dt, new Object[] { });
+        //}
 
-            foreach (string token in splitFunction)
-            {
-                // If the current string is an operator
-                if (this.IsOperator(token))
-                {
-                    // call the operator
-                    switch (token)
-                    {
-                    case "+":
-                        {
-                            // Add the operands
-                            ilGen.Emit(OpCodes.Add);
-                            break;
-                        }
+        
+        //protected void emitFunction(string function, ILGenerator ilGen) 
+        //{
+        //    string[] splitFunction = function.Split(new char[] { ' ' });
 
-                    case "-":
-                        {
-                            // Subtract the operands
-                            ilGen.Emit(OpCodes.Sub);
-                            break;
-                        }
+        //    // Set up two double variables.
+        //    ilGen.DeclareLocal(typeof(System.Double));
+        //    ilGen.DeclareLocal(typeof(System.Double));
 
-                    case "*":
-                        {
-                            // Multiply the operands
-                            ilGen.Emit(OpCodes.Mul);
-                            break;
-                        }
 
-                    case "/":
-                        {
-                            // Divide the operands
-                            System.Reflection.Emit.Label pushNaN = ilGen.DefineLabel();
-                            System.Reflection.Emit.Label exit = ilGen.DefineLabel();
+        //    foreach (string token in splitFunction)
+        //    {
+        //        // If the current string is an operator
+        //        if (this.IsOperator(token))
+        //        {
+        //            // call the operator 
+        //            switch (token)
+        //            {
+        //            case "+":
+        //                {
+        //                    // Add the operands
+        //                    ilGen.Emit(OpCodes.Add);
+        //                    break;
+        //                }
 
-                            // Store the two variables.
-                            ilGen.Emit(OpCodes.Stloc_0); // store b in 0
-                            ilGen.Emit(OpCodes.Stloc_1); // store a in 1
+        //            case "-":
+        //                {
+        //                    // Subtract the operands
+        //                    ilGen.Emit(OpCodes.Sub);
+        //                    break;
+        //                }
 
-                            // Load the denominator and see if its 0.
-                            ilGen.Emit(OpCodes.Ldloc_0);
-                            ilGen.Emit(OpCodes.Ldc_R8, 0.0);
-                            ilGen.Emit(OpCodes.Ceq);
-                            ilGen.Emit(OpCodes.Brtrue_S, pushNaN);
+        //            case "*":
+        //                {
+        //                    // Multiply the operands
+        //                    ilGen.Emit(OpCodes.Mul);
+        //                    break;
+        //                }
 
-                            // It is not zero, do the division.
-                            ilGen.Emit(OpCodes.Ldloc_1);
-                            ilGen.Emit(OpCodes.Ldloc_0);
-                            ilGen.Emit(OpCodes.Div);
-                            ilGen.Emit(OpCodes.Br_S, exit);
+        //            case "/":
+        //                {
+        //                    // Divide the operands
+        //                    System.Reflection.Emit.Label pushNaN = ilGen.DefineLabel();
+        //                    System.Reflection.Emit.Label exit = ilGen.DefineLabel();
 
-                            // Push NaN
-                            ilGen.MarkLabel(pushNaN);
-                            ilGen.Emit(OpCodes.Ldc_R8, double.NaN);
+        //                    // Store the two variables.
+        //                    ilGen.Emit(OpCodes.Stloc_0); // store b in 0
+        //                    ilGen.Emit(OpCodes.Stloc_1); // store a in 1
 
-                            ilGen.MarkLabel(exit);
+        //                    // Load the denominator and see if its 0.
+        //                    ilGen.Emit(OpCodes.Ldloc_0);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, 0.0);
+        //                    ilGen.Emit(OpCodes.Ceq);
+        //                    ilGen.Emit(OpCodes.Brtrue_S, pushNaN);
 
-                            break;
-                        }
+        //                    // It is not zero, do the division.
+        //                    ilGen.Emit(OpCodes.Ldloc_1);
+        //                    ilGen.Emit(OpCodes.Ldloc_0);
+        //                    ilGen.Emit(OpCodes.Div);
+        //                    ilGen.Emit(OpCodes.Br_S, exit);
 
-                    case "^":
-                        {
-                            // Raise the number to the power.
-                            ilGen.EmitCall(OpCodes.Callvirt,
-                                typeof(System.Math).GetMethod("Pow"),
-                                null);
-                            break;
-                        }
+        //                    // Push NaN
+        //                    ilGen.MarkLabel(pushNaN);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, double.NaN);
 
-                    case "sign":
-                        {
-                            // Get the sign.
-                            System.Reflection.Emit.Label pushNeg = ilGen.DefineLabel();
-                            System.Reflection.Emit.Label exit = ilGen.DefineLabel();
+        //                    ilGen.MarkLabel(exit);
 
-                            // Compare to see if the value is less then 0
-                            ilGen.Emit(OpCodes.Stloc_0); // store
-                            ilGen.Emit(OpCodes.Ldloc_0);
-                            ilGen.Emit(OpCodes.Ldc_R8, 0.0);
-                            ilGen.Emit(OpCodes.Clt);
-                            ilGen.Emit(OpCodes.Brtrue_S, pushNeg);
+        //                    break;
+        //                }
 
-                            // Push 1
-                            ilGen.Emit(OpCodes.Ldc_R8, 1.0);
-                            ilGen.Emit(OpCodes.Br_S, exit);
+        //            case "^":
+        //                {
+        //                    // Raise the number to the power.
+        //                    ilGen.EmitCall(OpCodes.Callvirt,
+        //                        typeof(System.Math).GetMethod("Pow"),
+        //                        null);
+        //                    break;
+        //                }
 
-                            // Push Neg
-                            ilGen.MarkLabel(pushNeg);
-                            ilGen.Emit(OpCodes.Ldc_R8, -1.0);
+        //            case "sign":
+        //                {
+        //                    // Get the sign.
+        //                    System.Reflection.Emit.Label pushNeg = ilGen.DefineLabel();
+        //                    System.Reflection.Emit.Label exit = ilGen.DefineLabel();
 
-                            ilGen.MarkLabel(exit);
+        //                    // Compare to see if the value is less then 0
+        //                    ilGen.Emit(OpCodes.Stloc_0); // store
+        //                    ilGen.Emit(OpCodes.Ldloc_0);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, 0.0);
+        //                    ilGen.Emit(OpCodes.Clt);
+        //                    ilGen.Emit(OpCodes.Brtrue_S, pushNeg);
 
-                            break;
-                        }
+        //                    // Push 1
+        //                    ilGen.Emit(OpCodes.Ldc_R8, 1.0);
+        //                    ilGen.Emit(OpCodes.Br_S, exit);
 
-                    case "abs":
-                        {
-                            // Convert to postive.
-                            Type[] absArgs = { typeof(System.Double) };
-                            ilGen.EmitCall(OpCodes.Callvirt,
-                                typeof(System.Math).GetMethod("Abs", absArgs),
-                                null);
-                            break;
-                        }
+        //                    // Push Neg
+        //                    ilGen.MarkLabel(pushNeg);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, -1.0);
 
-                    case "neg":
-                        {
-                            // Change the sign.
-                            ilGen.Emit(OpCodes.Ldc_R8, -1.0);
-                            ilGen.Emit(OpCodes.Mul);
-                            break;
-                        }
+        //                    ilGen.MarkLabel(exit);
 
-                    case "<=":
-                        {
-                            // Make the comparison.
-                            System.Reflection.Emit.Label pushFalse = ilGen.DefineLabel();
-                            System.Reflection.Emit.Label exit = ilGen.DefineLabel();
+        //                    break;
+        //                }
 
-                            // Compare the two values.
-                            ilGen.Emit(OpCodes.Cgt);
-                            ilGen.Emit(OpCodes.Brtrue_S, pushFalse);
+        //            case "abs":
+        //                {
+        //                    // Convert to postive.
+        //                    Type[] absArgs = { typeof(System.Double) };
+        //                    ilGen.EmitCall(OpCodes.Callvirt,
+        //                        typeof(System.Math).GetMethod("Abs", absArgs),
+        //                        null);
+        //                    break;
+        //                }
 
-                            // Otherwise its true
-                            ilGen.Emit(OpCodes.Ldc_R8, TRUE);
-                            ilGen.Emit(OpCodes.Br_S, exit);
+        //            case "neg":
+        //                {
+        //                    // Change the sign.
+        //                    ilGen.Emit(OpCodes.Ldc_R8, -1.0);
+        //                    ilGen.Emit(OpCodes.Mul);
+        //                    break;
+        //                }
 
-                            // Push NaN
-                            ilGen.MarkLabel(pushFalse);
-                            ilGen.Emit(OpCodes.Ldc_R8, FALSE);
+        //            case "<=":
+        //                {
+        //                    // Make the comparison.
+        //                    System.Reflection.Emit.Label pushFalse = ilGen.DefineLabel();
+        //                    System.Reflection.Emit.Label exit = ilGen.DefineLabel();
 
-                            ilGen.MarkLabel(exit);
-                            break;
-                        }
+        //                    // Compare the two values.
+        //                    ilGen.Emit(OpCodes.Cgt);
+        //                    ilGen.Emit(OpCodes.Brtrue_S, pushFalse);
 
-                    case "<":
-                        {
-                            // Make the comparison.
-                            // Compare the two values.
-                            ilGen.Emit(OpCodes.Clt);
-                            break;
-                        }
+        //                    // Otherwise its true
+        //                    ilGen.Emit(OpCodes.Ldc_R8, TRUE);
+        //                    ilGen.Emit(OpCodes.Br_S, exit);
 
-                    case ">=":
-                        {
-                            // Make the comparison.
-                            System.Reflection.Emit.Label pushFalse = ilGen.DefineLabel();
-                            System.Reflection.Emit.Label exit = ilGen.DefineLabel();
+        //                    // Push NaN
+        //                    ilGen.MarkLabel(pushFalse);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, FALSE);
 
-                            // Compare the two values.
-                            ilGen.Emit(OpCodes.Clt);
-                            ilGen.Emit(OpCodes.Brtrue_S, pushFalse);
+        //                    ilGen.MarkLabel(exit);
+        //                    break;
+        //                }
 
-                            // Otherwise its true
-                            ilGen.Emit(OpCodes.Ldc_R8, TRUE);
-                            ilGen.Emit(OpCodes.Br_S, exit);
+        //            case "<":
+        //                {
+        //                    // Make the comparison.
+        //                    // Compare the two values.
+        //                    ilGen.Emit(OpCodes.Clt);
+        //                    break;
+        //                }
 
-                            // Push NaN
-                            ilGen.MarkLabel(pushFalse);
-                            ilGen.Emit(OpCodes.Ldc_R8, FALSE);
+        //            case ">=":
+        //                {
+        //                    // Make the comparison.
+        //                    System.Reflection.Emit.Label pushFalse = ilGen.DefineLabel();
+        //                    System.Reflection.Emit.Label exit = ilGen.DefineLabel();
 
-                            ilGen.MarkLabel(exit);
-                            break;
-                        }
+        //                    // Compare the two values.
+        //                    ilGen.Emit(OpCodes.Clt);
+        //                    ilGen.Emit(OpCodes.Brtrue_S, pushFalse);
 
-                    case ">":
-                        {
-                            // Make the comparison.
-                            ilGen.Emit(OpCodes.Cgt);
-                            break;
-                        }
+        //                    // Otherwise its true
+        //                    ilGen.Emit(OpCodes.Ldc_R8, TRUE);
+        //                    ilGen.Emit(OpCodes.Br_S, exit);
 
-                    case "==":
-                        {
-                            // Make the comparison.
-                            ilGen.Emit(OpCodes.Ceq);
-                            break;
-                        }
+        //                    // Push NaN
+        //                    ilGen.MarkLabel(pushFalse);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, FALSE);
 
-                    case "!=":
-                        {
-                            // Make the comparison.
-                            System.Reflection.Emit.Label pushFalse = ilGen.DefineLabel();
-                            System.Reflection.Emit.Label exit = ilGen.DefineLabel();
+        //                    ilGen.MarkLabel(exit);
+        //                    break;
+        //                }
 
-                            // Compare the two values.
-                            ilGen.Emit(OpCodes.Ceq);
-                            ilGen.Emit(OpCodes.Brtrue_S, pushFalse);
+        //            case ">":
+        //                {
+        //                    // Make the comparison.
+        //                    ilGen.Emit(OpCodes.Cgt);
+        //                    break;
+        //                }
 
-                            // Otherwise its true
-                            ilGen.Emit(OpCodes.Ldc_R8, TRUE);
-                            ilGen.Emit(OpCodes.Br_S, exit);
+        //            case "==":
+        //                {
+        //                    // Make the comparison.
+        //                    ilGen.Emit(OpCodes.Ceq);
+        //                    break;
+        //                }
 
-                            // Push NaN
-                            ilGen.MarkLabel(pushFalse);
-                            ilGen.Emit(OpCodes.Ldc_R8, FALSE);
+        //            case "!=":
+        //                {
+        //                    // Make the comparison.
+        //                    System.Reflection.Emit.Label pushFalse = ilGen.DefineLabel();
+        //                    System.Reflection.Emit.Label exit = ilGen.DefineLabel();
 
-                            ilGen.MarkLabel(exit);
+        //                    // Compare the two values.
+        //                    ilGen.Emit(OpCodes.Ceq);
+        //                    ilGen.Emit(OpCodes.Brtrue_S, pushFalse);
 
-                            break;
-                        }
+        //                    // Otherwise its true
+        //                    ilGen.Emit(OpCodes.Ldc_R8, TRUE);
+        //                    ilGen.Emit(OpCodes.Br_S, exit);
 
-                    case "||":
-                        {
-                            // Make the comparison.
-                            System.Reflection.Emit.Label pushTrue = ilGen.DefineLabel();
-                            System.Reflection.Emit.Label exit = ilGen.DefineLabel();
+        //                    // Push NaN
+        //                    ilGen.MarkLabel(pushFalse);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, FALSE);
 
-                            // Store the two variables.
-                            ilGen.Emit(OpCodes.Stloc_0);
-                            ilGen.Emit(OpCodes.Stloc_1);
+        //                    ilGen.MarkLabel(exit);
 
-                            // Compare the two values.
-                            ilGen.Emit(OpCodes.Ldloc_0);
-                            ilGen.Emit(OpCodes.Brtrue_S, pushTrue);
-                            ilGen.Emit(OpCodes.Ldloc_1);
-                            ilGen.Emit(OpCodes.Brtrue_S, pushTrue);
+        //                    break;
+        //                }
 
-                            // Otherwise its false
-                            ilGen.Emit(OpCodes.Ldc_R8, FALSE);
-                            ilGen.Emit(OpCodes.Br_S, exit);
+        //            case "||":
+        //                {
+        //                    // Make the comparison.
+        //                    System.Reflection.Emit.Label pushTrue = ilGen.DefineLabel();
+        //                    System.Reflection.Emit.Label exit = ilGen.DefineLabel();
 
-                            // Push NaN
-                            ilGen.MarkLabel(pushTrue);
-                            ilGen.Emit(OpCodes.Ldc_R8, TRUE);
+        //                    // Store the two variables.
+        //                    ilGen.Emit(OpCodes.Stloc_0);
+        //                    ilGen.Emit(OpCodes.Stloc_1);
 
-                            ilGen.MarkLabel(exit);
-                            break;
-                        }
+        //                    // Compare the two values.
+        //                    ilGen.Emit(OpCodes.Ldloc_0);
+        //                    ilGen.Emit(OpCodes.Brtrue_S, pushTrue);
+        //                    ilGen.Emit(OpCodes.Ldloc_1);
+        //                    ilGen.Emit(OpCodes.Brtrue_S, pushTrue);
 
-                    case "&&":
-                        {
-                            // Make the comparison.
-                            System.Reflection.Emit.Label pushFalse = ilGen.DefineLabel();
-                            System.Reflection.Emit.Label exit = ilGen.DefineLabel();
+        //                    // Otherwise its false
+        //                    ilGen.Emit(OpCodes.Ldc_R8, FALSE);
+        //                    ilGen.Emit(OpCodes.Br_S, exit);
 
-                            // Store the two variables.
-                            ilGen.Emit(OpCodes.Stloc_0);
-                            ilGen.Emit(OpCodes.Stloc_1);
+        //                    // Push NaN
+        //                    ilGen.MarkLabel(pushTrue);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, TRUE);
 
-                            // Compare the two values.
-                            ilGen.Emit(OpCodes.Ldloc_0);
-                            ilGen.Emit(OpCodes.Brfalse_S, pushFalse);
-                            ilGen.Emit(OpCodes.Ldloc_1);
-                            ilGen.Emit(OpCodes.Brfalse_S, pushFalse);
+        //                    ilGen.MarkLabel(exit);
+        //                    break;
+        //                }
 
-                            // Otherwise its true
-                            ilGen.Emit(OpCodes.Ldc_R8, TRUE);
-                            ilGen.Emit(OpCodes.Br_S, exit);
+        //            case "&&":
+        //                {
+        //                    // Make the comparison.
+        //                    System.Reflection.Emit.Label pushFalse = ilGen.DefineLabel();
+        //                    System.Reflection.Emit.Label exit = ilGen.DefineLabel();
 
-                            // Push NaN
-                            ilGen.MarkLabel(pushFalse);
-                            ilGen.Emit(OpCodes.Ldc_R8, FALSE);
+        //                    // Store the two variables.
+        //                    ilGen.Emit(OpCodes.Stloc_0);
+        //                    ilGen.Emit(OpCodes.Stloc_1);
 
-                            ilGen.MarkLabel(exit);
-                            break;
-                        }
-                    }
+        //                    // Compare the two values.
+        //                    ilGen.Emit(OpCodes.Ldloc_0);
+        //                    ilGen.Emit(OpCodes.Brfalse_S, pushFalse);
+        //                    ilGen.Emit(OpCodes.Ldloc_1);
+        //                    ilGen.Emit(OpCodes.Brfalse_S, pushFalse);
 
-                }
-                else if (IsVariable(token))
-                {
-                    // push the string on the workstack
-                    ilGen.Emit(OpCodes.Ldarg_1);
-                    ilGen.Emit(OpCodes.Ldstr, token);
-                    ilGen.EmitCall(OpCodes.Callvirt,
-                        typeof(System.Collections.Generic.Dictionary<string, double>).GetMethod("get_Item"),
-                        null);
-                    //ilGen.Emit(OpCodes.Unbox_Any, typeof(System.Double));
-                }
-                else if (token.Equals("true"))
-                {
-                    ilGen.Emit(OpCodes.Ldc_R8, TRUE);
-                }
-                else if (token.Equals("false"))
-                {
-                    ilGen.Emit(OpCodes.Ldc_R8, FALSE);
-                }
-                else
-                {
-                    // Parse the number.
-                    ilGen.Emit(OpCodes.Ldc_R8, double.Parse(token));
-                }
-            }
-            ilGen.Emit(OpCodes.Ret);
-        }
+        //                    // Otherwise its true
+        //                    ilGen.Emit(OpCodes.Ldc_R8, TRUE);
+        //                    ilGen.Emit(OpCodes.Br_S, exit);
+
+        //                    // Push NaN
+        //                    ilGen.MarkLabel(pushFalse);
+        //                    ilGen.Emit(OpCodes.Ldc_R8, FALSE);
+
+        //                    ilGen.MarkLabel(exit);
+        //                    break;
+        //                }
+        //            }
+
+        //        }
+        //        else if (IsVariable(token))
+        //        {
+        //            // push the string on the workstack
+        //            ilGen.Emit(OpCodes.Ldarg_1);
+        //            ilGen.Emit(OpCodes.Ldstr, token);
+        //            ilGen.EmitCall(OpCodes.Callvirt,
+        //                typeof(System.Collections.Generic.Dictionary<string, double>).GetMethod("get_Item"),
+        //                null);
+        //            //ilGen.Emit(OpCodes.Unbox_Any, typeof(System.Double));
+        //        }
+        //        else if (token.Equals("true"))
+        //        {
+        //            ilGen.Emit(OpCodes.Ldc_R8, TRUE);
+        //        }
+        //        else if (token.Equals("false"))
+        //        {
+        //            ilGen.Emit(OpCodes.Ldc_R8, FALSE);
+        //        }
+        //        else
+        //        {
+        //            // Parse the number.
+        //            ilGen.Emit(OpCodes.Ldc_R8, double.Parse(token));
+        //        }
+        //    }
+        //    ilGen.Emit(OpCodes.Ret);
+        //}
+
+        #endregion
 
     }
 }

@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionEvaluator", "ExpressionEvaluator\ExpressionEvaluator.csproj", "{8CE7CD5B-C847-4CC3-B173-D85B74D356C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionEvaluatorTests", "ExpressionEvaluatorTests\ExpressionEvaluatorTests.csproj", "{F10EECC5-380C-4A7C-8345-EE49F44C7C3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C906B4A-1C15-4717-A6F8-A3F21426C95E}"
+	ProjectSection(SolutionItems) = preProject
+		ExpressionEvaluator.vsmdi = ExpressionEvaluator.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ExpressionEvaluator.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -13,6 +25,10 @@ Global
 		{8CE7CD5B-C847-4CC3-B173-D85B74D356C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CE7CD5B-C847-4CC3-B173-D85B74D356C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CE7CD5B-C847-4CC3-B173-D85B74D356C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F10EECC5-380C-4A7C-8345-EE49F44C7C3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F10EECC5-380C-4A7C-8345-EE49F44C7C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F10EECC5-380C-4A7C-8345-EE49F44C7C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F10EECC5-380C-4A7C-8345-EE49F44C7C3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
