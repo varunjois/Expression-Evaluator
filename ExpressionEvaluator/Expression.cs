@@ -1,6 +1,6 @@
 /*****************************************************************************************
 * Jeremy Roberts                                                           Expression.cs *
-* 23 Jul 2004                                                                     Wfccm2 *
+* 2004-07-23                                                                     Wfccm2 *
 *****************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -29,9 +29,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     /// Evaluatable mathmatical function.
     /// </summary>
     /// <remarks><pre>
-    /// 19 Jul 2004 - Jeremy Roberts
+    /// 2004-07-19 - Jeremy Roberts
     /// Takes a string and allow a user to add variables. Evaluates the string as a mathmatical function.
-    /// 11 Jan 2006 - Will Gray
+    /// 2006-01-11 - Will Gray
     ///  - Added generic collection implementation.
     /// </pre></remarks>
     [Serializable()]
@@ -41,7 +41,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Dynaamic function type.
         /// </summary>
         /// <remarks><pre>
-        /// 20 Dec 2005 - Jeremy Roberts
+        /// 2005-12-20 - Jeremy Roberts
         /// </pre></remarks>
         [Serializable()]
         public abstract class DynamicFunction
@@ -85,7 +85,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Creation constructor.
         /// </summary>
         /// <remarks><pre>
-        /// 20 Jul 2004 - Jeremy Roberts
+        /// 2004-07-20 - Jeremy Roberts
         /// </pre></remarks>
         public Expression()
         {
@@ -95,7 +95,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Creation constructor.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="function">The function to be evaluated.</param>
         public Expression(string function)
@@ -110,7 +110,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// InFix property
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         public string Function
         {
@@ -133,7 +133,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// PostFix property
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         public string PostFix
         {
@@ -144,7 +144,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// PostFix property
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         public string InFix
         {
@@ -217,7 +217,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Convecs an infix string to a post fix string.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="func">The function to convert</param>
         /// <returns>A post fix string.</returns>
@@ -304,7 +304,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Checks to see if a string is an operand.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="token">String to check</param>
         /// <returns></returns>
@@ -321,7 +321,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Checks to see if a string is an operator.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="token">String to check</param>
         /// <returns></returns>
@@ -334,7 +334,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Expandn the spaces around operators and operands.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="function">Function to expand.</param>
         /// <returns></returns>
@@ -352,36 +352,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             }
 
             // Join the else if into a single operator.
-            function = function.Replace("else if", "elseif");
-
-            //function = function.Replace("(", " ( ");
-            //function = function.Replace(")", " ) ");
-
-            //function = function.Replace("+", " + ");
-            //function = function.Replace("-", " - ");
-            //function = function.Replace("*", " * ");
-            //function = function.Replace("/", " / ");
-            //function = function.Replace("^", " ^ ");
-            //function = function.Replace("||", " || ");
-            //function = function.Replace("&&", " && ");
-            //function = function.Replace("==", " == ");
-            //function = function.Replace(">=", " >= ");
-            //function = function.Replace("<=", " <= ");
-            //function = function.Replace("!=", " != ");
-            //function = function.Replace("sign", " sign ");
-            //function = function.Replace("abs", " abs ");
-            //function = function.Replace("neg", " neg ");
-            //function = function.Replace("ln", " ln ");
-            //function = function.Replace("<", " < ");
-            //function = function.Replace(">", " > ");
-
-            
+            function = function.Replace("else if", "elseif");            
             function = function.Replace("< =", "<=");
             function = function.Replace("> =", ">=");
-            
-            //function = Regex.Replace(function, @"<([^=]|$)", @" < $1"); // Expands "<5" to " < 5", but not "<=52 
-            //function = Regex.Replace(function, @">([^=]|$)", @" > $1");
-
             function = function.Trim();
             function = Regex.Replace(function, @"[ ]+", @" "); // Collapses multiple spaces
 
@@ -453,7 +426,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Returns the precedance of an operator.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="token">Token to check.</param>
         /// <returns></returns>
@@ -497,7 +470,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Adds or sets a Variable.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="name">Variable name.</param>
         /// <param name="value">Variabale value.</param>
@@ -510,7 +483,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Adds or sets a Variable.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="name">Variable name.</param>
         /// <param name="value">Variabale value.</param>
@@ -529,7 +502,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Clears the variable information.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         public void ClearVariables()
         {
@@ -540,7 +513,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Clears all information.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         public void Clear()
         {
@@ -553,8 +526,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Checks to see if a string is a variable.
         /// </summary>
         /// <remarks><pre>
-        /// 20 Jul 2004 - Jeremy Roberts
-        /// 11 Aug 2004 - Jeremy Roberts
+        /// 2004-07-20 - Jeremy Roberts
+        /// 2004-08-11 - Jeremy Roberts
         ///  Changed to check to see if it is a number.
         /// </pre></remarks>
         /// <param name="token">String to check.</param>
@@ -608,7 +581,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Returns a variable's value.
         /// </summary>
         /// <remarks><pre>
-        /// 20 Jul 2004 - Jeremy Roberts
+        /// 2004-07-20 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="token">Variable to return.</param>
         /// <returns></returns>
@@ -624,6 +597,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             }
         }
 
+        /// <summary>
+        /// Validates an infix function.
+        /// </summary>
+        /// <remarks><pre>
+        /// 2011-05-27 - Jeremy Roberts
+        /// </pre></remarks>
+        /// <param name="token">Variable to return.</param>
+        /// <returns></returns>
         protected bool Validate(string inFix)
         {
             string inFixClean = Expand(inFix);
@@ -781,7 +762,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         private void CheckForMatchingIfElse(string inFix, string[] tokens)
         {
-            string errorMsg = "Conditional Error! If/Else mismatch. if (...) {...} else if (...) {...} else {...}. " + inFix;
+            string errorMsg = "Conditional Error! If/Else mismatch. Should be in the following form: if (...) {...} else if (...) {...} else {...}. " + inFix;
 
             var workStack = new Stack<string>();
             foreach (var token in tokens)
@@ -825,7 +806,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Evaluates the function as a double.
         /// </summary>
         /// <remarks><pre>
-        /// 19 Jul 2004 - Jeremy Roberts
+        /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
         /// <returns></returns>
         public double EvaluateNumeric()
@@ -840,7 +821,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Evaluates the function given as a boolean expression.
         /// </summary>
         /// <remarks><pre>
-        /// 20 Jul 2004 - Jeremy Roberts
+        /// 2004-07-20 - Jeremy Roberts
         /// </pre></remarks>
         public bool EvaluateBoolean()
         {
@@ -1046,7 +1027,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Converts a string to its value representation.
         /// </summary>
         /// <remarks><pre>
-        /// 20 Jul 2004 - Jeremy Roberts
+        /// 2004-07-20 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="token">The string to check.</param>
         /// <returns></returns>
@@ -1072,7 +1053,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Overloads the ToString method.
         /// </summary>
         /// <remarks><pre>
-        /// 20 Jul 2004 - Jeremy Roberts
+        /// 2004-07-20 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="token">The string to check.</param>
         /// <returns></returns>
@@ -1096,7 +1077,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// Checks to see if a string is a number.
         /// </summary>
         /// <remarks><pre>
-        /// 11 Aug 2004 - Jeremy Roberts
+        /// 2004-08-11 - Jeremy Roberts
         /// </pre></remarks>
         /// <param name="token">The string to check.</param>
         /// <returns>True if is a number, false otherwise.</returns>
@@ -1121,7 +1102,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         ///// Compiles the functions.
         ///// </summary>
         ///// <remarks><pre>
-        ///// 20 Dec 2005 - Jeremy Roberts
+        ///// 2005-12-20 - Jeremy Roberts
         ///// </pre></remarks>
         //protected void compile() 
         //{

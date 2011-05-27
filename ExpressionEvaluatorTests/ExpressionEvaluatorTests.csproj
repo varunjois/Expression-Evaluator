@@ -47,8 +47,14 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BooleanOperatorTests.cs" />
+    <Compile Include="ConditionalTests.cs" />
     <Compile Include="ExpressionTests.cs" />
+    <Compile Include="GroupingTests.cs" />
+    <Compile Include="OperatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScientificNotationTests.cs" />
+    <Compile Include="VariableTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionEvaluator\ExpressionEvaluator.csproj">
