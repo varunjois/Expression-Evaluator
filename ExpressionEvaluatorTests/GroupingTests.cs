@@ -78,32 +78,32 @@ namespace ExpressionEvaluatorTests
             func.Function = ")(1+2)";
         }
 
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
-        public void Bracket_MissingClose001_ExpressionException()
-        {
-            func.Function = "[[1+2]";
-        }
+        //[Test]
+        //[ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
+        //public void Bracket_MissingClose001_ExpressionException()
+        //{
+        //    func.Function = "[[1+2]";
+        //}
 
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
-        public void Bracket_MissingClose002_ExpressionException()
-        {
-            func.Function = "[1+2";
-        }
+        //[Test]
+        //[ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
+        //public void Bracket_MissingClose002_ExpressionException()
+        //{
+        //    func.Function = "[1+2";
+        //}
 
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
-        public void Bracket_MissingOpen001_ExpressionException()
-        {
-            func.Function = "1+2]";
-        }
+        //[Test]
+        //[ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
+        //public void Bracket_MissingOpen001_ExpressionException()
+        //{
+        //    func.Function = "1+2]";
+        //}
 
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
-        public void Bracket_MissingOpen002_ExpressionException()
-        {
-            func.Function = "][1+2]";
-        }
+        //[Test]
+        //[ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
+        //public void Bracket_MissingOpen002_ExpressionException()
+        //{
+        //    func.Function = "][1+2]";
+        
     }
 }

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="BooleanOperatorTests.cs" />
     <Compile Include="ConditionalTests.cs" />
+    <Compile Include="DateTimeTests.cs" />
     <Compile Include="ExpressionTests.cs" />
     <Compile Include="GroupingTests.cs" />
     <Compile Include="OperatorTests.cs" />

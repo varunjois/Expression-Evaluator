@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 //using System.Reflection;
 //using System.Reflection.Emit;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 //using System.Threading;
@@ -15,16 +14,6 @@ using System.Linq;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
-    [Serializable]
-    public class ExpressionException : Exception
-    {
-        public ExpressionException(string description) : base (description)
-        {
-        }
-
-        protected ExpressionException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-    }
-
     /// <summary>
     /// Evaluatable mathmatical function.
     /// </summary>
@@ -163,51 +152,77 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         //    }
         //}
 
-        static private readonly List<string> _operators = new List<string>
+        //static private readonly List<string> _operators = new List<string>
+        //{
+        //    "+",
+        //    "-",
+        //    "*",
+        //    "/",
+        //    "^",
+        //    "&&",
+        //    "||",
+        //    "==",
+        //    ">=",
+        //    "<=",
+        //    ">",
+        //    "<",
+        //    "!="
+        //};
+
+
+        static private readonly List<Keyword> _types = new List<Keyword>
         {
-            "+",
-            "-",
-            "*",
-            "/",
-            "^",
-            "&&",
-            "||",
-            "==",
-            ">=",
-            "<=",
-            ">",
-            "<",
-            "!="
+            new Operator("+", 10, 2, OperandType.Numeric),
+            new Operator("-", 10, 2, OperandType.Numeric),
+            new Operator("||", 10, 2, OperandType.Boolean),
+
+            new Operator("*", 20, 2, OperandType.Numeric),
+            new Operator("/", 20, 2, OperandType.Numeric),
+            new Operator("&&", 20, 2, OperandType.Boolean),
+
+            new Operator("==", 30, 2, OperandType.Mixed),
+            new Operator(">=", 30, 2, OperandType.Mixed),
+            new Operator("<=", 30, 2, OperandType.Mixed),
+            new Operator(">", 30, 2, OperandType.Mixed),
+            new Operator("<", 30, 2, OperandType.Mixed),
+            new Operator("!=", 30, 2, OperandType.Mixed),
+            new Operator("^",  30, 1, OperandType.Numeric),
+
+            new Function("abs", 40, 1),
+            new Function("neg", 40, 1),
+            new Function("ln", 40, 1),
+            new Function("sign", 40, 1),
+
+            new Conditional("if", 50),
+            new Conditional("elseif", 50),
+            new Conditional("else", 50),
+
+            new Grouping("(", ")"),
+            new Grouping(")"),
+            new Grouping("{", "}"),
+            new Grouping("}"),
+
+
+
         };
 
-        static private readonly List<string> _functions = new List<string>
-        {
-            "sign",
-            "abs",
-            "neg",
-            "ln"
-        };
+        static private readonly List<string> _operators
+            = _types.OfType<Operator>().Select(x => x.Name).ToList();
 
-        static private readonly List<String> _openGroupOperators = new List<String>
-        {
-            "(",
-            "{"
-        };
+        static private readonly List<string> _functions
+            = _types.OfType<Function>().Select(x => x.Name).ToList();
 
-        static private readonly List<String> _closeGroupOperators = new List<String>
-        {
-            ")",
-            "}"
-        };
+        static private readonly List<string> _openGroupOperators = 
+            _types.OfType<Grouping>()
+            .Where(x => !String.IsNullOrEmpty(x.Mate))
+            .Select(x => x.Name).ToList();
 
-        static private readonly List<String> _conditionalOperators = new List<String>
-        {
-            "if",
-            "else",
-            "elseif"
-        };
-
-        static private readonly List<string> _groupOperators = _openGroupOperators.Union(_closeGroupOperators).ToList();
+        static private readonly List<string> _groupOperators = 
+            _types.OfType<Grouping>().Select(x => x.Name).ToList();
+        
+        static private readonly List<string> _conditionalOperators = 
+            _types.OfType<Conditional>()
+            .Select(x => x.Name).ToList();
 
 
         #endregion
@@ -490,12 +505,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public void AddSetVariable(string name, bool val)
         {
             double dval;
-            if (val)
-                dval = 1;
-            else
-                dval = 0;
-
+            dval = val ? 1 : 0;
             variables[name] = dval;
+        }
+
+        public void AddSetVariable(string name, DateTime val)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -892,10 +908,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                             break;
 
                         case "/":
-                            if (dRight == 0) 
-                                sResult = (double.NaN).ToString();
-                            else
-                                sResult = (dLeft / dRight).ToString();
+                            sResult = dRight == 0 ? (double.NaN).ToString() : (dLeft / dRight).ToString();
                             break;
 
                         case "^":
@@ -920,59 +933,35 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                             break;
 
                         case "<=":
-                            if (dLeft <= dRight)
-                                sResult = "true";
-                            else
-                                sResult = "false";
+                            sResult = dLeft <= dRight ? "true" : "false";
                             break;
 
                         case "<":
-                            if (dLeft < dRight)
-                                sResult = "true";
-                            else
-                                sResult = "false";
+                            sResult = dLeft < dRight ? "true" : "false";
                             break;
 
                         case ">=":
-                            if (dLeft >= dRight)
-                                sResult = "true";
-                            else
-                                sResult = "false";
+                            sResult = dLeft >= dRight ? "true" : "false";
                             break;
 
                         case ">":
-                            if (dLeft > dRight)
-                                sResult = "true";
-                            else
-                                sResult = "false";
+                            sResult = dLeft > dRight ? "true" : "false";
                             break;
 
                         case "==":
-                            if (dLeft == dRight)
-                                sResult = "true";
-                            else
-                                sResult = "false";
+                            sResult = dLeft == dRight ? "true" : "false";
                             break;
 
                         case "!=":
-                            if (dLeft != dRight)
-                                sResult = "true";
-                            else
-                                sResult = "false";
+                            sResult = dLeft != dRight ? "true" : "false";
                             break;
 
                         case "||":
-                            if (dRight == TRUE || dLeft == TRUE)
-                                sResult = "true";
-                            else
-                                sResult = "false";
+                            sResult = dRight == TRUE || dLeft == TRUE ? "true" : "false";
                             break;
 
                         case "&&":
-                            if (dRight == TRUE && dLeft == TRUE)
-                                sResult = "true";
-                            else
-                                sResult = "false";
+                            sResult = dRight == TRUE && dLeft == TRUE ? "true" : "false";
                             break;
 
                         case "elseif":
@@ -1003,10 +992,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                                 // Eat the result.
                                 continue;
                             }
-                            else
-                            {
-                                sResult = sLeft;
-                            }
+                            sResult = sLeft;
                             break;
                     }
 
@@ -1479,6 +1465,5 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         //}
 
         #endregion
-
     }
 }
