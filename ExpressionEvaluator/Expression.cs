@@ -5,12 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-//using System.Reflection;
-//using System.Reflection.Emit;
 using System.Text;
-using System.Text.RegularExpressions;
-//using System.Threading;
-using System.Linq;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
@@ -60,14 +55,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected const double TRUE = 1;
         protected const double FALSE = 0;
         protected string[] _splitPostFunction;
-        //private bool compilecode = false;
 
         #endregion
-
-        ~Expression()
-        {
-            //NewAppDomain.;
-        }
 
         #region Constructors
         /// <summary>
@@ -108,8 +97,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 _inFunction = new InfixExpression(value);
                 _postFunction = new PostFixExpression(_inFunction);
                 ClearVariables();
-                //if (compilecode)
-                //    this.compile();
             }
         }
 
@@ -134,20 +121,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             get { return _inFunction.Expression; }
         }
-
-        //private bool Compile
-        //{
-        //    get
-        //    {
-        //        return compilecode;
-        //    }
-        //    set
-        //    {
-        //        compilecode = value;
-        //    }
-        //}
-
-
 
         #endregion
 
@@ -298,7 +271,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             string result = Evaluate();
 
-            if (this.ConvertString(result) == TRUE)
+            if (ConvertString(result) == TRUE)
                 return true;
             return false;
         }
@@ -480,11 +453,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             {
                 if (token == "true")
                     return TRUE;
-                else if (token == "false")
+                
+                if (token == "false")
                     return FALSE;
-                else
-                    // Convert the operand
-                    return double.Parse(token);
+                
+                // Convert the operand
+                return double.Parse(token);
             }
         }
 
