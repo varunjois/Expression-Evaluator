@@ -38,7 +38,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             public abstract double EvaluateD(Dictionary<string, double> variables);
             public abstract bool EvaluateB(Dictionary<string, double> variables);
         }
-        protected DynamicFunction dynamicFunction;
+        protected DynamicFunction _dynamicFunction;
         //protected AppDomain NewAppDomain;
 
         #region Class variable
@@ -54,12 +54,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// <summary>
         /// The function.
         /// </summary>
-        protected string inFunction = string.Empty; // Infix function.
-        protected string postFunction = string.Empty; // Postfix function.
-        protected Dictionary<string, double> variables = new Dictionary<string, double>();
+        protected InfixExpression _inFunction;
+        protected PostFixExpression _postFunction;
+        protected Dictionary<string, double> _variables = new Dictionary<string, double>();
         protected const double TRUE = 1;
         protected const double FALSE = 0;
-        protected string[] splitPostFunction;
+        protected string[] _splitPostFunction;
         //private bool compilecode = false;
 
         #endregion
@@ -103,15 +103,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         public string Function
         {
-            get{return this.inFunction;}
+            get{return _inFunction.Original;}
             set{
-                // This will throw an error if it does not validate.
-                Validate(value);
-
-                // Function is valid.
-                inFunction = value; 
-                postFunction = Infix2Postfix(inFunction);
-                splitPostFunction = postFunction.Split(new [] { ' ' });
+                _inFunction = new InfixExpression(value);
+                _postFunction = new PostFixExpression(_inFunction);
                 ClearVariables();
                 //if (compilecode)
                 //    this.compile();
@@ -126,7 +121,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         public string PostFix
         {
-            get { return postFunction; }
+            get { return _postFunction.Expression; }
         }
 
         /// <summary>
@@ -137,7 +132,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         public string InFix
         {
-            get { return Expand(inFunction); }
+            get { return _inFunction.Expression; }
         }
 
         //private bool Compile
@@ -152,334 +147,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         //    }
         //}
 
-        //static private readonly List<string> _operators = new List<string>
-        //{
-        //    "+",
-        //    "-",
-        //    "*",
-        //    "/",
-        //    "^",
-        //    "&&",
-        //    "||",
-        //    "==",
-        //    ">=",
-        //    "<=",
-        //    ">",
-        //    "<",
-        //    "!="
-        //};
-
-
-        static private readonly List<Keyword> _types = new List<Keyword>
-        {
-            new Operator("+", 10, 2, OperandType.Numeric),
-            new Operator("-", 10, 2, OperandType.Numeric),
-            new Operator("||", 10, 2, OperandType.Boolean),
-
-            new Operator("*", 20, 2, OperandType.Numeric),
-            new Operator("/", 20, 2, OperandType.Numeric),
-            new Operator("&&", 20, 2, OperandType.Boolean),
-
-            new Operator("==", 30, 2, OperandType.Mixed),
-            new Operator(">=", 30, 2, OperandType.Mixed),
-            new Operator("<=", 30, 2, OperandType.Mixed),
-            new Operator(">", 30, 2, OperandType.Mixed),
-            new Operator("<", 30, 2, OperandType.Mixed),
-            new Operator("!=", 30, 2, OperandType.Mixed),
-            new Operator("^",  30, 1, OperandType.Numeric),
-
-            new Function("abs", 40, 1),
-            new Function("neg", 40, 1),
-            new Function("ln", 40, 1),
-            new Function("sign", 40, 1),
-
-            new Conditional("if", 50),
-            new Conditional("elseif", 50),
-            new Conditional("else", 50),
-
-            new Grouping("(", ")"),
-            new Grouping(")"),
-            new Grouping("{", "}"),
-            new Grouping("}"),
-
-
-
-        };
-
-        static private readonly List<string> _operators
-            = _types.OfType<Operator>().Select(x => x.Name).ToList();
-
-        static private readonly List<string> _functions
-            = _types.OfType<Function>().Select(x => x.Name).ToList();
-
-        static private readonly List<string> _openGroupOperators = 
-            _types.OfType<Grouping>()
-            .Where(x => !String.IsNullOrEmpty(x.Mate))
-            .Select(x => x.Name).ToList();
-
-        static private readonly List<string> _groupOperators = 
-            _types.OfType<Grouping>().Select(x => x.Name).ToList();
-        
-        static private readonly List<string> _conditionalOperators = 
-            _types.OfType<Conditional>()
-            .Select(x => x.Name).ToList();
 
 
         #endregion
-
-
-        /// <summary>
-        /// Convecs an infix string to a post fix string.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="func">The function to convert</param>
-        /// <returns>A post fix string.</returns>
-        protected string Infix2Postfix(string func)
-        {
-            func = Expand(func);
-
-            string[] inFix = func.Split(new []{' '});
-
-            var postFix = new Stack<string>();
-            var operators = new Stack<string>();
-            
-            string currOperator;
-
-            foreach (string token in inFix)
-            {
-                if (IsOperand(token))
-                {
-                    postFix.Push(token);
-                }
-                else if (token == "(" || token == "{")
-                {
-                    operators.Push(token);
-                }
-                else if (token == ")")
-                {
-                    currOperator = operators.Pop();
-
-                    while (currOperator != "(")
-                    {
-                        postFix.Push(currOperator);
-                        currOperator = operators.Pop();
-                    }
-                }
-                else if (token == "}")
-                {
-                    currOperator = operators.Pop();
-
-                    while (currOperator != "{")
-                    {
-                        postFix.Push(currOperator);
-                        currOperator = operators.Pop();
-                    }
-                }
-                else if (IsOperator(token))
-                {
-                    // while precedence of the operator is <= precedence of the token 
-                    while (operators.Count > 0)
-                    {
-                        if (GetPrecedence(token) <= GetPrecedence(operators.Peek()))
-                        {
-                            currOperator = operators.Pop();
-                            postFix.Push(currOperator);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    operators.Push(token);
-                }
-            }
-            while (operators.Count > 0)
-            {
-                currOperator = operators.Pop();
-                postFix.Push(currOperator);
-            }
-
-            // Build the post fix string.
-            string psString = string.Empty;
-            foreach (string item in postFix)
-            {
-                psString = item + " " + psString;
-            }
-            psString = psString.Trim();
- 
-            return psString;
-
-
-        }
-
-        /// <summary>
-        /// Checks to see if a string is an operand.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="token">String to check</param>
-        /// <returns></returns>
-        public bool IsOperand(string token)
-        {
-            if (!IsOperator(token) &&
-                !_groupOperators.Contains(token))
-                return true;
-             
-            return false;
-        }
-
-        /// <summary>
-        /// Checks to see if a string is an operator.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="token">String to check</param>
-        /// <returns></returns>
-        public bool IsOperator(string token)
-        {
-            return _operators.Union(_functions).Union(_conditionalOperators).Contains(token);
-        }
-
-        /// <summary>
-        /// Expandn the spaces around operators and operands.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="function">Function to expand.</param>
-        /// <returns></returns>
-
-        public string Expand(string function)
-        {
-            // Clean the function.
-            //function = Regex.Replace(function, @"[ ]+", @""); // Remove spaces
-
-            function = Regex.Replace(function, "\r\n", " ");
-
-            foreach (var x in _operators.Union(_groupOperators))
-            {
-                function = function.Replace(x, " " + x + " ");
-            }
-
-            // Join the else if into a single operator.
-            function = function.Replace("else if", "elseif");            
-            function = function.Replace("< =", "<=");
-            function = function.Replace("> =", ">=");
-            function = function.Trim();
-            function = Regex.Replace(function, @"[ ]+", @" "); // Collapses multiple spaces
-
-            // Find and correct for scientific notation
-            function = Expression.ScientificNotationCorrection(function);
-
-            // Fix negative real values. Ex:  "1 + - 2" = "1 + -2". "1 + - 2e-1" = "1 + -2e-1".
-            function = Regex.Replace(
-                function, 
-                @"([<>=/*+(-] -|sign -|^-) (\d+|[0-9]+[eE][+-]\d+)(\s|$)",
-                @"$1$2$3");
-
-            return function;
-        }
-
-        // Corrects for spaced function...
-        /// <summary>
-        /// Corrects scientific notation in an expression.
-        /// </summary>
-        /// <param name="function">The expanded function to check.</param>
-        /// <returns>The corrected expanded function</returns>
-        public static string ScientificNotationCorrection(string function)
-        {
-            char[] ops = {'-','+'};
-            int n = function.IndexOfAny(ops,0);
-            while ((n <= function.Length) && (n > -1))
-            {
-                // Find the previous space.
-                int prevCut=-1;
-                int nextCut=-1;
-                
-                if (n-2 <= 0)
-                    prevCut = 0;
-                else
-                    prevCut = function.LastIndexOf(" ", n-2, n-2) + 1;
-                
-                if (n + 2 < function.Length)
-                    nextCut = function.IndexOf(" ", n+2);
-                else 
-                    nextCut = function.Length;
-                nextCut = (nextCut == -1 ? function.Length : nextCut);
-                
-                string checkMeSpace = function.Substring(prevCut, nextCut - prevCut);
-                string checkMe = checkMeSpace.Replace(" ", string.Empty);
-
-                bool realValue=false;
-                double val = Double.NaN;
-                try 
-                {
-                    val = Double.Parse(checkMe);
-                    realValue = true;
-                }
-                catch {}
-
-                if (realValue)
-                {
-                    function = function.Replace(checkMeSpace, checkMe);
-                    n = prevCut + checkMe.Length-1;
-                }
-
-                n = function.IndexOfAny(ops,n+1);
-
-            }
-
-            return function;
-        }
-
-        /// <summary>
-        /// Returns the precedance of an operator.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="token">Token to check.</param>
-        /// <returns></returns>
-        protected int GetPrecedence(string token)
-        {
-            if (
-                token == "+"    ||
-                token == "-"    ||
-                token == "||"   )
-                return 10;
-            else if (
-                token == "*"    ||
-                token == "/"    ||
-                token == "&&")
-                return 20;
-            else if (
-                token == "=="   ||
-                token == ">="   ||
-                token == "<="   ||
-                token == ">"    ||
-                token == "<"    ||
-                token == "!="   ||
-                token == "^" )
-                return 30;
-            else if (
-                token == "abs"  ||
-                token == "neg"  ||
-                token == "ln"   ||
-                token == "sign")
-                return 40;
-            else if (
-                token == "if"   ||
-                token == "else" ||
-                token == "elseif")
-                return 50;
-            else
-                return 0;
-        }
 
         /// <summary>
         /// Adds or sets a Variable.
@@ -491,7 +161,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// <param name="value">Variabale value.</param>
         public void AddSetVariable(string name, double val)
         {
-            variables[name] = val;
+            _variables[name] = val;
         }
 
         /// <summary>
@@ -506,7 +176,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             double dval;
             dval = val ? 1 : 0;
-            variables[name] = dval;
+            _variables[name] = dval;
         }
 
         public void AddSetVariable(string name, DateTime val)
@@ -522,7 +192,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         public void ClearVariables()
         {
-            variables.Clear();
+            _variables.Clear();
         }
 
         /// <summary>
@@ -533,9 +203,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         public void Clear()
         {
-            inFunction = string.Empty;
-            postFunction = string.Empty;
-            variables.Clear();
+            _inFunction = null;
+            _postFunction = null;
+            _variables.Clear();
         }
 
         /// <summary>
@@ -550,13 +220,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// <returns></returns>
         protected bool IsVariable(string token)
         {
-            //if (isOperator(token))
-            //    return false;
-
             if (token == "true" || token == "false")
                 return false;
 
-            if (!IsOperand(token))
+            if (!ExpressionKeywords.IsOperand(token))
                 return false;
 
             if (IsNumber(token))
@@ -569,23 +236,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             get
             {
-                // Check to see that the function is valid.
-                if (inFunction.Equals(string.Empty) || this.inFunction == null)
+                if (_inFunction == null)
                     throw new ExpressionException("Function does not exist");
-
-                // Expand the function.
-                string func = Expand(inFunction);
-
-                // Tokenize the funcion.
-                string[] inFix = func.Split(new char[] { ' ' });
 
                 // The arraylist to return
                 List<string> retVal = new List<string>();
 
                 // Check each token to see if its a variable.
-                foreach (string token in inFix)
+                foreach (string token in _inFunction.Tokens)
                 {
-                    if (this.IsVariable(token))
+                    if (IsVariable(token))
                         retVal.Add(token);
                 }
 
@@ -605,216 +265,11 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             try
             {
-                return variables[token];
+                return _variables[token];
             }
             catch
             {
                 return double.NaN;                
-            }
-        }
-
-        /// <summary>
-        /// Validates an infix function.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2011-05-27 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="token">Variable to return.</param>
-        /// <returns></returns>
-        protected bool Validate(string inFix)
-        {
-            string inFixClean = Expand(inFix);
-            string[] tokens = inFixClean.Split(new []{' '});
-
-            CheckFunctionFormatting(inFixClean, tokens);
-            CheckGrouping(inFixClean);
-            CheckConditionals(inFixClean, tokens);
-
-            tokens = Infix2Postfix(inFixClean).Split(new char[] { ' ' });
-
-            CheckPostVectorForEvaluability(inFixClean, tokens);            
-
-            return true;
-        }
-
-        private void CheckPostVectorForEvaluability(string inFix, string[] tokens)
-        {
-            var workstack = new Stack<string>();
-
-            for (int index = 0; index < tokens.Length; index++)
-            {
-                string token = tokens[index];
-
-                if (IsOperator(token))
-                {
-                    if (_functions.Contains(token) ||
-                        token == "else")
-                    {
-                        try
-                        {
-                            workstack.Pop();
-                            workstack.Push("0");
-                        }
-                        catch
-                        {
-                            throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
-                        }
-                    }
-                    else if (token == "if" || token == "elseif")
-                    {
-                        try
-                        {
-                            workstack.Pop();
-                            workstack.Pop();
-                        }
-                        catch
-                        {
-                            throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            workstack.Pop();
-                            workstack.Pop();
-                            workstack.Push("0");
-                        }
-                        catch
-                        {
-                            throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
-                        }
-                    }
-                }
-                else
-                {
-                    workstack.Push(token);
-                }
-            }
-
-            if (workstack.Count != 1)
-            {
-                throw new ExpressionException("Expression formatted incorrecty! " + inFix);
-            }
-        }
-
-
-        private void CheckFunctionFormatting(string inFix, string[] tokens)
-        {
-            for (int i = 0; i < tokens.Length; i++)
-            {
-                var token = tokens[i];
-                if (_functions.Contains(token))
-                {
-                    if (i + 3 >= tokens.Count() || tokens[i+1] != "(" )
-                        throw new ExpressionException("Function error! " + 
-                            token + " not formatted correctly. Open and close parenthesis required. " + 
-                            inFix);
-                }
-            }
-        }
-
-        private void CheckGrouping(string inFix)
-        {
-            string errorMsg = "Grouping error! Open missing. " + " " + inFix;
-
-            var groupingStack = new Stack<char>();
-            foreach (var token in inFix.ToArray())
-            {
-                if (!_groupOperators.Contains(token.ToString()))
-                {
-                    continue;
-                }
-
-                if (_openGroupOperators.Contains(token.ToString()))
-                {
-                    groupingStack.Push(token);
-                    continue;
-                }
-
-                if (groupingStack.Count == 0)
-                {
-                    throw new ExpressionException(errorMsg);
-                }
-
-                var last = groupingStack.Pop();
-
-                if ((token == ')' && last != '(') ||
-                    (token == '}' && last != '{'))
-                {
-                    throw new ExpressionException(errorMsg);
-                }
-            }
-
-            if (groupingStack.Count != 0)
-            {
-                throw new ExpressionException("Grouping error! Close missing. " + " " + inFix);
-            }
-        }
-
-        private void CheckConditionals(string inFix, string[] tokens)
-        {
-            CheckForMatchingIfElse(inFix, tokens);
-            CheckConditionalFormatting(inFix);
-        }
-
-        private void CheckConditionalFormatting(string inFix)
-        {
-            string errorMsg = "Conditional Error! Boolean statement formatted incorrectly. " + inFix;
-
-            // Find any instances of an "if" followed by something othern then a "(".
-            if (Regex.IsMatch(inFix, @" if(?! *\()"))
-            {
-                throw new ExpressionException(errorMsg);
-            }
-
-            // Find any instances of an "else" followed by something othern then a "{" or an "if".
-            if (Regex.IsMatch(inFix, @"else(?! *(if|{))"))
-            {
-                throw new ExpressionException(errorMsg);
-            }
-
-        }
-
-        private void CheckForMatchingIfElse(string inFix, string[] tokens)
-        {
-            string errorMsg = "Conditional Error! If/Else mismatch. Should be in the following form: if (...) {...} else if (...) {...} else {...}. " + inFix;
-
-            var workStack = new Stack<string>();
-            foreach (var token in tokens)
-            {
-                if (!_conditionalOperators.Contains(token.ToString()))
-                {
-                    continue;
-                }
-
-                if (token == "if")
-                {
-                    workStack.Push(token);
-                    continue;
-                }
-
-                if (workStack.Count == 0)
-                {
-                    throw new ExpressionException(errorMsg);
-                }
-
-                var last = workStack.Pop();
-
-                if (last != "if")
-                {
-                    throw new ExpressionException(errorMsg);
-                }
-
-                if (token == "elseif")
-                {
-                    workStack.Push("if");
-                }
-            }
-
-            if (workStack.Count != 0)
-            {
-                throw new ExpressionException(errorMsg + " " + inFix);
             }
         }
 
@@ -858,16 +313,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             string sResult = "";
             int currentConditionalDepth = 0;
 
-            //this.splitPostFunction = postFunction.Split(new char[] { ' ' });
-
             // loop through the postfix vector
             string token = string.Empty;
-            for (int i = 0, numCount = splitPostFunction.Length; i < numCount; i++)
+            for (int i = 0, numCount = _postFunction.Tokens.Length; i < numCount; i++)
             {
-                token = splitPostFunction[i];
+                token = _postFunction.Tokens[i];
 
                 // If the current string is an operator
-                if (this.IsOperator(token))
+                if (ExpressionKeywords.IsOperator(token))
                 {
                     // Single operand operators. 
                     if (token == "abs"  ||
@@ -1021,7 +474,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             try
             {
-                return variables[token];
+                return _variables[token];
             }
             catch
             {
@@ -1046,9 +499,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public override string ToString()
         {
             StringBuilder ret = new StringBuilder();
-            ret.Append(inFunction);
+            ret.Append(_inFunction);
             int count = 0;
-            foreach (KeyValuePair<string,double> keyval in variables)
+            foreach (KeyValuePair<string,double> keyval in _variables)
             {
                 if (count++ == 0)
                     ret.Append("; ");
@@ -1080,7 +533,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             }
 
         }
-
 
         #region compilation
 
@@ -1465,5 +917,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         //}
 
         #endregion
+
     }
 }

@@ -42,12 +42,15 @@
     <Compile Include="Conditional.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="ExpressionException.cs" />
+    <Compile Include="ExpressionKeywords.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Grouping.cs" />
+    <Compile Include="InfixExpression.cs" />
     <Compile Include="Keyword.cs" />
     <Compile Include="KeywordTypes.cs" />
     <Compile Include="OperandType.cs" />
     <Compile Include="Operator.cs" />
+    <Compile Include="PostFixExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
