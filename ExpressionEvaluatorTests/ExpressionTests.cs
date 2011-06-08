@@ -25,6 +25,14 @@ namespace PETNet.Olympus.Tests.ExpressionTesting.Interpreted.Functionality
         { func.Clear(); }
 
         [Test]
+        public void Add_SimpleTest_ValueIsCorrect()
+        {
+            func.Function = "1+2";
+            Assert.AreEqual(true, double.IsNaN(func.GetVariableValue("a")));
+            Assert.AreEqual(3, func.EvaluateNumeric());
+        }
+
+        [Test]
         public void ClearVariables_Call_VariableAreCleared()
         {
             func.Function = "a+b";
@@ -62,7 +70,7 @@ namespace PETNet.Olympus.Tests.ExpressionTesting.Interpreted.Functionality
         public void ToString001()
         {
             func.Function = "a + b";
-            Assert.AreEqual("a + b", func.ToString());
+            Assert.AreEqual("a + b; a=0, b=0", func.ToString());
         }
 
         [Test]

@@ -42,16 +42,18 @@
     <Compile Include="Keywords\Conditional.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="ExpressionException.cs" />
-    <Compile Include="Keywords\ExpressionKeywords.cs" />
+    <Compile Include="ExpressionKeywords.cs" />
     <Compile Include="Keywords\Function.cs" />
     <Compile Include="Keywords\Grouping.cs" />
     <Compile Include="Expressions\InfixExpression.cs" />
     <Compile Include="Keywords\Keyword.cs" />
-    <Compile Include="Keywords\KeywordTypes.cs" />
     <Compile Include="Keywords\OperandType.cs" />
     <Compile Include="Keywords\Operator.cs" />
     <Compile Include="Expressions\PostFixExpression.cs" />
+    <Compile Include="Keywords\Operand.cs" />
+    <Compile Include="Keywords\Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Keywords\Variable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

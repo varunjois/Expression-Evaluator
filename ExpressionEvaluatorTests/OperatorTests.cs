@@ -15,7 +15,7 @@ namespace ExpressionEvaluatorTests
 
         [SetUp]
         public void init()
-        { this.func = new Expression(""); }
+        { this.func = new Expression(); }
 
         [TearDown]
         public void clear()
@@ -192,57 +192,79 @@ namespace ExpressionEvaluatorTests
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void Multiplication_BadExpression001_ExpressionException()
-        { func.Function = "*2"; }
+        {
+            func.Function = "*2";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void Multiplication_BadExpression002_ExpressionException()
-        { func.Function = "3*"; }
+        {
+            func.Function = "3*";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void MulitpleOperators_BadExpression001_ExpressionException()
-        { func.Function = "1+(2*)"; }
+        {
+            func.Function = "1+(2*)";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void MulitpleOperators_BadExpression002_ExpressionException()
-        { func.Function = "1/2*"; }
+        {
+            func.Function = "1/2*";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Expression formatted incorrecty", MatchType = MessageMatch.Contains)]
         public void MulitpleOperators_BadExpression005_ExpressionException()
-        { func.Function = "1-(2+3)2"; }
+        {
+            func.Function = "1-(2+3)2";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void MulitpleOperators_BadExrpession006_ExpressionException()
-        { func.Function = "+1/"; }
+        {
+            func.Function = "+1/";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void MulitpleOperators_BadExpression007_ExpressionException()
-        { func.Function = "1-2-3-3-2-"; }
+        {
+            func.Function = "1-2-3-3-2-";
+        }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Function error", MatchType = MessageMatch.Contains)]
         public void Negation_BadExpression001_ExpressionException()
-        { func.Function = "9832 neg"; }
+        {
+            func.Function = "9832 neg";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void Power_BadExpression001_ExpressionException()
-        { func.Function = "2^"; }
+        {
+            func.Function = "2^";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void Power_BadExpression002_ExpressionException()
-        { func.Function = "^2"; }
+        {
+            func.Function = "^2";
+        }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void Subtraction_BadExpression001_ExpressionException()
-        { func.Function = "332-"; }
+        {
+            func.Function = "332-";
+        }
 
     }
 }

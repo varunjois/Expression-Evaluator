@@ -5,56 +5,16 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
-
-    public class Variable<T> : IVariable
-    {
-        public T Value;
-        public Variable(string name, T value)
-        {
-            _name = name;
-            Value = value;
-        }
-
-        public string _name;
-
-        public string Name
-        {
-            get { return _name; }
-        }
-
-        public Type Type { get { return typeof(T); } }
-    }
-
     public interface IVariable
     {
         string Name { get; }
         Type Type { get; }
     }
-
-    //public class DoubleVariable : Variable
-    //{
-    //    public DoubleVariable(double value) { Value = value; }
-    //    public double Value;
-    //    public override Type Type { get { return typeof(double); } }
-
-    //}
-
-    //public class StringVariable : Variable
-    //{
-    //    public DoubleVariable(double value) { Value = value; }
-    //    public string Value;
-    //    public override Type Type { get { return typeof(string); } }
-    //}
-
-    //public class DateTimeVariable : Variable
-    //{
-    //    public DateTime Value;
-    //    public override Type Type { get { return typeof(DateTime); } }
-    //}
 
     /// <summary>
     /// Evaluatable mathmatical function.
@@ -95,6 +55,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected const double TRUE = 1;
         protected const double FALSE = 0;
         protected string[] _splitPostFunction;
+        protected List<Token> _tokens = new List<Token>();
 
         #endregion
 
@@ -137,6 +98,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 _inFunction = new InfixExpression(value);
                 _postFunction = new PostFixExpression(_inFunction);
                 ClearVariables();
+                BuildTokens();
             }
         }
 
@@ -164,38 +126,32 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         #endregion
 
-        /// <summary>
-        /// Adds or sets a Variable.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="name">Variable name.</param>
-        /// <param name="value">Variabale value.</param>
         public void AddSetVariable(string name, double val)
         {
-            var v = new Variable<double>(name, val);
-            _variables[name] = v;
-        }
-
-        /// <summary>
-        /// Adds or sets a Variable.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="name">Variable name.</param>
-        /// <param name="value">Variabale value.</param>
-        public void AddSetVariable(string name, bool val)
-        {
-            var v = new Variable<bool>(name, val);
-            _variables[name] = v;
+            AddSetVariable<double>(name, val);
         }
 
         public void AddSetVariable(string name, DateTime val)
         {
-            var v = new Variable<DateTime>(name, val);
-            _variables[name] = v;
+            AddSetVariable<DateTime>(name, val);
+        }
+
+        public void AddSetVariable(string name, bool val)
+        {
+            AddSetVariable<double>(name, val ? TRUE : FALSE);
+        }
+
+
+
+        private void AddSetVariable<T>(string name, T val)
+        {
+            if (!_variables.ContainsKey(name))
+            {
+                var v = new Variable<T>(name);
+                _variables[name] = v;
+            }
+
+            ((Variable<T>)_variables[name]).Value = val;
         }
 
         /// <summary>
@@ -220,6 +176,36 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             _inFunction = null;
             _postFunction = null;
             _variables.Clear();
+        }
+
+        private void BuildTokens()
+        {
+            _tokens = new List<Token>();
+
+            foreach (var t in _postFunction.Tokens)
+            {
+                if (IsVariable(t))
+                {
+                    var v = new Variable<double>(t, double.NaN);
+                    if (_variables.ContainsKey(t))
+                        continue;
+                    _variables.Add(t, v);
+                    _tokens.Add(v);
+                    continue;
+                }
+
+                if (ExpressionKeywords.Keywords.Where(x => x.Name == t).Count() == 1)
+                {
+                    var v = ExpressionKeywords.Keywords.Where(x => x.Name == t).Single();
+                    _tokens.Add(v);
+                }
+
+                if (IsNumber(t))
+                {
+                    var v = (Operand<double>)ConvertToOperand(t);
+                    _tokens.Add(v);
+                }
+            }
         }
 
         /// <summary>
@@ -279,7 +265,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             try
             {
-                return ((Variable<double>)_variables[token]).Value;
+                return ((Operand<double>)_variables[token]).Value;
             }
             catch
             {
@@ -299,7 +285,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             // TODO! Check to see that we have the variable that we need.
 
             // Create a temporary vector to hold the secondary stack.
-            return ConvertString(Evaluate());
+            //return ConvertToOperand(Evaluate());
+            return ((Operand<double>)ConvertToOperand(Evaluate())).Value;
         }
 
         /// <summary>
@@ -312,7 +299,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             string result = Evaluate();
 
-            if (ConvertString(result) == TRUE)
+            if (((Operand<double>)ConvertToOperand(result)).Value == TRUE)
                 return true;
             return false;
         }
@@ -322,155 +309,154 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             Stack<string> workstack = new Stack<string>();
             string sLeft = "";
             string sRight = "";
-            double dLeft = 0;
-            double dRight = 0;
+            Operand<double> op1 = null;
+            Operand<double> op2 = null;
             string sResult = "";
             int currentConditionalDepth = 0;
 
             // loop through the postfix vector
             string token = string.Empty;
-            for (int i = 0, numCount = _postFunction.Tokens.Length; i < numCount; i++)
+            int numCount = _postFunction.Tokens.Length;
+            for (int i = 0; i < numCount; i++)
             {
                 token = _postFunction.Tokens[i];
 
                 // If the current string is an operator
-                if (ExpressionKeywords.IsOperator(token))
-                {
-                    // Single operand operators. 
-                    if (token == "abs"  ||
-                        token == "neg"  ||
-                        token == "ln"   ||
-                        token == "sign" ||
-                        token == "else")
-                    {
-                        sLeft = workstack.Pop();
-
-                        // Convert the operands
-                        dLeft = this.ConvertString(sLeft);  
-                    }
-                        // Double operand operators
-                    else
-                    {
-                        sRight = workstack.Pop();
-                        sLeft = workstack.Pop();
-
-                        // Convert the operands
-                        dLeft = this.ConvertString(sLeft);
-                        dRight = this.ConvertString(sRight);
-                    }
-
-                    // call the operator 
-                    switch (token)
-                    {
-                        case "+":
-                            sResult = (dLeft + dRight).ToString();
-                            break;
-
-                        case"-":
-                            sResult = (dLeft - dRight).ToString();
-                            break;
-
-                        case "*":
-                            sResult = (dLeft * dRight).ToString();
-                            break;
-
-                        case "/":
-                            sResult = dRight == 0 ? (double.NaN).ToString() : (dLeft / dRight).ToString();
-                            break;
-
-                        case "^":
-                            sResult = Math.Pow(dLeft, dRight).ToString();
-                            break;
-
-                        case "sign":
-                            sResult = (dLeft >= 0 ? 1 : -1).ToString();
-                            break;
-
-                        case "abs":
-                            sResult = Math.Abs(dLeft).ToString();
-                            break;
-
-                        case "neg":
-                            sResult = (-1 * dLeft).ToString();
-                            break;
-
-                        case "ln":
-                            // calcualte the natural log.
-                            sResult = Math.Log(dLeft).ToString();
-                            break;
-
-                        case "<=":
-                            sResult = dLeft <= dRight ? "true" : "false";
-                            break;
-
-                        case "<":
-                            sResult = dLeft < dRight ? "true" : "false";
-                            break;
-
-                        case ">=":
-                            sResult = dLeft >= dRight ? "true" : "false";
-                            break;
-
-                        case ">":
-                            sResult = dLeft > dRight ? "true" : "false";
-                            break;
-
-                        case "==":
-                            sResult = dLeft == dRight ? "true" : "false";
-                            break;
-
-                        case "!=":
-                            sResult = dLeft != dRight ? "true" : "false";
-                            break;
-
-                        case "||":
-                            sResult = dRight == TRUE || dLeft == TRUE ? "true" : "false";
-                            break;
-
-                        case "&&":
-                            sResult = dRight == TRUE && dLeft == TRUE ? "true" : "false";
-                            break;
-
-                        case "elseif":
-                            if (currentConditionalDepth > 0)
-                            {
-                                // Eat the result.
-                                continue;
-                            }
-                            goto case "if";
-
-                        case "if":
-                            if (sLeft == "true")
-                            {
-                                sResult = sRight;
-                                currentConditionalDepth++;
-                            }
-                            else
-                            {
-                                // Eat the result.
-                                continue;
-                            }
-                            break;
-
-                        case "else":
-                            if (currentConditionalDepth > 0)
-                            {
-                                currentConditionalDepth--;
-                                // Eat the result.
-                                continue;
-                            }
-                            sResult = sLeft;
-                            break;
-                    }
-
-                    // Push the result on the stack
-                    workstack.Push(sResult);
-                }
-                else 
+                if (!ExpressionKeywords.IsOperator(token))
                 {
                     // push the string on the workstack
                     workstack.Push(token);
+                    continue;
                 }
+
+                // Single operand operators. 
+                if (token == "abs" ||
+                    token == "neg" ||
+                    token == "ln" ||
+                    token == "sign" ||
+                    token == "else")
+                {
+                    sLeft = workstack.Pop();
+
+                    // Convert the operands
+                    op1 = (Operand<double>) ConvertToOperand(sLeft);
+                }
+                    // Double operand operators
+                else
+                {
+                    sRight = workstack.Pop();
+                    sLeft = workstack.Pop();
+
+                    // Convert the operands
+                    op1 = (Operand<double>) ConvertToOperand(sLeft);
+                    op2 = (Operand<double>) ConvertToOperand(sRight);
+                }
+
+                // call the operator 
+                switch (token)
+                {
+                    case "+":
+                        sResult = (op1.Value + op2.Value).ToString();
+                        break;
+
+                    case "-":
+                        sResult = (op1.Value - op2.Value).ToString();
+                        break;
+
+                    case "*":
+                        sResult = (op1.Value*op2.Value).ToString();
+                        break;
+
+                    case "/":
+                        sResult = op2.Value == 0 ? (double.NaN).ToString() : (op1.Value/op2.Value).ToString();
+                        break;
+
+                    case "^":
+                        sResult = Math.Pow(op1.Value, op2.Value).ToString();
+                        break;
+
+                    case "sign":
+                        sResult = (op1.Value >= 0 ? 1 : -1).ToString();
+                        break;
+
+                    case "abs":
+                        sResult = Math.Abs(op1.Value).ToString();
+                        break;
+
+                    case "neg":
+                        sResult = (-1*op1.Value).ToString();
+                        break;
+
+                    case "ln":
+                        sResult = Math.Log(op1.Value).ToString();
+                        break;
+
+                    case "<=":
+                        sResult = op1.Value <= op2.Value ? "true" : "false";
+                        break;
+
+                    case "<":
+                        sResult = op1.Value < op2.Value ? "true" : "false";
+                        break;
+
+                    case ">=":
+                        sResult = op1.Value >= op2.Value ? "true" : "false";
+                        break;
+
+                    case ">":
+                        sResult = op1.Value > op2.Value ? "true" : "false";
+                        break;
+
+                    case "==":
+                        sResult = op1.Value == op2.Value ? "true" : "false";
+                        break;
+
+                    case "!=":
+                        sResult = op1.Value != op2.Value ? "true" : "false";
+                        break;
+
+                    case "||":
+                        sResult = op2.Value == TRUE || op1.Value == TRUE ? "true" : "false";
+                        break;
+
+                    case "&&":
+                        sResult = op2.Value == TRUE && op1.Value == TRUE ? "true" : "false";
+                        break;
+
+                    case "elseif":
+                        if (currentConditionalDepth > 0)
+                        {
+                            // Eat the result.
+                            continue;
+                        }
+                        goto case "if";
+
+                    case "if":
+                        if (sLeft == "true")
+                        {
+                            sResult = sRight;
+                            currentConditionalDepth++;
+                        }
+                        else
+                        {
+                            // Eat the result.
+                            continue;
+                        }
+                        break;
+
+                    case "else":
+                        if (currentConditionalDepth > 0)
+                        {
+                            currentConditionalDepth--;
+                            // Eat the result.
+                            continue;
+                        }
+                        sResult = sLeft;
+                        break;
+                }
+
+                // Push the result on the stack
+                workstack.Push(sResult);
             }
 
             return workstack.Peek();
@@ -484,22 +470,22 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         /// <param name="token">The string to check.</param>
         /// <returns></returns>
-        protected double ConvertString(string token)
+        protected object ConvertToOperand(string token)
         {
             try
             {
-                return ((Variable<double>)_variables[token]).Value;
+                return _variables[token];
             }
             catch
             {
                 if (token == "true")
-                    return TRUE;
+                    return new Operand<double>(TRUE);
                 
                 if (token == "false")
-                    return FALSE;
+                    return new Operand<double>(FALSE);
                 
                 // Convert the operand
-                return double.Parse(token);
+                return new Operand<double>(double.Parse(token));
             }
         }
 
@@ -514,7 +500,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public override string ToString()
         {
             StringBuilder ret = new StringBuilder();
-            ret.Append(_inFunction);
+            ret.Append(_inFunction.Original);
             int count = 0;
             foreach (var keyval in _variables)
             {

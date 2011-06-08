@@ -174,7 +174,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 if (ExpressionKeywords.ClosingGroupOperators.Contains(token.ToString()))
                 {
                     Grouping g = ExpressionKeywords.GetGroupingFromClose(token.ToString());
-                    if (last.ToString() != g.Mate)
+                    if (last.ToString() != g.Name)
                         throw new ExpressionException(errorMsg);
 
                 }
