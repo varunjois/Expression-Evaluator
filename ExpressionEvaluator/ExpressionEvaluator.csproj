@@ -39,18 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Conditional.cs" />
+    <Compile Include="Keywords\Conditional.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="ExpressionException.cs" />
-    <Compile Include="ExpressionKeywords.cs" />
-    <Compile Include="Function.cs" />
-    <Compile Include="Grouping.cs" />
-    <Compile Include="InfixExpression.cs" />
-    <Compile Include="Keyword.cs" />
-    <Compile Include="KeywordTypes.cs" />
-    <Compile Include="OperandType.cs" />
-    <Compile Include="Operator.cs" />
-    <Compile Include="PostFixExpression.cs" />
+    <Compile Include="Keywords\ExpressionKeywords.cs" />
+    <Compile Include="Keywords\Function.cs" />
+    <Compile Include="Keywords\Grouping.cs" />
+    <Compile Include="Expressions\InfixExpression.cs" />
+    <Compile Include="Keywords\Keyword.cs" />
+    <Compile Include="Keywords\KeywordTypes.cs" />
+    <Compile Include="Keywords\OperandType.cs" />
+    <Compile Include="Keywords\Operator.cs" />
+    <Compile Include="Expressions\PostFixExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

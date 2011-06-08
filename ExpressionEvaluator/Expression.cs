@@ -9,6 +9,53 @@ using System.Text;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
+
+    public class Variable<T> : IVariable
+    {
+        public T Value;
+        public Variable(string name, T value)
+        {
+            _name = name;
+            Value = value;
+        }
+
+        public string _name;
+
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public Type Type { get { return typeof(T); } }
+    }
+
+    public interface IVariable
+    {
+        string Name { get; }
+        Type Type { get; }
+    }
+
+    //public class DoubleVariable : Variable
+    //{
+    //    public DoubleVariable(double value) { Value = value; }
+    //    public double Value;
+    //    public override Type Type { get { return typeof(double); } }
+
+    //}
+
+    //public class StringVariable : Variable
+    //{
+    //    public DoubleVariable(double value) { Value = value; }
+    //    public string Value;
+    //    public override Type Type { get { return typeof(string); } }
+    //}
+
+    //public class DateTimeVariable : Variable
+    //{
+    //    public DateTime Value;
+    //    public override Type Type { get { return typeof(DateTime); } }
+    //}
+
     /// <summary>
     /// Evaluatable mathmatical function.
     /// </summary>
@@ -36,13 +83,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected DynamicFunction _dynamicFunction;
         //protected AppDomain NewAppDomain;
 
-        #region Class variable
-        //class Variable
-        //{
-        //    public string name;
-        //    public double val;
-        //}
-        #endregion
 
         #region Member data
         
@@ -51,7 +91,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </summary>
         protected InfixExpression _inFunction;
         protected PostFixExpression _postFunction;
-        protected Dictionary<string, double> _variables = new Dictionary<string, double>();
+        protected Dictionary<string, IVariable> _variables = new Dictionary<string, IVariable>();
         protected const double TRUE = 1;
         protected const double FALSE = 0;
         protected string[] _splitPostFunction;
@@ -134,7 +174,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// <param name="value">Variabale value.</param>
         public void AddSetVariable(string name, double val)
         {
-            _variables[name] = val;
+            var v = new Variable<double>(name, val);
+            _variables[name] = v;
         }
 
         /// <summary>
@@ -147,14 +188,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// <param name="value">Variabale value.</param>
         public void AddSetVariable(string name, bool val)
         {
-            double dval;
-            dval = val ? 1 : 0;
-            _variables[name] = dval;
+            var v = new Variable<bool>(name, val);
+            _variables[name] = v;
         }
 
         public void AddSetVariable(string name, DateTime val)
         {
-            throw new NotImplementedException();
+            var v = new Variable<DateTime>(name, val);
+            _variables[name] = v;
         }
 
         /// <summary>
@@ -238,7 +279,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             try
             {
-                return _variables[token];
+                return ((Variable<double>)_variables[token]).Value;
             }
             catch
             {
@@ -447,7 +488,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             try
             {
-                return _variables[token];
+                return ((Variable<double>)_variables[token]).Value;
             }
             catch
             {
@@ -475,7 +516,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             StringBuilder ret = new StringBuilder();
             ret.Append(_inFunction);
             int count = 0;
-            foreach (KeyValuePair<string,double> keyval in _variables)
+            foreach (var keyval in _variables)
             {
                 if (count++ == 0)
                     ret.Append("; ");
