@@ -19,5 +19,9 @@
             get { return _name; }
         }
 
+        public override string ToString()
+        {
+            return Name + "=" + base.ToString();
+        }
     }
 }

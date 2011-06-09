@@ -43,7 +43,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "not in a correct format", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "variable type error", MatchType = MessageMatch.Contains)]
         public void IfElse_IfStringOperator_ExpressionException()
         {
             func.Function = @"if ( val )  { 1 } else { 1 }";
