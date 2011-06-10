@@ -5,7 +5,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures
 {
-    class Division : TwoOperandProcedure
+    class Division : TwoOperandOperator
     {
         public Division(int precedance) : base("/", precedance, 2) { }
 

@@ -6,7 +6,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures
 {
-    class Subtraction : TwoOperandProcedure
+    class Subtraction : TwoOperandOperator
     {
         public Subtraction(int precedance) : base("-", precedance, 2) {}
 
@@ -17,7 +17,7 @@ namespace ExpressionEvaluator.Procedures
                 return DoubleDouble(op1, op2, (x, y) => x - y);
             }
 
-            throw new ExpressionException("Addition operator used incorrectly.");
+            throw new ExpressionException("Subtraction operator used incorrectly.");
         }
     }
 }

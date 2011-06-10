@@ -358,59 +358,32 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     case "-":
                     case "*":
                     case "/":
+                    case "^":
                         result = ((Operand<double>)op.Evaluate(op1, op2)).Value;
                         break;
 
-                    case "^":
-                        result = Math.Pow(op1.Value, op2.Value);
-                        break;
-
-                    case "sign":
-                        result = op1.Value >= 0 ? 1 : -1;
-                        break;
-
                     case "abs":
-                        result = Math.Abs(op1.Value);
-                        break;
-
+                    case "sign":
                     case "neg":
-                        result = -1 * op1.Value;
-                        break;
-
                     case "ln":
-                        result = Math.Log(op1.Value);
+                        result = ((Operand<double>)op.Evaluate(op1)).Value;
                         break;
 
                     case "<=":
-                        result = op1.Value <= op2.Value ? TRUE : FALSE;
-                        break;
-
                     case "<":
-                        result = op1.Value < op2.Value ? TRUE : FALSE;
-                        break;
-
                     case ">=":
-                        result = op1.Value >= op2.Value ? TRUE : FALSE;
-                        break;
-
                     case ">":
-                        result = op1.Value > op2.Value ? TRUE : FALSE;
-                        break;
-
                     case "==":
-                        result = op1.Value == op2.Value ? TRUE : FALSE;
-                        break;
-
                     case "!=":
-                        result = op1.Value != op2.Value ? TRUE : FALSE;
+                        result = ((Operand<bool>)op.Evaluate(op1, op2)).Value ? TRUE : FALSE;
                         break;
 
                     case "||":
-                        result = op2.Value == TRUE || op1.Value == TRUE ? TRUE : FALSE;
-                        break;
-
                     case "&&":
-                        result = op2.Value == TRUE && op1.Value == TRUE ? TRUE : FALSE;
+                        var a = new Operand<bool>(op1.Value == TRUE);
+                        var b = new Operand<bool>(op2.Value == TRUE);
+                        var tempRes = ((Operand<bool>)op.Evaluate(a, b)).Value;
+                        result = tempRes ? TRUE : FALSE;
                         break;
 
                     case "elseif":

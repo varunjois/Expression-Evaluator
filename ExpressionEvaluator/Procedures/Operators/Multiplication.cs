@@ -5,18 +5,18 @@ using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures
 {
-    class Addition : TwoOperandProcedure
+    class Multiplication : TwoOperandOperator
     {
-        public Addition(int precedance) : base("+", precedance, 2) {}
+        public Multiplication(int precedance) : base("*", precedance, 2) { }
 
         override public IOperand Evaluate(IOperand op1, IOperand op2)
         {
             if (IsDoubleDouble(op1, op2))
             {
-                return DoubleDouble(op1, op2, (x, y) => x + y);
+                return DoubleDouble(op1, op2, (x, y) => x * y);
             }
 
-            throw new ExpressionException("Addition operator used incorrectly.");
+            throw new ExpressionException("Multiplication operator used incorrectly.");
         }
     }
 }

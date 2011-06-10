@@ -53,11 +53,21 @@
     <Compile Include="Keywords\Operand.cs" />
     <Compile Include="Keywords\Procedure.cs" />
     <Compile Include="Keywords\Token.cs" />
-    <Compile Include="Procedures\Addition.cs" />
-    <Compile Include="Procedures\Division.cs" />
-    <Compile Include="Procedures\Multiplication.cs" />
-    <Compile Include="Procedures\Subtraction.cs" />
-    <Compile Include="Procedures\TwoOperandProcedure.cs" />
+    <Compile Include="Procedures\Operators\Addition.cs" />
+    <Compile Include="Procedures\Operators\And.cs" />
+    <Compile Include="Procedures\Operators\Division.cs" />
+    <Compile Include="Procedures\Operators\Equal.cs" />
+    <Compile Include="Procedures\Operators\GreaterEqual.cs" />
+    <Compile Include="Procedures\Operators\GreaterThan.cs" />
+    <Compile Include="Procedures\Operators\LesserEqual.cs" />
+    <Compile Include="Procedures\Operators\LessThan.cs" />
+    <Compile Include="Procedures\Operators\Multiplication.cs" />
+    <Compile Include="Procedures\Functions\NaturalLog.cs" />
+    <Compile Include="Procedures\Functions\Negate.cs" />
+    <Compile Include="Procedures\Operators\Or.cs" />
+    <Compile Include="Procedures\Operators\Power.cs" />
+    <Compile Include="Procedures\Operators\Subtraction.cs" />
+    <Compile Include="Procedures\Operators\TwoOperandOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Keywords\Variable.cs" />
   </ItemGroup>
