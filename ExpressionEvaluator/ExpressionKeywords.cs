@@ -8,35 +8,33 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     {
         static public readonly List<Keyword> Keywords = new List<Keyword>
         {
-            new Operator("+", 10, 2, OperandType.Numeric),
-            new Operator("-", 10, 2, OperandType.Numeric),
-            new Operator("||", 10, 2, OperandType.Boolean),
+            new Operator("+", 10, 2),
+            new Operator("-", 10, 2),
+            new Operator("||", 10, 2),
 
-            new Operator("*", 20, 2, OperandType.Numeric),
-            new Operator("/", 20, 2, OperandType.Numeric),
-            new Operator("&&", 20, 2, OperandType.Boolean),
+            new Operator("*", 20, 2),
+            new Operator("/", 20, 2),
+            new Operator("&&", 20, 2),
 
-            new Operator("==", 30, 2, OperandType.Mixed),
-            new Operator(">=", 30, 2, OperandType.Mixed),
-            new Operator("<=", 30, 2, OperandType.Mixed),
-            new Operator(">", 30, 2, OperandType.Mixed),
-            new Operator("<", 30, 2, OperandType.Mixed),
-            new Operator("!=", 30, 2, OperandType.Mixed),
-            new Operator("^",  30, 1, OperandType.Numeric),
+            new Operator("==", 30, 2),
+            new Operator(">=", 30, 2),
+            new Operator("<=", 30, 2),
+            new Operator(">", 30, 2),
+            new Operator("<", 30, 2),
+            new Operator("!=", 30, 2),
+            new Operator("^",  30, 2),
 
             new Function("abs", 40, 1),
             new Function("neg", 40, 1),
             new Function("ln", 40, 1),
             new Function("sign", 40, 1),
 
-            new Conditional("if", 50),
-            new Conditional("elseif", 50),
-            new Conditional("else", 50),
+            new Conditional("if", 50, 2),
+            new Conditional("elseif", 50, 2),
+            new Conditional("else", 50, 1),
 
-            new Grouping("(", ")"),
-            new Grouping(")"),
-            new Grouping("{", "}"),
-            new Grouping("}"),
+            new Grouping("Paranthesis", "(", ")"),
+            new Grouping("Curley Braces", "{", "}"),
         };
 
         static public readonly List<string> Operators
@@ -47,16 +45,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         static public readonly List<string> OpenGroupOperators =
             Keywords.OfType<Grouping>()
-                .Where(x => !String.IsNullOrEmpty(x.Mate))
-                .Select(x => x.Name).ToList();
+                .Select(x => x.Open).ToList();
 
         static public readonly List<string> ClosingGroupOperators =
             Keywords.OfType<Grouping>()
-                .Where(x => String.IsNullOrEmpty(x.Mate))
-                .Select(x => x.Name).ToList();
+                .Select(x => x.Close).ToList();
 
         static public readonly List<string> GroupOperators =
-            Keywords.OfType<Grouping>().Select(x => x.Name).ToList();
+            ClosingGroupOperators.Union(OpenGroupOperators).ToList();
 
         static public readonly List<string> ConditionalOperators =
             Keywords.OfType<Conditional>()
@@ -64,7 +60,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         public static Grouping GetGroupingFromClose(string token)
         {
-            return Keywords.OfType<Grouping>().Where(x => x.Mate == token).Single();
+            return Keywords.OfType<Grouping>().Where(x => x.Close == token).Single();
         }
 
         /// <summary>

@@ -1,16 +1,10 @@
 ﻿namespace Vanderbilt.Biostatistics.Wfccm2
 {
-    public class Operator : Keyword
+    public class Operator : Procedure
     {
-        public Operator(string name, int precedance, int numParams, OperandType type)
+        public Operator(string name, int precedance, int numParams)
+            : base (name, precedance,numParams)
         {
-            Name = name;
-            Precedance = precedance;
-            NumParameters = 0;
-            OperandType = null;
         }
-
-        public int NumParameters { get; private set; }
-        public OperandType? OperandType { get; protected set; }
     }
 }

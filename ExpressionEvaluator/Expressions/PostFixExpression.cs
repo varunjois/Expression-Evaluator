@@ -59,7 +59,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     Grouping g = ExpressionKeywords.GetGroupingFromClose(token);
                     currOperator = operators.Pop();
 
-                    while (currOperator != g.Name)
+                    while (currOperator != g.Open)
                     {
                         postFix.Push(currOperator);
                         currOperator = operators.Pop();

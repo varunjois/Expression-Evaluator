@@ -1,22 +1,15 @@
-﻿using System;
-
-namespace Vanderbilt.Biostatistics.Wfccm2
+﻿namespace Vanderbilt.Biostatistics.Wfccm2
 {
     public class Grouping : Keyword
     {
-        public Grouping(string name, string mate)
+        public Grouping(string name, string open, string close)
+            : base(name, 0)
         {
-            Precedance = 0;
-            Name = name;
-            Mate = mate;
+            Open = open;
+            Close = close;
         }
 
-        public Grouping(string name) 
-        {
-            Precedance = 0;
-            Name = name;
-        }
-
-        public string Mate { get; protected set; }
+        public string Open { get; protected set; }
+        public string Close { get; protected set; }
     }
 }

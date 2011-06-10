@@ -319,139 +319,107 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         private string Evaluate()
         {
             var workstack = new Stack<Token>();
-            //string sLeft = "";
-            //string sRight = "";
             Operand<double> op1 = null;
             Operand<double> op2 = null;
-            //string sResult = "";
             double result = double.NaN;
             int currentConditionalDepth = 0;
 
             // loop through the postfix vector
             foreach (var token in _tokens)
             {
-                // If the current string is an operator
-                //if (!ExpressionKeywords.IsOperator(token))
-                if (!(token is Keyword))
+                if (!(token is Procedure))
                 {
                     // push the string on the workstack
                     workstack.Push(token);
                     continue;
                 }
 
-                var op = token as Keyword; 
+                var op = token as Procedure; 
 
-                // Single operand operators. 
-                if (op.Name == "abs" ||
-                    op.Name == "neg" ||
-                    op.Name == "ln" ||
-                    op.Name == "sign" ||
-                    op.Name == "else")
+                if (op.NumParameters == 1)
                 {
-                    //sLeft = workstack.Pop();
                     op1 = (Operand<double>)workstack.Pop();
-
-                    // Convert the operands
-                    //op1 = (Operand<double>) ConvertToOperand(sLeft);
                 }
-                    // Double operand operators
-                else
+                // Double operand operators
+                else if (op.NumParameters == 2)
                 {
-                    //sRight = workstack.Pop();
-                    //sLeft = workstack.Pop();
                     op2 = (Operand<double>)workstack.Pop();
                     op1 = (Operand<double>)workstack.Pop();
-
-                    // Convert the operands
-                    //op1 = (Operand<double>) ConvertToOperand(sLeft);
-                    //op2 = (Operand<double>) ConvertToOperand(sRight);
+                }
+                else
+                {
+                    throw new ExpressionException("Unknown number of parameters.");
                 }
 
                 // call the operator 
                 switch (op.Name)
                 {
                     case "+":
-                        //sResult = (op1.Value + op2.Value).ToString();
-                        result = op1.Value + op2.Value;
+                        //result = op1.Value + op2.Value;
+                        result = ((Operand<double>)op.Evaluator.Evaluate(op1, op2)).Value;
                         break;
 
                     case "-":
-                        //sResult = (op1.Value - op2.Value).ToString();
                         result = op1.Value - op2.Value;
                         break;
 
                     case "*":
-                        //sResult = (op1.Value*op2.Value).ToString();
                         result = op1.Value * op2.Value;
                         break;
 
                     case "/":
-                        //sResult = op2.Value == 0 ? (double.NaN).ToString() : (op1.Value/op2.Value).ToString();
                         result = op2.Value == 0 ? double.NaN : op1.Value / op2.Value;
                         break;
 
                     case "^":
-                        //sResult = Math.Pow(op1.Value, op2.Value).ToString();
                         result = Math.Pow(op1.Value, op2.Value);
                         break;
 
                     case "sign":
-                        //sResult = (op1.Value >= 0 ? 1 : -1).ToString();
                         result = op1.Value >= 0 ? 1 : -1;
                         break;
 
                     case "abs":
-                        //sResult = Math.Abs(op1.Value).ToString();
                         result = Math.Abs(op1.Value);
                         break;
 
                     case "neg":
-                        //sResult = (-1*op1.Value).ToString();
                         result = -1 * op1.Value;
                         break;
 
                     case "ln":
-                        //sResult = Math.Log(op1.Value).ToString();
                         result = Math.Log(op1.Value);
                         break;
 
                     case "<=":
-                        //sResult = op1.Value <= op2.Value ? "true" : "false";
                         result = op1.Value <= op2.Value ? TRUE : FALSE;
                         break;
 
                     case "<":
-                        //sResult = op1.Value < op2.Value ? "true" : "false";
                         result = op1.Value < op2.Value ? TRUE : FALSE;
                         break;
 
                     case ">=":
-                        //sResult = op1.Value >= op2.Value ? "true" : "false";
                         result = op1.Value >= op2.Value ? TRUE : FALSE;
                         break;
 
                     case ">":
-                        //sResult = op1.Value > op2.Value ? "true" : "false";
                         result = op1.Value > op2.Value ? TRUE : FALSE;
                         break;
 
                     case "==":
-                        //sResult = op1.Value == op2.Value ? "true" : "false";
                         result = op1.Value == op2.Value ? TRUE : FALSE;
                         break;
 
                     case "!=":
-                        //sResult = op1.Value != op2.Value ? "true" : "false";
                         result = op1.Value != op2.Value ? TRUE : FALSE;
                         break;
 
                     case "||":
-                        //sResult = op2.Value == TRUE || op1.Value == TRUE ? "true" : "false";
                         result = op2.Value == TRUE || op1.Value == TRUE ? TRUE : FALSE;
                         break;
 
                     case "&&":
-                        //sResult = op2.Value == TRUE && op1.Value == TRUE ? "true" : "false";
                         result = op2.Value == TRUE && op1.Value == TRUE ? TRUE : FALSE;
                         break;
 

@@ -1,15 +1,10 @@
-﻿using System;
-
-namespace Vanderbilt.Biostatistics.Wfccm2
+﻿namespace Vanderbilt.Biostatistics.Wfccm2
 {
-    public class Conditional : Keyword
+    public class Conditional : Procedure
     {
-        public Conditional(string name, int precedance)
+        public Conditional(string name, int precedance, int numParams) 
+            : base (name, precedance, numParams)
         {
-            Name = name;
-            Precedance = precedance;
         }
-
-        public OperandType? OperandType { get; protected set; }
     }
 }
