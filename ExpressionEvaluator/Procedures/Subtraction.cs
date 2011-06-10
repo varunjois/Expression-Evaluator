@@ -1,19 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures
 {
-    class Addition : TwoOperandProcedure
+    class Subtraction : TwoOperandProcedure
     {
-        public Addition(int precedance) : base("+", precedance, 2) {}
+        public Subtraction(int precedance) : base("-", precedance, 2) {}
 
         override public IOperand Evaluate(IOperand op1, IOperand op2)
         {
             if (IsDoubleDouble(op1, op2))
             {
-                return DoubleDouble(op1, op2, (x, y) => x + y);
+                return DoubleDouble(op1, op2, (x, y) => x - y);
             }
 
             throw new ExpressionException("Addition operator used incorrectly.");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExpressionEvaluator.Procedures;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
@@ -8,12 +9,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     {
         static public readonly List<Keyword> Keywords = new List<Keyword>
         {
-            new Operator("+", 10, 2),
-            new Operator("-", 10, 2),
+            new Addition(10),
+            new Subtraction(10),
             new Operator("||", 10, 2),
 
-            new Operator("*", 20, 2),
-            new Operator("/", 20, 2),
+            new Multiplication(20),
+            new Division(20),
             new Operator("&&", 20, 2),
 
             new Operator("==", 30, 2),

@@ -2,7 +2,7 @@
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
-    public class Operand<T> : Token, IOperand<T>
+    public class Operand<T> : Token, IOperand
     {
         private T _value;
 

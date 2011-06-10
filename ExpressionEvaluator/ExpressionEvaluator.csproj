@@ -54,7 +54,10 @@
     <Compile Include="Keywords\Procedure.cs" />
     <Compile Include="Keywords\Token.cs" />
     <Compile Include="Procedures\Addition.cs" />
-    <Compile Include="Procedures\Evaluator.cs" />
+    <Compile Include="Procedures\Division.cs" />
+    <Compile Include="Procedures\Multiplication.cs" />
+    <Compile Include="Procedures\Subtraction.cs" />
+    <Compile Include="Procedures\TwoOperandProcedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Keywords\Variable.cs" />
   </ItemGroup>

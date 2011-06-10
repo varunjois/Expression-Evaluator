@@ -355,20 +355,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 switch (op.Name)
                 {
                     case "+":
-                        //result = op1.Value + op2.Value;
-                        result = ((Operand<double>)op.Evaluator.Evaluate(op1, op2)).Value;
-                        break;
-
                     case "-":
-                        result = op1.Value - op2.Value;
-                        break;
-
                     case "*":
-                        result = op1.Value * op2.Value;
-                        break;
-
                     case "/":
-                        result = op2.Value == 0 ? double.NaN : op1.Value / op2.Value;
+                        result = ((Operand<double>)op.Evaluate(op1, op2)).Value;
                         break;
 
                     case "^":
