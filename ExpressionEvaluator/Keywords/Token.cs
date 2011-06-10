@@ -1,6 +1,6 @@
 ﻿namespace Vanderbilt.Biostatistics.Wfccm2
 {
-    public class Token
+    public interface IToken
     {
     }
 }

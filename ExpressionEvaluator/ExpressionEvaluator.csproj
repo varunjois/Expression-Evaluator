@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Keywords\Operand.cs" />
     <Compile Include="Keywords\Conditional.cs" />
     <Compile Include="Expression.cs" />
     <Compile Include="ExpressionException.cs" />
@@ -46,13 +47,15 @@
     <Compile Include="Keywords\Function.cs" />
     <Compile Include="Keywords\Grouping.cs" />
     <Compile Include="Expressions\InfixExpression.cs" />
-    <Compile Include="Keywords\IOperand.cs" />
     <Compile Include="Keywords\Keyword.cs" />
     <Compile Include="Keywords\Operator.cs" />
     <Compile Include="Expressions\PostFixExpression.cs" />
-    <Compile Include="Keywords\Operand.cs" />
+    <Compile Include="Keywords\GenericOperand.cs" />
     <Compile Include="Keywords\Procedure.cs" />
     <Compile Include="Keywords\Token.cs" />
+    <Compile Include="Keywords\Variable.cs" />
+    <Compile Include="Procedures\Functions\Absolute.cs" />
+    <Compile Include="Procedures\Functions\Sign.cs" />
     <Compile Include="Procedures\Operators\Addition.cs" />
     <Compile Include="Procedures\Operators\And.cs" />
     <Compile Include="Procedures\Operators\Division.cs" />
@@ -64,12 +67,13 @@
     <Compile Include="Procedures\Operators\Multiplication.cs" />
     <Compile Include="Procedures\Functions\NaturalLog.cs" />
     <Compile Include="Procedures\Functions\Negate.cs" />
+    <Compile Include="Procedures\Operators\NotEqual.cs" />
     <Compile Include="Procedures\Operators\Or.cs" />
     <Compile Include="Procedures\Operators\Power.cs" />
     <Compile Include="Procedures\Operators\Subtraction.cs" />
-    <Compile Include="Procedures\Operators\TwoOperandOperator.cs" />
+    <Compile Include="Procedures\TwoOperandOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Keywords\Variable.cs" />
+    <Compile Include="Keywords\GenericVariable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

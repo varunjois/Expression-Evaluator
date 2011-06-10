@@ -53,21 +53,21 @@ namespace ExpressionEvaluatorTests
         public void Ln_001()
         {
             func.Function = "ln(5)";
-            Assert.AreEqual(1.6094379124341, func.EvaluateNumeric());
+            Assert.AreEqual(1.6094379124341003, func.EvaluateNumeric());
         }
 
         [Test]
         public void Ln_002()
         {
             func.Function = "ln(5) + 1";
-            Assert.AreEqual(2.6094379124341, func.EvaluateNumeric());
+            Assert.AreEqual(2.6094379124341005, func.EvaluateNumeric());
         }
 
         [Test]
         public void Ln_003()
         {
             func.Function = "ln(5) * 2";
-            Assert.AreEqual(3.2188758248682, func.EvaluateNumeric());
+            Assert.AreEqual(3.2188758248682006, func.EvaluateNumeric());
         }
 
         [Test]

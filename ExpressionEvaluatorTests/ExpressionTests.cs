@@ -70,7 +70,7 @@ namespace PETNet.Olympus.Tests.ExpressionTesting.Interpreted.Functionality
         public void ToString001()
         {
             func.Function = "a + b";
-            Assert.AreEqual("a + b; a=NaN, b=NaN", func.ToString());
+            Assert.AreEqual("a + b; a=, b=", func.ToString());
         }
 
         [Test]

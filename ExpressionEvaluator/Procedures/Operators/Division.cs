@@ -13,8 +13,8 @@ namespace ExpressionEvaluator.Procedures
         {
             if (IsDoubleDouble(op1, op2))
             {
-                if (((Operand<double>)op2).Value == 0)
-                    return new Operand<double>(double.NaN);
+                if (((GenericOperand<double>)op2).Value == 0)
+                    return new GenericOperand<double>(double.NaN);
 
                 return DoubleDouble(op1, op2, (x, y) => x / y);
             }

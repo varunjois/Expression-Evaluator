@@ -1,6 +1,6 @@
 ﻿namespace Vanderbilt.Biostatistics.Wfccm2
 {
-    public class Keyword : Token
+    public class Keyword : IToken
     {
         public Keyword(string name, int precedance)
         {

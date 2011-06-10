@@ -10,12 +10,6 @@ using System.Text;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
-    public interface IVariable
-    {
-        string Name { get; }
-        Type Type { get; }
-    }
-
     /// <summary>
     /// Evaluatable mathmatical function.
     /// </summary>
@@ -55,7 +49,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected const double TRUE = 1;
         protected const double FALSE = 0;
         protected string[] _splitPostFunction;
-        protected List<Token> _tokens = new List<Token>();
+        protected List<IToken> _tokens = new List<IToken>();
 
         #endregion
 
@@ -138,20 +132,33 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         public void AddSetVariable(string name, bool val)
         {
-            AddSetVariable<double>(name, val ? TRUE : FALSE);
+            AddSetVariable<bool>(name, val);
         }
 
 
 
         private void AddSetVariable<T>(string name, T val)
         {
-            if (!_variables.ContainsKey(name))
+            if (_variables.ContainsKey(name)
+                && _variables[name].Type == typeof(object))
             {
-                var v = new Variable<T>(name);
+                var oldVar = _variables[name];
+                var newVar = new GenericVariable<T>(name);
+
+                for (int i = 0; i < _tokens.Count; i++)
+                {
+                    if (_tokens[i] == oldVar)
+                        _tokens[i] = newVar;
+                }
+                _variables[name] = newVar;
+            }
+            else if (!_variables.ContainsKey(name))
+            {
+                var v = new GenericVariable<T>(name);
                 _variables[name] = v;
             }
 
-            ((Variable<T>)_variables[name]).Value = val;
+            ((GenericVariable<T>)_variables[name]).Value = val;
         }
 
         /// <summary>
@@ -180,21 +187,21 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         private void BuildTokens()
         {
-            _tokens = new List<Token>();
+            _tokens = new List<IToken>();
 
             foreach (var t in _postFunction.Tokens)
             {
                 if (IsVariable(t))
                 {
-                    Variable<double> v;
+                    GenericVariable<object> v;
                     if (!_variables.ContainsKey(t))
                     {
-                        v = new Variable<double>(t, double.NaN);
+                        v = new GenericVariable<object>(t, null);
                         _variables.Add(t, v);
                     }
                     else
                     {
-                        v = (Variable<double>)_variables[t];
+                        v = (GenericVariable<object>)_variables[t];
                     }
                     _tokens.Add(v);
                     continue;
@@ -208,13 +215,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
                 if (IsNumber(t))
                 {
-                    var v = (Operand<double>)ConvertToOperand(t);
+                    var v = (GenericOperand<double>)ConvertToOperand(t);
                     _tokens.Add(v);
                 }
 
                 if (t == "true" || t == "false")
                 {
-                    var v = (Operand<double>)ConvertToOperand(t);
+                    var v = ConvertToOperand(t);
                     _tokens.Add(v);
                 }
             }
@@ -277,7 +284,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             try
             {
-                return ((Operand<double>)_variables[token]).Value;
+                return ((GenericOperand<double>)_variables[token]).Value;
             }
             catch
             {
@@ -298,7 +305,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
             // Create a temporary vector to hold the secondary stack.
             //return ConvertToOperand(Evaluate());
-            return ((Operand<double>)ConvertToOperand(Evaluate())).Value;
+            return ((GenericOperand<double>)Evaluate()).Value;
         }
 
         /// <summary>
@@ -309,19 +316,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         public bool EvaluateBoolean()
         {
-            string result = Evaluate();
-
-            if (((Operand<double>)ConvertToOperand(result)).Value == TRUE)
-                return true;
-            return false;
+            var result = Evaluate();
+            return ((GenericOperand<bool>)result).Value;
         }
 
-        private string Evaluate()
+        private IOperand Evaluate()
         {
-            var workstack = new Stack<Token>();
-            Operand<double> op1 = null;
-            Operand<double> op2 = null;
-            double result = double.NaN;
+            var workstack = new Stack<IToken>();
+            IOperand op1 = null;
+            IOperand op2 = null;
+            IOperand result = null;
             int currentConditionalDepth = 0;
 
             // loop through the postfix vector
@@ -338,13 +342,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
                 if (op.NumParameters == 1)
                 {
-                    op1 = (Operand<double>)workstack.Pop();
+                    op1 = (IOperand)workstack.Pop();
                 }
                 // Double operand operators
                 else if (op.NumParameters == 2)
                 {
-                    op2 = (Operand<double>)workstack.Pop();
-                    op1 = (Operand<double>)workstack.Pop();
+                    op2 = (IOperand)workstack.Pop();
+                    op1 = (IOperand)workstack.Pop();
                 }
                 else
                 {
@@ -359,31 +363,22 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     case "*":
                     case "/":
                     case "^":
-                        result = ((Operand<double>)op.Evaluate(op1, op2)).Value;
-                        break;
-
-                    case "abs":
-                    case "sign":
-                    case "neg":
-                    case "ln":
-                        result = ((Operand<double>)op.Evaluate(op1)).Value;
-                        break;
-
                     case "<=":
                     case "<":
                     case ">=":
                     case ">":
                     case "==":
                     case "!=":
-                        result = ((Operand<bool>)op.Evaluate(op1, op2)).Value ? TRUE : FALSE;
-                        break;
-
                     case "||":
                     case "&&":
-                        var a = new Operand<bool>(op1.Value == TRUE);
-                        var b = new Operand<bool>(op2.Value == TRUE);
-                        var tempRes = ((Operand<bool>)op.Evaluate(a, b)).Value;
-                        result = tempRes ? TRUE : FALSE;
+                        result = op.Evaluate(op1, op2);
+                        break;
+
+                    case "abs":
+                    case "sign":
+                    case "neg":
+                    case "ln":
+                        result = op.Evaluate(op1);
                         break;
 
                     case "elseif":
@@ -395,13 +390,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                         goto case "if";
 
                     case "if":
-                        if (op1.Value != TRUE && op1.Value != FALSE)
+                        var dOp1 = op1 as GenericOperand<bool>;
+                        if(op1.Type != typeof(bool))
+                            throw new ExpressionException("variable type error");
+                        if (dOp1.Value)
                         {
-                            throw new ExpressionException("variable type error.");
-                        }
-                        if (op1.Value == TRUE)
-                        {
-                            result = op2.Value;
+                            result = op2;
                             currentConditionalDepth++;
                         }
                         else
@@ -418,15 +412,15 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                             // Eat the result.
                             continue;
                         }
-                        result = op1.Value;
+                        result = op1;
                         break;
                 }
 
                 // Push the result on the stack
-                workstack.Push(new Operand<double>(result));
+                workstack.Push(result);
             }
 
-            return ((Operand<double>)workstack.Peek()).Value.ToString();
+            return (IOperand)workstack.Peek();
         }
 
         /// <summary>
@@ -437,7 +431,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         /// <param name="token">The string to check.</param>
         /// <returns></returns>
-        protected object ConvertToOperand(string token)
+        protected IOperand ConvertToOperand(string token)
         {
             try
             {
@@ -446,13 +440,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             catch
             {
                 if (token == "true")
-                    return new Operand<double>(TRUE);
+                    return new GenericOperand<bool>(true);
                 
                 if (token == "false")
-                    return new Operand<double>(FALSE);
+                    return new GenericOperand<bool>(false);
                 
                 // Convert the operand
-                return new Operand<double>(double.Parse(token));
+                return new GenericOperand<double>(double.Parse(token));
             }
         }
 
