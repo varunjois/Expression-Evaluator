@@ -2,23 +2,13 @@
 
 namespace ExpressionEvaluator.Procedures
 {
-    class Equal : TwoOperandOperator
+    class Equal : Operator
     {
-        public Equal(int precedance) : base("==", precedance, 2) { }
-
-        override public IOperand Evaluate(IOperand op1, IOperand op2)
+        public Equal(int precedance) : base("==", precedance, 2)
         {
-            if (IsBooleanBoolean(op1, op2))
-            {
-                return BooleanBoolean(op1, op2, (x, y) => x == y);
-            }
-
-            if (IsDoubleDouble(op1, op2))
-            {
-                return DoubleDoubleBoolean(op1, op2, (x, y) => x == y);
-            }
-
-            throw new ExpressionException("Equal operator used incorrectly.");
+            _name2 = "Equal";
+            _doubledoublebool = (x, y) => x == y;
+            _boolboolbool = (x, y) => x == y;
         }
     }
 }

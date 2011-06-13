@@ -6,18 +6,12 @@ using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures
 {
-    class Subtraction : TwoOperandOperator
+    class Subtraction : Operator
     {
-        public Subtraction(int precedance) : base("-", precedance, 2) {}
-
-        override public IOperand Evaluate(IOperand op1, IOperand op2)
+        public Subtraction(int precedance) : base("-", precedance, 2)
         {
-            if (IsDoubleDouble(op1, op2))
-            {
-                return DoubleDouble(op1, op2, (x, y) => x - y);
-            }
-
-            throw new ExpressionException("Subtraction operator used incorrectly.");
+            _name2 = "Subtraction";
+            _doubledoubledouble = (x, y) => x - y;
         }
     }
 }

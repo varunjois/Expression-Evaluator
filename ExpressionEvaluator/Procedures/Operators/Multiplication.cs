@@ -1,22 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Vanderbilt.Biostatistics.Wfccm2;
+﻿using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures
 {
-    class Multiplication : TwoOperandOperator
+    class Multiplication : Operator
     {
-        public Multiplication(int precedance) : base("*", precedance, 2) { }
-
-        override public IOperand Evaluate(IOperand op1, IOperand op2)
+        public Multiplication(int precedance) : base("*", precedance, 2)
         {
-            if (IsDoubleDouble(op1, op2))
-            {
-                return DoubleDouble(op1, op2, (x, y) => x * y);
-            }
-
-            throw new ExpressionException("Multiplication operator used incorrectly.");
+            _name2 = "Multiplication";
+            _doubledoubledouble = (x, y) => x * y;
         }
     }
 }

@@ -71,7 +71,6 @@
     <Compile Include="Procedures\Operators\Or.cs" />
     <Compile Include="Procedures\Operators\Power.cs" />
     <Compile Include="Procedures\Operators\Subtraction.cs" />
-    <Compile Include="Procedures\TwoOperandOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Keywords\GenericVariable.cs" />
   </ItemGroup>

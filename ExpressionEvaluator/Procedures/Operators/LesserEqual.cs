@@ -2,18 +2,12 @@
 
 namespace ExpressionEvaluator.Procedures
 {
-    class LesserEqual : TwoOperandOperator
+    class LesserEqual : Operator
     {
-        public LesserEqual(int precedance) : base("<=", precedance, 2) { }
-
-        override public IOperand Evaluate(IOperand op1, IOperand op2)
+        public LesserEqual(int precedance) : base("<=", precedance, 2)
         {
-            if (IsDoubleDouble(op1, op2))
-            {
-                return DoubleDoubleBoolean(op1, op2, (x, y) => x <= y);
-            }
-
-            throw new ExpressionException("LesserEqual operator used incorrectly.");
+            _name2 = "LesserEqual";
+            _doubledoublebool = (x, y) => x <= y;
         }
     }
 }

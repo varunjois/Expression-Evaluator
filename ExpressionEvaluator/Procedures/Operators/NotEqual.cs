@@ -2,18 +2,12 @@
 
 namespace ExpressionEvaluator.Procedures
 {
-    class NotEqual : TwoOperandOperator
+    class NotEqual : Operator
     {
-        public NotEqual(int precedance) : base("!=", precedance, 2) { }
-
-        override public IOperand Evaluate(IOperand op1, IOperand op2)
+        public NotEqual(int precedance) : base("!=", precedance, 2)
         {
-            if (IsDoubleDouble(op1, op2))
-            {
-                return DoubleDoubleBoolean(op1, op2, (x, y) => x != y);
-            }
-
-            throw new ExpressionException("NotEqual operator used incorrectly.");
+            _name2 = "NotEqual";
+            _doubledoublebool = (x, y) => x != y;
         }
     }
 }

@@ -2,18 +2,12 @@
 
 namespace ExpressionEvaluator.Procedures
 {
-    class And : TwoOperandOperator
+    class And : Operator
     {
-        public And(int precedance) : base("&&", precedance, 2) { }
-
-        override public IOperand Evaluate(IOperand op1, IOperand op2)
+        public And(int precedance) : base("&&", precedance, 2)
         {
-            if (IsBooleanBoolean(op1, op2))
-            {
-                return BooleanBoolean(op1, op2, (x, y) => x && y);
-            }
-
-            throw new ExpressionException("And operator used incorrectly.");
+            _name2 = "And";
+            _boolboolbool = (x, y) => x && y;
         }
     }
 }

@@ -2,18 +2,12 @@
 
 namespace ExpressionEvaluator.Procedures
 {
-    class GreaterThan : TwoOperandOperator
+    class GreaterThan : Operator
     {
-        public GreaterThan(int precedance) : base(">", precedance, 2) { }
-
-        override public IOperand Evaluate(IOperand op1, IOperand op2)
+        public GreaterThan(int precedance) : base(">", precedance, 2)
         {
-            if (IsDoubleDouble(op1, op2))
-            {
-                return DoubleDoubleBoolean(op1, op2, (x, y) => x > y);
-            }
-
-            throw new ExpressionException("GreaterThan operator used incorrectly.");
+            _name2 = "GreaterThan";
+            _doubledoublebool = (x, y) => x > y;
         }
     }
 }
