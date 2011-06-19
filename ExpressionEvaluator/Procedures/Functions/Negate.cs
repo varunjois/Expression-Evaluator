@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures
             : base("neg", precedance, 1)
         {
             _name2 = "Absolute";
-            _doubledouble = x => -1 * x;
+            DoubleDouble = x => -1 * x;
         }
     }
 }

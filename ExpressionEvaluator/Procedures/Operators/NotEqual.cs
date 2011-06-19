@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures
         public NotEqual(int precedance) : base("!=", precedance, 2)
         {
             _name2 = "NotEqual";
-            _doubledoublebool = (x, y) => x != y;
+            DoubleDoubleBool = (x, y) => x != y;
         }
     }
 }

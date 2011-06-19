@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures
         public Power(int precedance) : base("^", precedance, 2)
         {
             _name2 = "Power";
-            _doubledoubledouble = (x, y) => Math.Pow(x,y);
+            DoubleDoubleDouble = (x, y) => Math.Pow(x,y);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures
         public GreaterEqual(int precedance) : base(">=", precedance, 2)
         {
             _name2 = "GreaterEqual";
-            _doubledoublebool = (x,y) => x >= y;
+            DoubleDoubleBool = (x,y) => x >= y;
         }
     }
 }

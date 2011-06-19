@@ -7,7 +7,8 @@ namespace ExpressionEvaluator.Procedures
         public LessThan(int precedance) : base("<", precedance, 2)
         {
             _name2 = "LessThan";
-            _doubledoublebool = (x, y) => x < y;
+            DoubleDoubleBool = (x, y) => x < y;
+            DatetimeDatetimeBool = (x, y) => x < y;
         }
     }
 }

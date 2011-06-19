@@ -7,8 +7,8 @@ namespace ExpressionEvaluator.Procedures
         public Equal(int precedance) : base("==", precedance, 2)
         {
             _name2 = "Equal";
-            _doubledoublebool = (x, y) => x == y;
-            _boolboolbool = (x, y) => x == y;
+            DoubleDoubleBool = (x, y) => x == y;
+            BoolBoolBool = (x, y) => x == y;
         }
     }
 }

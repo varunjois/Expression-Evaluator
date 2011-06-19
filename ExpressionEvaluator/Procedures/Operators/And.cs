@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures
         public And(int precedance) : base("&&", precedance, 2)
         {
             _name2 = "And";
-            _boolboolbool = (x, y) => x && y;
+            BoolBoolBool = (x, y) => x && y;
         }
     }
 }

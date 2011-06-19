@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures
         public Or(int precedance) : base("||", precedance, 2)
         {
             _name2 = "Or";
-            _boolboolbool = (x, y) => x || y;            
+            BoolBoolBool = (x, y) => x || y;            
         }
     }
 }

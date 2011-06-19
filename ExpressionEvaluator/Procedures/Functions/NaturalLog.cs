@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures
         public NaturalLog(int precedance) : base("ln", precedance, 1)
         {
             _name2 = "Absolute";
-            _doubledouble = Math.Log;
+            DoubleDouble = Math.Log;
         }
     }
 }

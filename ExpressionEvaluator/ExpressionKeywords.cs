@@ -29,10 +29,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             new Negate(40),
             new NaturalLog(40),
             new Sign(40),
+            new Now(40),
+            new Hour(40),
 
-            new Conditional("if", 50, 2),
-            new Conditional("elseif", 50, 2),
-            new Conditional("else", 50, 1),
+            new Conditional("if", 50, 2, false),
+            new Conditional("elseif", 50, 2, false),
+            new Conditional("else", 50, 1, true),
 
             new Grouping("Paranthesis", "(", ")"),
             new Grouping("Curley Braces", "{", "}"),

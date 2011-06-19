@@ -11,22 +11,22 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class DateTimeTests
     {
-        //Expression func;
+        Expression func;
 
-        //[SetUp]
-        //public void init()
-        //{ this.func = new Expression(""); }
+        [SetUp]
+        public void init()
+        { this.func = new Expression(""); }
 
-        //[TearDown]
-        //public void clear()
-        //{ func.Clear(); }
+        [TearDown]
+        public void clear()
+        { func.Clear(); }
 
-        //[Test]
-        //public void DateTime_useHourFunction_IsCorrect()
-        //{
-        //    func.Function = "now() < now() + hour(1)";
-        //    Assert.AreEqual(true, func.EvaluateBoolean());
-        //}
+        [Test]
+        public void DateTime_useHourFunction_IsCorrect()
+        {
+            func.Function = "now() < ( now() + hour(1) )";
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
 
         //[Test]
         //public void DateTime_useMinuteFunction_IsCorrect()

@@ -338,13 +338,15 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     continue;
                 }
 
-                var op = token as Procedure; 
+                var op = token as Procedure;
 
-                if (op.NumParameters == 1)
+                if (op.NumParameters == 0)
+                {
+                }
+                else if (op.NumParameters == 1)
                 {
                     op1 = (IOperand)workstack.Pop();
                 }
-                // Double operand operators
                 else if (op.NumParameters == 2)
                 {
                     op2 = (IOperand)workstack.Pop();
@@ -355,65 +357,62 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     throw new ExpressionException("Unknown number of parameters.");
                 }
 
-                // call the operator 
-                switch (op.Name)
+                if (op.Name == "if" || op.Name == "elseif" || op.Name == "else")
                 {
-                    case "+":
-                    case "-":
-                    case "*":
-                    case "/":
-                    case "^":
-                    case "<=":
-                    case "<":
-                    case ">=":
-                    case ">":
-                    case "==":
-                    case "!=":
-                    case "||":
-                    case "&&":
-                        result = op.Evaluate(op1, op2);
-                        break;
+                    switch (op.Name)
+                    {
+                        case "elseif":
+                            if (currentConditionalDepth > 0)
+                            {
+                                // Eat the result.
+                                continue;
+                            }
+                            goto case "if";
 
-                    case "abs":
-                    case "sign":
-                    case "neg":
-                    case "ln":
+                        case "if":
+                            var dOp1 = op1 as GenericOperand<bool>;
+                            if (op1.Type != typeof (bool))
+                                throw new ExpressionException("variable type error");
+                            if (dOp1.Value)
+                            {
+                                result = op2;
+                                currentConditionalDepth++;
+                            }
+                            else
+                            {
+                                // Eat the result.
+                                continue;
+                            }
+                            break;
+
+                        case "else":
+                            if (currentConditionalDepth > 0)
+                            {
+                                currentConditionalDepth--;
+                                // Eat the result.
+                                continue;
+                            }
+                            result = op1;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    if (op.NumParameters == 0)
+                    {
+                        result = op.Evaluate();
+                    }
+                    if (op.NumParameters == 1)
+                    {
                         result = op.Evaluate(op1);
-                        break;
-
-                    case "elseif":
-                        if (currentConditionalDepth > 0)
-                        {
-                            // Eat the result.
-                            continue;
-                        }
-                        goto case "if";
-
-                    case "if":
-                        var dOp1 = op1 as GenericOperand<bool>;
-                        if(op1.Type != typeof(bool))
-                            throw new ExpressionException("variable type error");
-                        if (dOp1.Value)
-                        {
-                            result = op2;
-                            currentConditionalDepth++;
-                        }
-                        else
-                        {
-                            // Eat the result.
-                            continue;
-                        }
-                        break;
-
-                    case "else":
-                        if (currentConditionalDepth > 0)
-                        {
-                            currentConditionalDepth--;
-                            // Eat the result.
-                            continue;
-                        }
-                        result = op1;
-                        break;
+                    }
+                    else if (op.NumParameters == 2)
+                    {
+                        result = op.Evaluate(op1, op2);
+                    }
                 }
 
                 // Push the result on the stack

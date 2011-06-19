@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
@@ -111,54 +112,81 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             {
                 string token = tokens[index];
 
-                if (ExpressionKeywords.IsOperator(token))
+                //if (ExpressionKeywords.IsOperator(token))
+                //{
+                //    if (ExpressionKeywords.Functions.Contains(token) ||
+                //        token == "else")
+                //    {
+                //        try
+                //        {
+                //            workstack.Pop();
+                //            workstack.Push("0");
+                //        }
+                //        catch
+                //        {
+                //            throw new ExpressionException("Operator error! \"" + token + "\". ");
+                //        }
+                //    }
+                //    else if (token == "if" || token == "elseif")
+                //    {
+                //        try
+                //        {
+                //            workstack.Pop();
+                //            workstack.Pop();
+                //        }
+                //        catch
+                //        {
+                //            throw new ExpressionException("Operator error! \"" + token + "\". ");
+                //        }
+                //    }
+                //    else
+                //    {
+                //        try
+                //        {
+                //            workstack.Pop();
+                //            workstack.Pop();
+                //            workstack.Push("0");
+                //        }
+                //        catch
+                //        {
+                //            //throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
+                //            throw new ExpressionException("Operator error! \"" + token + "\". ");
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    workstack.Push(token);
+                //}
+
+                if (ExpressionKeywords.IsOperator(token)
+                    || ExpressionKeywords.Functions.Contains(token)
+                    || ExpressionKeywords.ConditionalOperators.Contains(token))
                 {
-                    if (ExpressionKeywords.Functions.Contains(token) ||
-                        token == "else")
+                    var kw = ExpressionKeywords.Keywords.OfType<Procedure>().Where(x => x.Name == token).Select(x => x).Single();
+
+                    try
                     {
-                        try
+                        for (int i = 0; i < kw.NumParameters; i++)
                         {
                             workstack.Pop();
-                            workstack.Push("0");
-                        }
-                        catch
-                        {
-                            //throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
-                            throw new ExpressionException("Operator error! \"" + token + "\". ");
                         }
                     }
-                    else if (token == "if" || token == "elseif")
+                    catch
                     {
-                        try
-                        {
-                            workstack.Pop();
-                            workstack.Pop();
-                        }
-                        catch
-                        {
-                            //throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
-                            throw new ExpressionException("Operator error! \"" + token + "\". ");
-                        }
+                        throw new ExpressionException("Operator error! \"" + token + "\". ");
                     }
-                    else
+
+                    if (kw.AlwaysReturnsValue)
                     {
-                        try
-                        {
-                            workstack.Pop();
-                            workstack.Pop();
-                            workstack.Push("0");
-                        }
-                        catch
-                        {
-                            //throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
-                            throw new ExpressionException("Operator error! \"" + token + "\". ");
-                        }
+                        workstack.Push("0");
                     }
                 }
                 else
                 {
                     workstack.Push(token);
                 }
+
             }
 
             if (workstack.Count != 1)

@@ -11,7 +11,7 @@ namespace ExpressionEvaluator.Procedures
         public Subtraction(int precedance) : base("-", precedance, 2)
         {
             _name2 = "Subtraction";
-            _doubledoubledouble = (x, y) => x - y;
+            DoubleDoubleDouble = (x, y) => x - y;
         }
     }
 }

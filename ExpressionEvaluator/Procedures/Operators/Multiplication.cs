@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures
         public Multiplication(int precedance) : base("*", precedance, 2)
         {
             _name2 = "Multiplication";
-            _doubledoubledouble = (x, y) => x * y;
+            DoubleDoubleDouble = (x, y) => x * y;
         }
     }
 }

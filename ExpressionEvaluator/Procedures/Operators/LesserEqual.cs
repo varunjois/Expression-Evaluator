@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures
         public LesserEqual(int precedance) : base("<=", precedance, 2)
         {
             _name2 = "LesserEqual";
-            _doubledoublebool = (x, y) => x <= y;
+            DoubleDoubleBool = (x, y) => x <= y;
         }
     }
 }

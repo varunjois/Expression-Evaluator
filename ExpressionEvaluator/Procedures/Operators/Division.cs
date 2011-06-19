@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures
         public Division(int precedance) : base("/", precedance, 2)
         {
             _name2 = "Division";
-            _doubledoubledouble = (x, y) =>
+            DoubleDoubleDouble = (x, y) =>
             {
                 if (y == 0)
                     return double.NaN;
