@@ -22,9 +22,50 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
 
         [Test]
-        public void DateTime_useHourFunction_IsCorrect()
+        public void DateTime_001_IsCorrect()
         {
-            func.Function = "now() < ( now() + hour(1) )";
+            func.Function = "( a - hour(1) ) < ( a - minute(1) )";
+            func.AddSetVariable("a", DateTime.Now);
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void DateTime_002_IsCorrect()
+        {
+            func.Function = "( a + hour(1) ) > ( a + minute(1) )";
+            func.AddSetVariable("a", DateTime.Now);
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void DateTime_003_IsCorrect()
+        {
+            func.Function = "a - minute(1) > a - hour(1)";
+            func.AddSetVariable("a", DateTime.Now);
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void DateTime_004_IsCorrect()
+        {
+            func.Function = "a + minute(1) < a + hour(1)";
+            func.AddSetVariable("a", DateTime.Now);
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void DateTime_005_IsCorrect()
+        {
+            func.Function = "( a - minute(1) ) < ( a - second(1) )";
+            func.AddSetVariable("a", DateTime.Now);
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void DateTime_006_IsCorrect()
+        {
+            func.Function = "a - second(1) > a - minute(1)";
+            func.AddSetVariable("a", DateTime.Now);
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 

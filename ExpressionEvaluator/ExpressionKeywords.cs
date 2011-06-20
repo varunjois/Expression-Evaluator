@@ -9,12 +9,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     {
         static public readonly List<Keyword> Keywords = new List<Keyword>
         {
-            new Addition(10),
-            new Subtraction(10),
             new Or(10),
-
-            new Multiplication(20),
-            new Division(20),
+            
             new And(20),
 
             new Equal(30),
@@ -25,16 +21,25 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             new NotEqual(30),
             new Power(30),
 
-            new Absolute(40),
-            new Negate(40),
-            new NaturalLog(40),
-            new Sign(40),
-            new Now(40),
-            new Hour(40),
 
-            new Conditional("if", 50, 2, false),
-            new Conditional("elseif", 50, 2, false),
-            new Conditional("else", 50, 1, true),
+            new Addition(40),
+            new Subtraction(40),
+
+            new Multiplication(50),
+            new Division(50),
+
+            new Absolute(60),
+            new Negate(60),
+            new NaturalLog(60),
+            new Sign(60),
+            new Now(60),
+            new Hour(60),
+            new Minute(60),
+            new Second(60),
+
+            new Conditional("if", 70, 2, false),
+            new Conditional("elseif", 70, 2, false),
+            new Conditional("else", 70, 1, true),
 
             new Grouping("Paranthesis", "(", ")"),
             new Grouping("Curley Braces", "{", "}"),

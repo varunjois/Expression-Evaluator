@@ -9,7 +9,7 @@ namespace ExpressionEvaluator.Procedures
             : base("hour", precedance, 1)
         {
             _name2 = "Hour";
-            DoubleTimespan = x => new TimeSpan(0, Convert.ToInt32(x), 0);
+            DoubleTimespan = x => new TimeSpan(Convert.ToInt32(x), 0, 0);
         }
     }
 }

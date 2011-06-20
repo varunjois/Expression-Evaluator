@@ -56,7 +56,9 @@
     <Compile Include="Keywords\Variable.cs" />
     <Compile Include="Procedures\Functions\Absolute.cs" />
     <Compile Include="Procedures\Functions\Hour.cs" />
+    <Compile Include="Procedures\Functions\Minute.cs" />
     <Compile Include="Procedures\Functions\Now.cs" />
+    <Compile Include="Procedures\Functions\Second.cs" />
     <Compile Include="Procedures\Functions\Sign.cs" />
     <Compile Include="Procedures\Operators\Addition.cs" />
     <Compile Include="Procedures\Operators\And.cs" />
