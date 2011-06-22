@@ -12,7 +12,9 @@ namespace ExpressionEvaluator.Procedures
         {
             _name2 = "Subtraction";
             DoubleDoubleDouble = (x, y) => x - y;
+            TimespanTimespanTimespan = (x, y) => x - y;
             DatetimeTimespanDatetime = (x, y) => x - y;
+            DatetimeDatetimeTimespan = (x, y) => x - y;
         }
     }
 }

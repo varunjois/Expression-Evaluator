@@ -17,7 +17,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             new GreaterEqual(30),
             new LesserEqual(30),
             new GreaterThan(30),
-            new LessThan(30),
+            new LesserThan(30),
             new NotEqual(30),
             new Power(30),
 
@@ -33,9 +33,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             new NaturalLog(60),
             new Sign(60),
             new Now(60),
+            new Day(60),
             new Hour(60),
             new Minute(60),
             new Second(60),
+            new Days(60),
+            new Hours(60),
+            new Minutes(60),
+            new Seconds(60),
 
             new Conditional("if", 70, 2, false),
             new Conditional("elseif", 70, 2, false),

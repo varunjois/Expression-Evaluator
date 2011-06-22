@@ -9,8 +9,11 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<DateTime> Datetime;
         protected Func<DateTime, double> DatetimeDouble;
         protected Func<double, TimeSpan> DoubleTimespan;
+        protected Func<TimeSpan, double> TimespanDouble;
         protected Func<DateTime, TimeSpan, DateTime> DatetimeTimespanDatetime;
+        protected Func<DateTime, DateTime, TimeSpan> DatetimeDatetimeTimespan;
         protected Func<TimeSpan, TimeSpan, TimeSpan> TimespanTimespanTimespan;
+        protected Func<TimeSpan, TimeSpan, bool> TimespanTimespanBool;
         protected Func<double, double, double> DoubleDoubleDouble;
         protected Func<bool, bool, bool> BoolBoolBool;
         protected Func<double, double, bool> DoubleDoubleBool;
@@ -64,6 +67,15 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
             }
 
+            if (TimespanDouble != null)
+            {
+                if (op1.Type == typeof(TimeSpan))
+                {
+                    var dOp1 = op1 as GenericOperand<TimeSpan>;
+                    return new GenericOperand<double>(TimespanDouble(dOp1.Value));
+                }
+            }
+
             throw new ExpressionException(_name2 + " operator used incorrectly.");
         }
 
@@ -86,6 +98,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     var bOp1 = op1 as GenericOperand<bool>;
                     var bOp2 = op2 as GenericOperand<bool>;
                     return new GenericOperand<bool>(BoolBoolBool(bOp1.Value, bOp2.Value));
+                }
+            }
+
+            if (TimespanTimespanBool != null)
+            {
+                if (op1.Type == typeof(TimeSpan) && op2.Type == typeof(TimeSpan))
+                {
+                    var bOp1 = op1 as GenericOperand<TimeSpan>;
+                    var bOp2 = op2 as GenericOperand<TimeSpan>;
+                    return new GenericOperand<bool>(TimespanTimespanBool(bOp1.Value, bOp2.Value));
                 }
             }
 
@@ -116,6 +138,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     var bOp1 = op1 as GenericOperand<DateTime>;
                     var bOp2 = op2 as GenericOperand<TimeSpan>;
                     return new GenericOperand<DateTime>(DatetimeTimespanDatetime(bOp1.Value, bOp2.Value));
+                }
+            }
+
+            if (DatetimeDatetimeTimespan != null)
+            {
+                if (op1.Type == typeof(DateTime) && op2.Type == typeof(DateTime))
+                {
+                    var bOp1 = op1 as GenericOperand<DateTime>;
+                    var bOp2 = op2 as GenericOperand<DateTime>;
+                    return new GenericOperand<TimeSpan>(DatetimeDatetimeTimespan(bOp1.Value, bOp2.Value));
                 }
             }
 

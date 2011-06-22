@@ -8,6 +8,8 @@ namespace ExpressionEvaluator.Procedures
         {
             _name2 = "LesserEqual";
             DoubleDoubleBool = (x, y) => x <= y;
+            TimespanTimespanBool = (x, y) => x <= y;
+            DatetimeDatetimeBool = (x, y) => x <= y;
         }
     }
 }

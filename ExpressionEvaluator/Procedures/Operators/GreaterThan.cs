@@ -8,6 +8,7 @@ namespace ExpressionEvaluator.Procedures
         {
             _name2 = "GreaterThan";
             DoubleDoubleBool = (x, y) => x > y;
+            TimespanTimespanBool = (x, y) => x > y;
             DatetimeDatetimeBool = (x, y) => x > y;
         }
     }

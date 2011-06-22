@@ -112,53 +112,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             {
                 string token = tokens[index];
 
-                //if (ExpressionKeywords.IsOperator(token))
-                //{
-                //    if (ExpressionKeywords.Functions.Contains(token) ||
-                //        token == "else")
-                //    {
-                //        try
-                //        {
-                //            workstack.Pop();
-                //            workstack.Push("0");
-                //        }
-                //        catch
-                //        {
-                //            throw new ExpressionException("Operator error! \"" + token + "\". ");
-                //        }
-                //    }
-                //    else if (token == "if" || token == "elseif")
-                //    {
-                //        try
-                //        {
-                //            workstack.Pop();
-                //            workstack.Pop();
-                //        }
-                //        catch
-                //        {
-                //            throw new ExpressionException("Operator error! \"" + token + "\". ");
-                //        }
-                //    }
-                //    else
-                //    {
-                //        try
-                //        {
-                //            workstack.Pop();
-                //            workstack.Pop();
-                //            workstack.Push("0");
-                //        }
-                //        catch
-                //        {
-                //            //throw new ExpressionException("Operator error! \"" + token + "\". " + inFix);
-                //            throw new ExpressionException("Operator error! \"" + token + "\". ");
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    workstack.Push(token);
-                //}
-
                 if (ExpressionKeywords.IsOperator(token)
                     || ExpressionKeywords.Functions.Contains(token)
                     || ExpressionKeywords.ConditionalOperators.Contains(token))

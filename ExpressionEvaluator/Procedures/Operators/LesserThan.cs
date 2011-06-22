@@ -2,12 +2,13 @@
 
 namespace ExpressionEvaluator.Procedures
 {
-    class LessThan : Operator
+    class LesserThan : Operator
     {
-        public LessThan(int precedance) : base("<", precedance, 2)
+        public LesserThan(int precedance) : base("<", precedance, 2)
         {
             _name2 = "LessThan";
             DoubleDoubleBool = (x, y) => x < y;
+            TimespanTimespanBool = (x, y) => x < y;
             DatetimeDatetimeBool = (x, y) => x < y;
         }
     }

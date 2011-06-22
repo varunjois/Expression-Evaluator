@@ -120,6 +120,11 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         #endregion
 
+        public void AddSetVariable(string name, TimeSpan val)
+        {
+            AddSetVariable<TimeSpan>(name, val);
+        }
+
         public void AddSetVariable(string name, double val)
         {
             AddSetVariable<double>(name, val);
@@ -134,8 +139,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             AddSetVariable<bool>(name, val);
         }
-
-
 
         private void AddSetVariable<T>(string name, T val)
         {
@@ -301,11 +304,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// <returns></returns>
         public double EvaluateNumeric()
         {
-            // TODO! Check to see that we have the variable that we need.
-
-            // Create a temporary vector to hold the secondary stack.
-            //return ConvertToOperand(Evaluate());
-            return ((GenericOperand<double>)Evaluate()).Value;
+            var result = Evaluate();
+            return ((GenericOperand<double>)result).Value;
         }
 
         /// <summary>
@@ -318,6 +318,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             var result = Evaluate();
             return ((GenericOperand<bool>)result).Value;
+        }
+
+        public T Evaluate<T>()
+        {
+            var result = Evaluate();
+            return ((GenericOperand<T>)result).Value;            
         }
 
         private IOperand Evaluate()

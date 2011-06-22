@@ -55,10 +55,15 @@
     <Compile Include="Keywords\Token.cs" />
     <Compile Include="Keywords\Variable.cs" />
     <Compile Include="Procedures\Functions\Absolute.cs" />
+    <Compile Include="Procedures\Functions\Day.cs" />
+    <Compile Include="Procedures\Functions\Days.cs" />
     <Compile Include="Procedures\Functions\Hour.cs" />
+    <Compile Include="Procedures\Functions\Hours.cs" />
     <Compile Include="Procedures\Functions\Minute.cs" />
+    <Compile Include="Procedures\Functions\Minutes.cs" />
     <Compile Include="Procedures\Functions\Now.cs" />
     <Compile Include="Procedures\Functions\Second.cs" />
+    <Compile Include="Procedures\Functions\Seconds.cs" />
     <Compile Include="Procedures\Functions\Sign.cs" />
     <Compile Include="Procedures\Operators\Addition.cs" />
     <Compile Include="Procedures\Operators\And.cs" />
@@ -67,7 +72,7 @@
     <Compile Include="Procedures\Operators\GreaterEqual.cs" />
     <Compile Include="Procedures\Operators\GreaterThan.cs" />
     <Compile Include="Procedures\Operators\LesserEqual.cs" />
-    <Compile Include="Procedures\Operators\LessThan.cs" />
+    <Compile Include="Procedures\Operators\LesserThan.cs" />
     <Compile Include="Procedures\Operators\Multiplication.cs" />
     <Compile Include="Procedures\Functions\NaturalLog.cs" />
     <Compile Include="Procedures\Functions\Negate.cs" />
