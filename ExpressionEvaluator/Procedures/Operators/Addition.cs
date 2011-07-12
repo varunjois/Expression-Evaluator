@@ -1,6 +1,6 @@
 ﻿using Vanderbilt.Biostatistics.Wfccm2;
 
-namespace ExpressionEvaluator.Procedures
+namespace ExpressionEvaluator.Procedures.Operators
 {
     class Addition : Operator
     {

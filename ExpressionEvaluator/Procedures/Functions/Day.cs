@@ -1,7 +1,7 @@
 ﻿using System;
 using Vanderbilt.Biostatistics.Wfccm2;
 
-namespace ExpressionEvaluator.Procedures
+namespace ExpressionEvaluator.Procedures.Functions
 {
     class Day : Function
     {

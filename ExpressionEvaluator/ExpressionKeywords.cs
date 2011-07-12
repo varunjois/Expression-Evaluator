@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExpressionEvaluator.Procedures;
+using ExpressionEvaluator.Procedures.Functions;
+using ExpressionEvaluator.Procedures.Operators;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
