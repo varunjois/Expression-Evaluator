@@ -11,6 +11,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<double, TimeSpan> DoubleTimespan;
         protected Func<TimeSpan, double> TimespanDouble;
         protected Func<DateTime, TimeSpan, DateTime> DatetimeTimespanDatetime;
+        protected Func<TimeSpan, DateTime, DateTime> TimespanDatetimeDatetime;
         protected Func<DateTime, DateTime, TimeSpan> DatetimeDatetimeTimespan;
         protected Func<TimeSpan, TimeSpan, TimeSpan> TimespanTimespanTimespan;
         protected Func<TimeSpan, TimeSpan, bool> TimespanTimespanBool;
@@ -138,6 +139,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     var bOp1 = op1 as GenericOperand<DateTime>;
                     var bOp2 = op2 as GenericOperand<TimeSpan>;
                     return new GenericOperand<DateTime>(DatetimeTimespanDatetime(bOp1.Value, bOp2.Value));
+                }
+            }
+
+            if (TimespanDatetimeDatetime != null)
+            {
+                if (op1.Type == typeof(DateTime) && op2.Type == typeof(TimeSpan))
+                {
+                    var bOp1 = op1 as GenericOperand<TimeSpan>;
+                    var bOp2 = op2 as GenericOperand<DateTime>;
+                    return new GenericOperand<DateTime>(TimespanDatetimeDatetime(bOp1.Value, bOp2.Value));
                 }
             }
 

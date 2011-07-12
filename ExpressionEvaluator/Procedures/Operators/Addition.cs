@@ -9,6 +9,7 @@ namespace ExpressionEvaluator.Procedures
             _name2 = "Addition";
             DoubleDoubleDouble = (x, y) => x + y;
             DatetimeTimespanDatetime = (x, y) => x + y;
+            TimespanDatetimeDatetime = (x, y) => y + x;
             TimespanTimespanTimespan = (x, y) => x + y;
         }
     }

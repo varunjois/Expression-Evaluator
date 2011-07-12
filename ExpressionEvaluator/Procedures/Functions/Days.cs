@@ -2,12 +2,12 @@
 
 namespace ExpressionEvaluator.Procedures
 {
-    class Days : Function
+    class TotalDays : Function
     {
-        public Days(int precedance)
-            : base("days", precedance, 1)
+        public TotalDays(int precedance)
+            : base("totaldays", precedance, 1)
         {
-            _name2 = "Days";
+            _name2 = "TotalDays";
             TimespanDouble = x => x.TotalDays;
         }
     }

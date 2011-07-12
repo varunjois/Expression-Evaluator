@@ -323,6 +323,14 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void Addition_TimeSpanDateTime_IsCorrect()
+        {
+            func.Function = "day(1) + a";
+            func.AddSetVariable("a", _now);
+            Assert.AreEqual(_now.AddDays(1), func.Evaluate<DateTime>());
+        }
+
+        [Test]
         public void Addition_TimeSpanTimeSpan_IsCorrect()
         {
             func.Function = "day(1) + day(1)";
