@@ -61,7 +61,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Seconds_Timespan_IsCorrect()
         {
-            func.Function = "seconds(a)";
+            func.Function = "totalseconds(a)";
             func.AddSetVariable("a", new TimeSpan(0, 1, 0));
             Assert.AreEqual(60, func.EvaluateNumeric());
         }
@@ -69,7 +69,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Minutes_Timespan_IsCorrect()
         {
-            func.Function = "minutes(a)";
+            func.Function = "totalminutes(a)";
             func.AddSetVariable("a", new TimeSpan(1, 0, 0));
             Assert.AreEqual(60, func.EvaluateNumeric());
         }
@@ -77,7 +77,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Hours_Timespan_IsCorrect()
         {
-            func.Function = "hours(a)";
+            func.Function = "totalhours(a)";
             func.AddSetVariable("a", new TimeSpan(1, 0, 0, 0));
             Assert.AreEqual(24, func.EvaluateNumeric());
         }
@@ -85,7 +85,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Days_Timespan_IsCorrect()
         {
-            func.Function = "days(a)";
+            func.Function = "totaldays(a)";
             func.AddSetVariable("a", new TimeSpan(2, 0, 0, 0));
             Assert.AreEqual(2, func.EvaluateNumeric());
         }

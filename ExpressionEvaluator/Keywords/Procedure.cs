@@ -144,7 +144,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
             if (TimespanDatetimeDatetime != null)
             {
-                if (op1.Type == typeof(DateTime) && op2.Type == typeof(TimeSpan))
+                if (op1.Type == typeof(TimeSpan) && op2.Type == typeof(DateTime))
                 {
                     var bOp1 = op1 as GenericOperand<TimeSpan>;
                     var bOp2 = op2 as GenericOperand<DateTime>;
@@ -172,7 +172,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
             }
 
-            throw new ExpressionException(_name2 + " operator used incorrectly. Operand types: " + op1.Type + ", " + op2.Type + ".");
+            throw new ExpressionException(_name2 + " operator used incorrectly. Operand types: " + op1.Type.Name + ", " + op2.Type.Name + ".");
         }
 
     }
