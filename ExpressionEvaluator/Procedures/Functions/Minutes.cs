@@ -3,12 +3,12 @@ using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class Minute : Function
+    class Minutes : Function
     {
-        public Minute(int precedance)
-            : base("minute", precedance, 1)
+        public Minutes(int precedance)
+            : base("minutes", precedance, 1)
         {
-            _name2 = "Minute";
+            _name2 = "Minutes";
             DoubleTimespan = x => new TimeSpan(0, Convert.ToInt32(x), 0);
         }
     }

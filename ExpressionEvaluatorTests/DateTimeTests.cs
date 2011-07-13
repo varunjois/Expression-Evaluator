@@ -30,7 +30,7 @@ namespace ExpressionEvaluatorTests
         public void DateTime_Day_IsCorrect()
         {
             var expected = new TimeSpan(1, 0, 0, 0);
-            func.Function = "day(1)";
+            func.Function = "days(1)";
             Assert.AreEqual(expected, func.Evaluate<TimeSpan>());
         }
 
@@ -38,7 +38,7 @@ namespace ExpressionEvaluatorTests
         public void DateTime_Hour_IsCorrect()
         {
             var expected = new TimeSpan(1, 0, 0);
-            func.Function = "hour(1)";
+            func.Function = "hours(1)";
             Assert.AreEqual(expected, func.Evaluate<TimeSpan>());
         }
 
@@ -46,7 +46,7 @@ namespace ExpressionEvaluatorTests
         public void DateTime_Minute_IsCorrect()
         {
             var expected = new TimeSpan(0, 1, 0);
-            func.Function = "minute(1)";
+            func.Function = "minutes(1)";
             Assert.AreEqual(expected, func.Evaluate<TimeSpan>());
         }
 
@@ -54,7 +54,7 @@ namespace ExpressionEvaluatorTests
         public void DateTime_Second_IsCorrect()
         {
             var expected = new TimeSpan(0, 0, 1);
-            func.Function = "second(1)";
+            func.Function = "seconds(1)";
             Assert.AreEqual(expected, func.Evaluate<TimeSpan>());
         }
 
@@ -93,14 +93,14 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void GreaterThan_TimeSpan_True()
         {
-            func.Function = "day(1) > second(1)";
+            func.Function = "days(1) > seconds(1)";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void GreaterThan_TimeSpan_False()
         {
-            func.Function = "second(1) > day(1)";
+            func.Function = "seconds(1) > days(1)";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -125,21 +125,21 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void GreaterEqual_TimeSpan_True()
         {
-            func.Function = "day(1) >= second(1)";
+            func.Function = "days(1) >= seconds(1)";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void GreaterEqual_TimeSpanEqual_True()
         {
-            func.Function = "day(1) >= day(1)";
+            func.Function = "days(1) >= days(1)";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void GreaterEqual_TimeSpan_False()
         {
-            func.Function = "second(1) >= day(1)";
+            func.Function = "seconds(1) >= days(1)";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -173,14 +173,14 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void LesserThan_TimeSpan_True()
         {
-            func.Function = "second(1) < day(1)";
+            func.Function = "seconds(1) < days(1)";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void LesserThan_TimeSpan_False()
         {
-            func.Function = "day(1) < second(1)";
+            func.Function = "days(1) < seconds(1)";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -205,21 +205,21 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void LesserEqual_TimeSpan_True()
         {
-            func.Function = "second(1) <= day(1)";
+            func.Function = "seconds(1) <= days(1)";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void LesserEqual_TimeSpanEqual_True()
         {
-            func.Function = "day(1) <= day(1)";
+            func.Function = "days(1) <= days(1)";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void LesserEqual_TimeSpan_False()
         {
-            func.Function = "day(1) <= second(1)";
+            func.Function = "days(1) <= seconds(1)";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -253,14 +253,14 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Equal_TimeSpan_True()
         {
-            func.Function = "day(1) == day(1)";
+            func.Function = "days(1) == days(1)";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void Equal_TimeSpan_False()
         {
-            func.Function = "day(1) == minute(1)";
+            func.Function = "days(1) == minutes(1)";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -285,14 +285,14 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void NotEqual_TimeSpan_True()
         {
-            func.Function = "day(1) != minute(1)";
+            func.Function = "days(1) != minutes(1)";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void NotEqual_TimeSpan_False()
         {
-            func.Function = "day(1) != day(1)";
+            func.Function = "days(1) != days(1)";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -317,7 +317,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Addition_DateTimeTimeSpan_IsCorrect()
         {
-            func.Function = "a + day(1)";
+            func.Function = "a + days(1)";
             func.AddSetVariable("a", _now);
             Assert.AreEqual(_now.AddDays(1), func.Evaluate<DateTime>());
         }
@@ -325,7 +325,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Addition_TimeSpanDateTime_IsCorrect()
         {
-            func.Function = "day(1) + a";
+            func.Function = "days(1) + a";
             func.AddSetVariable("a", _now);
             Assert.AreEqual(_now.AddDays(1), func.Evaluate<DateTime>());
         }
@@ -333,7 +333,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Addition_TimeSpanTimeSpan_IsCorrect()
         {
-            func.Function = "day(1) + day(1)";
+            func.Function = "days(1) + days(1)";
             func.AddSetVariable("a", _now);
             Assert.AreEqual(new TimeSpan(2, 0, 0, 0), func.Evaluate<TimeSpan>());
         }
@@ -341,7 +341,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Subtraction_DateTimeTimeSpan_IsCorrect()
         {
-            func.Function = "a - day(1)";
+            func.Function = "a - days(1)";
             func.AddSetVariable("a", _now);
             Assert.AreEqual(_now.AddDays(-1), func.Evaluate<DateTime>());
         }
@@ -349,7 +349,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Subtraction_TimeSpanTimeSpan_IsCorrect()
         {
-            func.Function = "day(2) - day(1)";
+            func.Function = "days(2) - days(1)";
             func.AddSetVariable("a", _now);
             Assert.AreEqual(new TimeSpan(1, 0, 0, 0), func.Evaluate<TimeSpan>());
         }
@@ -362,78 +362,5 @@ namespace ExpressionEvaluatorTests
             func.AddSetVariable("b", _now);
             Assert.AreEqual(new TimeSpan(1, 0, 0, 0), func.Evaluate<TimeSpan>());
         }
-
-
-        //[Test]
-        //public void DateTime_UseGetMinutesFunction_IsCorrect()
-        //{
-        //    DateTime a = DateTime.Now;
-        //    func.Function = "minutes(timeA - timeB)";
-        //    func.AddSetVariable("timeA", a);
-        //    func.AddSetVariable("timeB", a.AddMinutes(5));
-        //    Assert.AreEqual(5, func.EvaluateBoolean());
-        //}
-
-        //[Test]
-        //public void DateTime_UseGetHoursFunction_IsCorrect()
-        //{
-        //    DateTime a = DateTime.Now;
-        //    func.Function = "hours(timeA - timeB)";
-        //    func.AddSetVariable("timeA", a);
-        //    func.AddSetVariable("timeB", a.AddHours(5));
-        //    Assert.AreEqual(5, func.EvaluateBoolean());
-        //}
-
-        //[Test]
-        //public void DateTime_UseGetDayFunction_IsCorrect()
-        //{
-        //    DateTime a = DateTime.Now;
-        //    func.Function = "days(timeA - timeB)";
-        //    func.AddSetVariable("timeA", a);
-        //    func.AddSetVariable("timeB", a.AddDays(5));
-        //    Assert.AreEqual(5, func.EvaluateBoolean());
-        //}
-
-        //[Test]
-        //public void DateTime_UseGetMonthsFunction_IsCorrect()
-        //{
-        //    DateTime a = DateTime.Now;
-        //    func.Function = "months(timeA - timeB)";
-        //    func.AddSetVariable("timeA", a);
-        //    func.AddSetVariable("timeB", a.AddMonths(5));
-        //    Assert.AreEqual(5, func.EvaluateBoolean());
-        //}
-
-        //[Test]
-        //public void DateTime_UseGetYearsFunction_IsCorrect()
-        //{
-        //    DateTime a = DateTime.Now;
-        //    func.Function = "years(timeA - timeB)";
-        //    func.AddSetVariable("timeA", a);
-        //    func.AddSetVariable("timeB", a.AddYears(5));
-        //    Assert.AreEqual(5, func.EvaluateBoolean());
-        //}
-
-        //[Test]
-        //public void DateTime_BadExpression001_ExpressionException()
-        //{
-        //    func.Function = "a < now() + hour(1)";
-        //    func.AddSetVariable("a", DateTime.Now);
-        //    Assert.AreEqual(true, func.EvaluateBoolean());
-        //}
-
-        //[Test]
-        //[ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        //public void DateTime_BadExpression002_ExpressionException()
-        //{
-        //    func.Function = "now() < now() * 2";
-        //}
-
-        //[Test]
-        //[ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        //public void DateTime_BadExpression003_ExpressionException()
-        //{
-        //    func.Function = "5 * minutes(timeA)";
-        //}
     }
 }
