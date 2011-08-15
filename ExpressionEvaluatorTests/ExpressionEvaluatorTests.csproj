@@ -48,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanOperatorTests.cs" />
+    <Compile Include="CaseTests.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CaseTests.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConditionalTests.cs" />
     <Compile Include="DateTimeTests.cs" />
     <Compile Include="ExpressionTests.cs" />
@@ -62,6 +67,15 @@
       <Project>{8CE7CD5B-C847-4CC3-B173-D85B74D356C9}</Project>
       <Name>ExpressionEvaluator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CaseTests.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CaseTests.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

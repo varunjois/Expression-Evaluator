@@ -186,7 +186,19 @@ namespace PETNet.Olympus.Tests.ExpressionTesting.Interpreted.Functionality
             Assert.AreEqual(0.99999999999999, func.EvaluateNumeric());
         }
 
+        [Test]
+        public void Power_PositivePower_IsCorrect()
+        {
+            func.Function = "2^2";
+            Assert.AreEqual(4, func.EvaluateNumeric());
+        }
 
+        [Test]
+        public void Power_NegativePower_IsCorrect()
+        {
+            func.Function = "2^-2";
+            Assert.AreEqual(0.25, func.EvaluateNumeric());
+        }
 
     }
 

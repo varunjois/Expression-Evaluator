@@ -10,14 +10,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public InfixExpression(string expression)
         {
             _original = expression;
-            Expression = Expand(expression);
+            Expression = Expand(expression.ToLower());
             _tokens = Expression.Split(new[]
             { ' ' });
 
             CheckFunctionFormatting(Expression, _tokens);
             CheckGrouping(Expression);
             CheckConditionals(Expression, _tokens);
-
         }
 
         private string _expression;
@@ -73,7 +72,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             // Fix negative real values. Ex:  "1 + - 2" = "1 + -2". "1 + - 2e-1" = "1 + -2e-1".
             function = Regex.Replace(
                 function,
-                @"([<>=/*+(-] -|sign -|^-) (\d+|[0-9]+[eE][+-]\d+)(\s|$)",
+                @"([<>=/*+^(-] -|sign -|^-) (\d+|[0-9]+[eE][+-]\d+)(\s|$)",
                 @"$1$2$3");
 
             return function;
@@ -125,7 +124,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
 
                 n = function.IndexOfAny(ops, n + 1);
-
             }
 
             return function;
@@ -138,7 +136,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 var token = tokens[i];
                 if (ExpressionKeywords.Functions.Contains(token))
                 {
-                    if (i + 3 >= tokens.Count() || tokens[i + 1] != "(")
+                    var kw = ExpressionKeywords.Keywords.OfType<Function>().Where(x => x.Name == token).Select(x => x).Single();
+
+                    if (i + 2 + kw.NumParameters >= tokens.Count() || tokens[i + 1] != "(")
                         throw new ExpressionException("Function error! " +
                             token + " not formatted correctly. Open and close parenthesis required. " +
                             inFix);
@@ -176,7 +176,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     Grouping g = ExpressionKeywords.GetGroupingFromClose(token.ToString());
                     if (last.ToString() != g.Open)
                         throw new ExpressionException(errorMsg);
-
                 }
             }
 

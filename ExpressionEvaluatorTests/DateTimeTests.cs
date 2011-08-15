@@ -19,7 +19,6 @@ namespace ExpressionEvaluatorTests
         {
             this.func = new Expression("");
             _now = DateTime.Now;
-
         }
 
         [TearDown]

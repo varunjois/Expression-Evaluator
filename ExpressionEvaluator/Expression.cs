@@ -20,7 +20,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     ///  - Added generic collection implementation.
     /// </pre></remarks>
     [Serializable()]
-    public class Expression : MarshalByRefObject
+    public class Expression : MarshalByRefObject, IExpression
     {
         /// <summary>
         /// Dynaamic function type.
