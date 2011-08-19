@@ -1,12 +1,11 @@
-﻿ 
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
-    public class CaseTests
+    public class OperatorTest2
     {
         Expression func;
 
@@ -18,235 +17,235 @@ namespace ExpressionEvaluatorTests
         public void clear()
         { func.Clear(); }
 
-		[Test]
+        [Test]
         public void Sign_HasCaps_NoException()
         {
             func.Function = "Sign(a)";
         }
 
-		[Test]
+        [Test]
         public void Sign_AllLower_NoException()
         {
             func.Function = "sign(a)";
         }
 
-		[Test]
+        [Test]
         public void Sign_AllUpper_NoException()
         {
             func.Function = "SIGN(a)";
         }
 
-		[Test]
+        [Test]
         public void Abs_HasCaps_NoException()
         {
             func.Function = "Abs(a)";
         }
 
-		[Test]
+        [Test]
         public void Abs_AllLower_NoException()
         {
             func.Function = "abs(a)";
         }
 
-		[Test]
+        [Test]
         public void Abs_AllUpper_NoException()
         {
             func.Function = "ABS(a)";
         }
 
-		[Test]
+        [Test]
         public void Neg_HasCaps_NoException()
         {
             func.Function = "Neg(a)";
         }
 
-		[Test]
+        [Test]
         public void Neg_AllLower_NoException()
         {
             func.Function = "neg(a)";
         }
 
-		[Test]
+        [Test]
         public void Neg_AllUpper_NoException()
         {
             func.Function = "NEG(a)";
         }
 
-		[Test]
+        [Test]
         public void Ln_HasCaps_NoException()
         {
             func.Function = "Ln(a)";
         }
 
-		[Test]
+        [Test]
         public void Ln_AllLower_NoException()
         {
             func.Function = "ln(a)";
         }
 
-		[Test]
+        [Test]
         public void Ln_AllUpper_NoException()
         {
             func.Function = "LN(a)";
         }
 
-		[Test]
+        [Test]
         public void Now_HasCaps_NoException()
         {
             func.Function = "Now()";
         }
 
-		[Test]
+        [Test]
         public void Now_AllLower_NoException()
         {
             func.Function = "now()";
         }
 
-		[Test]
+        [Test]
         public void Now_AllUpper_NoException()
         {
             func.Function = "NOW()";
         }
 
-		[Test]
+        [Test]
         public void TotalDays_HasCaps_NoException()
         {
             func.Function = "TotalDays(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalDays_AllLower_NoException()
         {
             func.Function = "totaldays(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalDays_AllUpper_NoException()
         {
             func.Function = "TOTALDAYS(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalHours_HasCaps_NoException()
         {
             func.Function = "TotalHours(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalHours_AllLower_NoException()
         {
             func.Function = "totalhours(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalHours_AllUpper_NoException()
         {
             func.Function = "TOTALHOURS(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalMinutes_HasCaps_NoException()
         {
             func.Function = "TotalMinutes(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalMinutes_AllLower_NoException()
         {
             func.Function = "totalminutes(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalMinutes_AllUpper_NoException()
         {
             func.Function = "TOTALMINUTES(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalSeconds_HasCaps_NoException()
         {
             func.Function = "TotalSeconds(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalSeconds_AllLower_NoException()
         {
             func.Function = "totalseconds(a)";
         }
 
-		[Test]
+        [Test]
         public void TotalSeconds_AllUpper_NoException()
         {
             func.Function = "TOTALSECONDS(a)";
         }
 
-		[Test]
+        [Test]
         public void Days_HasCaps_NoException()
         {
             func.Function = "Days(a)";
         }
 
-		[Test]
+        [Test]
         public void Days_AllLower_NoException()
         {
             func.Function = "days(a)";
         }
 
-		[Test]
+        [Test]
         public void Days_AllUpper_NoException()
         {
             func.Function = "DAYS(a)";
         }
 
-		[Test]
+        [Test]
         public void Hours_HasCaps_NoException()
         {
             func.Function = "Hours(a)";
         }
 
-		[Test]
+        [Test]
         public void Hours_AllLower_NoException()
         {
             func.Function = "hours(a)";
         }
 
-		[Test]
+        [Test]
         public void Hours_AllUpper_NoException()
         {
             func.Function = "HOURS(a)";
         }
 
-		[Test]
+        [Test]
         public void Minutes_HasCaps_NoException()
         {
             func.Function = "Minutes(a)";
         }
 
-		[Test]
+        [Test]
         public void Minutes_AllLower_NoException()
         {
             func.Function = "minutes(a)";
         }
 
-		[Test]
+        [Test]
         public void Minutes_AllUpper_NoException()
         {
             func.Function = "MINUTES(a)";
         }
 
-		[Test]
+        [Test]
         public void Seconds_HasCaps_NoException()
         {
             func.Function = "Seconds(a)";
         }
 
-		[Test]
+        [Test]
         public void Seconds_AllLower_NoException()
         {
             func.Function = "seconds(a)";
         }
 
-		[Test]
+        [Test]
         public void Seconds_AllUpper_NoException()
         {
             func.Function = "SECONDS(a)";

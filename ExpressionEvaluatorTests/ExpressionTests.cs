@@ -194,11 +194,30 @@ namespace PETNet.Olympus.Tests.ExpressionTesting.Interpreted.Functionality
         }
 
         [Test]
-        public void Power_NegativePower_IsCorrect()
+        public void Power_PositiveWholeNegativePower_IsCorrect()
         {
             func.Function = "2^-2";
             Assert.AreEqual(0.25, func.EvaluateNumeric());
         }
+
+        /*
+            2, 2
+            2, 0.5
+            2, -2
+            2, -0.5
+            0.5, 2
+            0.5, 0.5
+            0.5, -2
+            0.5, -0.5
+            -2, 2
+            -2, 0.5
+            -2, -2
+            -2, -0.5
+            -0.5, 2
+            -0.5, 0.5
+            -0.5, -2
+            -0.5, -0.5
+        */
 
     }
 
