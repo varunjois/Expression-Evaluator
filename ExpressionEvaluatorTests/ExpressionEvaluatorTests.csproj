@@ -57,6 +57,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CaseTests.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodeGen\AbsFunctionTests.generated.cs">
+      <DependentUpon>FunctionTests.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGen\FunctionTests.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunctionTests.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGen\LnFunctionTests.generated.cs">
+      <DependentUpon>FunctionTests.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGen\NegFunctionTests.generated.cs">
+      <DependentUpon>FunctionTests.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeGen\SignFunctionTests.generated.cs">
+      <DependentUpon>FunctionTests.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConditionalTests.cs" />
     <Compile Include="DateTimeTests.cs" />
     <Compile Include="DivisionOperatorTests.generated.cs">
@@ -68,7 +85,7 @@
       <DependentUpon>OperatorTests.tt</DependentUpon>
     </Compile>
     <Compile Include="OperatorTests.cs" />
-    <Compile Include="OperatorTests1.cs">
+    <Compile Include="OperatorTests2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OperatorTests.tt</DependentUpon>
@@ -94,11 +111,15 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CaseTests.cs</LastGenOutput>
     </None>
-    <None Include="OperatorTests.tt">
+    <None Include="CodeGen\FunctionTests.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OperatorTests1.cs</LastGenOutput>
+      <LastGenOutput>FunctionTests.cs</LastGenOutput>
     </None>
     <None Include="Manager.ttinclude" />
+    <None Include="OperatorTests.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OperatorTests2.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

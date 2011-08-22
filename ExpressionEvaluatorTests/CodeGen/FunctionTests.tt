@@ -1,0 +1,169 @@
+﻿<#@ template debug="true" hostSpecific="true" #>
+<#@ output extension=".cs" #>
+<#@ Assembly Name="System.Windows.Forms.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ include file="..\Manager.ttinclude" #>
+<#
+    var manager = Manager.Create(Host, GenerationEnvironment); 
+
+    List<ValueDescription> negativeValues = new List<ValueDescription>
+    {
+        new ValueDescription("NegativeWhole", -2d),
+        new ValueDescription("NegativeFraction", -0.5d),
+    };
+    
+    List<ValueDescription> positiveValues = new List<ValueDescription>
+    {
+        new ValueDescription("PositiveWhole", 2d),
+        new ValueDescription("PositiveFraction", 0.5d),
+    };
+    
+    var doubleDoubleFunctions = new List<FunctionDescription<Func<double, double>>>
+    {
+        new FunctionDescription<Func<double, double>>("Ln", "ln", x=>Math.Log(x)),
+        new FunctionDescription<Func<double, double>>("Neg", "neg", x => -x),
+        new FunctionDescription<Func<double, double>>("Abs", "abs", x => Math.Abs(x)),
+        new FunctionDescription<Func<double, double>>("Sign", "sign", x => x < 0 ? -1 : 1 ),
+    };
+   
+    
+    var values = positiveValues.Union(negativeValues).ToList();
+    foreach(var func in doubleDoubleFunctions)
+    {
+        manager.StartNewFile(func.OpName + "FunctionTests.generated.cs"); 
+        StartClass(func.OpName + "OperatorTests");    
+        WriteFunctionTests(func.OpName, func.Op, values, func.Calculator);
+        WriteMalformedMissingRightParenTests(func.OpName, func.Op, values);            
+        WriteMalformedMissingLeftParenTests(func.OpName, func.Op, values);            
+        EndClass();
+        manager.EndBlock(); 
+    }
+    
+    manager.Process(true); 
+#>
+<#+
+    public void WriteFunctionTests(
+        string opName, 
+        string op,
+        List<ValueDescription> values,
+        Func<double, double> calculator)
+    {
+        foreach (var vd1 in values)
+        {
+            double outputVal = calculator(vd1.Value);
+            var valueString = double.NaN.Equals(outputVal) ? "double.NaN" : outputVal.ToString("R") + "d";
+#>
+        [Test]
+        public void <#= opName #>Operator_CalledWith<#= vd1.Description #>_IsCorrect()
+        {
+            func.Function = "<#= op #>(<#= vd1.Value #>)";
+            Assert.AreEqual(<#= valueString #>, func.EvaluateNumeric());
+        }
+        
+<#+
+        }
+    }
+    
+    public void WriteMalformedMissingRightParenTests(
+        string opName, 
+        string op,
+        List<ValueDescription> values)
+    {
+        foreach (var vd1 in values)
+        {
+#>
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void <#= opName #>Operator_MalformedExpressionMissingRightParen<#= vd1.Description #>Argument_ThrowsException()
+        {
+            func.Function = "<#= op #>(<#= vd1.Value #>";
+        }
+        
+<#+
+        }
+    }
+
+    public void WriteMalformedMissingLeftParenTests(
+        string opName, 
+        string op,
+        List<ValueDescription> values)
+    {
+        foreach (var vd1 in values)
+        {
+#>
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void <#= opName #>Operator_MalformedExpressionMissingLeftParen<#= vd1.Description #>Argument_ThrowsException()
+        {
+            func.Function = "<#= op #> <#= vd1.Value #>)";
+        }
+        
+<#+
+        }
+    }
+
+
+    public void StartClass(string name)
+    {
+#>
+// ReSharper disable InconsistentNaming
+using NUnit.Framework;
+using Vanderbilt.Biostatistics.Wfccm2;
+
+namespace ExpressionEvaluatorTests
+{
+    [TestFixture]
+    public class <#= name #>
+    {
+        Expression func;
+
+        [SetUp]
+        public void init()
+        { this.func = new Expression(""); }
+
+        [TearDown]
+        public void clear()
+        { func.Clear(); }
+        
+<#+
+    }
+
+    public void EndClass()
+    {
+#>
+    }
+}
+<#+
+    }
+
+    public class ValueDescription
+    {
+        public ValueDescription(string description, double value)
+        {
+            Value = value;
+            Description = description;
+        }
+        
+        public double Value;
+        public string Description;
+    }
+
+    public class FunctionDescription<T>
+    {
+        public FunctionDescription(string opName, string op, T calculator)
+        {
+            OpName = opName;
+            Op = op;
+            Calculator = calculator;
+        }
+        
+        public string OpName;
+        public string Op;
+        public T Calculator;
+    }
+#>
