@@ -43,13 +43,6 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void Addition002()
-        {
-            func.Function = "+2";
-            Assert.AreEqual(2, func.EvaluateNumeric(), "Expected 2");
-        }
-
-        [Test]
         public void Ln_001()
         {
             func.Function = "ln(5)";
@@ -170,41 +163,6 @@ namespace ExpressionEvaluatorTests
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void Addition_BadExpression001_ExpressionException()
-        {
-            func.Function = "1+";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void Division_BadExpression001_ExpressionException()
-        {
-            func.Function = "/73";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void Division_BadExpression002_ExpressionException()
-        {
-            func.Function = "/9832";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void Multiplication_BadExpression001_ExpressionException()
-        {
-            func.Function = "*2";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void Multiplication_BadExpression002_ExpressionException()
-        {
-            func.Function = "3*";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void MulitpleOperators_BadExpression001_ExpressionException()
         {
             func.Function = "1+(2*)";
@@ -243,27 +201,6 @@ namespace ExpressionEvaluatorTests
         public void Negation_BadExpression001_ExpressionException()
         {
             func.Function = "9832 neg";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void Power_BadExpression001_ExpressionException()
-        {
-            func.Function = "2^";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void Power_BadExpression002_ExpressionException()
-        {
-            func.Function = "^2";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void Subtraction_BadExpression001_ExpressionException()
-        {
-            func.Function = "332-";
         }
 
     }

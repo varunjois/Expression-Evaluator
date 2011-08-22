@@ -144,7 +144,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
             if (workstack.Count != 1)
             {
-                //throw new ExpressionException("Expression formatted incorrecty! " + inFix);
                 throw new ExpressionException("Expression formatted incorrecty! ");
             }
         }

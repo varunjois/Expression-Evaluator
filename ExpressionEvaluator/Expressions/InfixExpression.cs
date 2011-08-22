@@ -66,65 +66,25 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             function = function.Trim();
             function = Regex.Replace(function, @"[ ]+", @" "); // Collapses multiple spaces
 
-            // Find and correct for scientific notation
-            function = ScientificNotationCorrection(function);
+            // Fix scientific notation.
+            function = Regex.Replace(function, @"(\d)[ ]?e[ ]?([+-])[ ]?(\d+)", @"$1e$2$3");
 
-            // Fix negative real values. Ex:  "1 + - 2" = "1 + -2". "1 + - 2e-1" = "1 + -2e-1".
-            function = Regex.Replace(
-                function,
-                @"([<>=/*+^(-] -|sign -|^-) (\d+|[0-9]+[eE][+-]\d+)(\s|$)",
-                @"$1$2$3");
+            //function = ScientificNotationCorrection(function);
+            function = FixNegativeRealValues(function);
 
             return function;
         }
 
-        // Corrects for spaced function...
-        /// <summary>
-        /// Corrects scientific notation in an expression.
-        /// </summary>
-        /// <param name="function">The expanded function to check.</param>
-        /// <returns>The corrected expanded function</returns>
-        public static string ScientificNotationCorrection(string function)
+        private string FixNegativeRealValues(string function)
         {
-            char[] ops = { '-', '+' };
-            int n = function.IndexOfAny(ops, 0);
-            while ((n <= function.Length) && (n > -1))
-            {
-                // Find the previous space.
-                int prevCut = -1;
-                int nextCut = -1;
+            // Fix negatives a the start of a function.
+            function = Regex.Replace( function, @"^- (\b)", @"-$1");
 
-                if (n - 2 <= 0)
-                    prevCut = 0;
-                else
-                    prevCut = function.LastIndexOf(" ", n - 2, n - 2) + 1;
+            // Fix negatives after a math function.
+            function = Regex.Replace(function, @"([+-/\(^*]) - (\d)", @"$1 -$2");
 
-                if (n + 2 < function.Length)
-                    nextCut = function.IndexOf(" ", n + 2);
-                else
-                    nextCut = function.Length;
-                nextCut = (nextCut == -1 ? function.Length : nextCut);
-
-                string checkMeSpace = function.Substring(prevCut, nextCut - prevCut);
-                string checkMe = checkMeSpace.Replace(" ", string.Empty);
-
-                bool realValue = false;
-                double val = Double.NaN;
-                try
-                {
-                    val = Double.Parse(checkMe);
-                    realValue = true;
-                }
-                catch { }
-
-                if (realValue)
-                {
-                    function = function.Replace(checkMeSpace, checkMe);
-                    n = prevCut + checkMe.Length - 1;
-                }
-
-                n = function.IndexOfAny(ops, n + 1);
-            }
+            // Fix negatives between two numbers.
+            function = Regex.Replace(function, @"(\d)[ ]*-[ ]*(\d)", @"$1 - $2");
 
             return function;
         }
