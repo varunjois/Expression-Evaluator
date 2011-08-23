@@ -1,11 +1,11 @@
-﻿// ReSharper disable InconsistentNaming
+// ReSharper disable InconsistentNaming
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
-    public class OperatorTest2
+    public class CaseTests
     {
         Expression func;
 
@@ -16,7 +16,7 @@ namespace ExpressionEvaluatorTests
         [TearDown]
         public void clear()
         { func.Clear(); }
-
+        
         [Test]
         public void Sign_HasCaps_NoException()
         {
@@ -34,7 +34,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "SIGN(a)";
         }
-
+		
         [Test]
         public void Abs_HasCaps_NoException()
         {
@@ -52,7 +52,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "ABS(a)";
         }
-
+		
         [Test]
         public void Neg_HasCaps_NoException()
         {
@@ -70,7 +70,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "NEG(a)";
         }
-
+		
         [Test]
         public void Ln_HasCaps_NoException()
         {
@@ -88,7 +88,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "LN(a)";
         }
-
+		
         [Test]
         public void Now_HasCaps_NoException()
         {
@@ -106,7 +106,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "NOW()";
         }
-
+		
         [Test]
         public void TotalDays_HasCaps_NoException()
         {
@@ -124,7 +124,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "TOTALDAYS(a)";
         }
-
+		
         [Test]
         public void TotalHours_HasCaps_NoException()
         {
@@ -142,7 +142,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "TOTALHOURS(a)";
         }
-
+		
         [Test]
         public void TotalMinutes_HasCaps_NoException()
         {
@@ -160,7 +160,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "TOTALMINUTES(a)";
         }
-
+		
         [Test]
         public void TotalSeconds_HasCaps_NoException()
         {
@@ -178,7 +178,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "TOTALSECONDS(a)";
         }
-
+		
         [Test]
         public void Days_HasCaps_NoException()
         {
@@ -196,7 +196,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "DAYS(a)";
         }
-
+		
         [Test]
         public void Hours_HasCaps_NoException()
         {
@@ -214,7 +214,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "HOURS(a)";
         }
-
+		
         [Test]
         public void Minutes_HasCaps_NoException()
         {
@@ -232,7 +232,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "MINUTES(a)";
         }
-
+		
         [Test]
         public void Seconds_HasCaps_NoException()
         {
@@ -250,5 +250,6 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "SECONDS(a)";
         }
+		
     }
-} 
+}

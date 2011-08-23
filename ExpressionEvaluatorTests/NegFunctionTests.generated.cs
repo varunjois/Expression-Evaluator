@@ -5,7 +5,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
-    public class AbsOperatorTests
+    public class NegFunctionTests
     {
         Expression func;
 
@@ -18,87 +18,87 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
         
         [Test]
-        public void AbsOperator_CalledWithPositiveWhole_IsCorrect()
+        public void NegOperator_CalledWithPositiveWhole_IsCorrect()
         {
-            func.Function = "abs(2)";
+            func.Function = "neg(2)";
+            Assert.AreEqual(-2d, func.EvaluateNumeric());
+        }
+        
+        [Test]
+        public void NegOperator_CalledWithPositiveFraction_IsCorrect()
+        {
+            func.Function = "neg(0.5)";
+            Assert.AreEqual(-0.5d, func.EvaluateNumeric());
+        }
+        
+        [Test]
+        public void NegOperator_CalledWithNegativeWhole_IsCorrect()
+        {
+            func.Function = "neg(-2)";
             Assert.AreEqual(2d, func.EvaluateNumeric());
         }
         
         [Test]
-        public void AbsOperator_CalledWithPositiveFraction_IsCorrect()
+        public void NegOperator_CalledWithNegativeFraction_IsCorrect()
         {
-            func.Function = "abs(0.5)";
-            Assert.AreEqual(0.5d, func.EvaluateNumeric());
-        }
-        
-        [Test]
-        public void AbsOperator_CalledWithNegativeWhole_IsCorrect()
-        {
-            func.Function = "abs(-2)";
-            Assert.AreEqual(2d, func.EvaluateNumeric());
-        }
-        
-        [Test]
-        public void AbsOperator_CalledWithNegativeFraction_IsCorrect()
-        {
-            func.Function = "abs(-0.5)";
+            func.Function = "neg(-0.5)";
             Assert.AreEqual(0.5d, func.EvaluateNumeric());
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void AbsOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
+        public void NegOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "abs(2";
+            func.Function = "neg(2";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void AbsOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
+        public void NegOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "abs(0.5";
+            func.Function = "neg(0.5";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void AbsOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
+        public void NegOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "abs(-2";
+            func.Function = "neg(-2";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void AbsOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
+        public void NegOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "abs(-0.5";
+            func.Function = "neg(-0.5";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void AbsOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
+        public void NegOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "abs 2)";
+            func.Function = "neg 2)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void AbsOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
+        public void NegOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "abs 0.5)";
+            func.Function = "neg 0.5)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void AbsOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
+        public void NegOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "abs -2)";
+            func.Function = "neg -2)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void AbsOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
+        public void NegOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "abs -0.5)";
+            func.Function = "neg -0.5)";
         }
         
     }

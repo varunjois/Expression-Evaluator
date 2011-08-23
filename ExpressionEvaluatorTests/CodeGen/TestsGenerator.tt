@@ -1,0 +1,79 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ output extension="cs" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ include file="T4Toolbox.tt" #>
+<#@ include file="TestsTemplate.tt" #>
+<#@ include file="FunctionTestsTemplate.tt" #>
+<#@ include file="OperatorTestsTemplate.tt" #>
+<#@ include file="CaseTestsTemplate.tt" #>
+<#
+
+    List<ValueDescription> negativeValues = new List<ValueDescription>
+    {
+        new ValueDescription("NegativeWhole", -2d),
+        new ValueDescription("NegativeFraction", -0.5d),
+    };
+    
+    List<ValueDescription> positiveValues = new List<ValueDescription>
+    {
+        new ValueDescription("PositiveWhole", 2d),
+        new ValueDescription("PositiveFraction", 0.5d),
+    };
+    
+    var doubleDoubleFunctions = new List<FunctionDescription<Func<double, double>>>
+    {
+        new FunctionDescription<Func<double, double>>("Ln", "ln", x=>Math.Log(x)),
+        new FunctionDescription<Func<double, double>>("Neg", "neg", x => -x),
+        new FunctionDescription<Func<double, double>>("Abs", "abs", x => Math.Abs(x)),
+        new FunctionDescription<Func<double, double>>("Sign", "sign", x => x < 0 ? -1 : 1 ),
+    };
+
+    List<OperatorDescription> leftRightOperators = new List<OperatorDescription>
+    {
+        new OperatorDescription("Addition", "+", (a,b)=>a+b),
+        new OperatorDescription("Subtraction", "-", (a,b)=>a-b, true),
+        new OperatorDescription("Multiplication", "*", (a,b)=>a*b),
+        new OperatorDescription("Division", "/", (a,b)=>a/b),
+        new OperatorDescription("Power", "^", (a,b)=>Math.Pow(a,b)),
+    };
+
+
+    var values = positiveValues.Union(negativeValues).ToList();
+    
+    foreach(var func in doubleDoubleFunctions)
+    {
+        var template = new FunctionTestsTemplate();
+        template.Output.File = @"..\" + func.OpName + @"FunctionTests.generated.cs";
+        template.ClassName = func.OpName + "FunctionTests";
+        template.OperatorName = func.OpName;
+        template.Operator = func.Op;    
+        template.Values = values;
+        template.Calculator = func.Calculator;
+        template.Render();
+    }
+    
+    foreach(var op in leftRightOperators)
+    {
+        var template = new OperatorTestsTemplate();
+        template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
+        template.ClassName = op.OpName + "OperatorTests";
+        template.OperatorName = op.OpName;
+        template.Operator = op.Op;    
+        template.Values = values;
+        template.NegativeValues = negativeValues;
+        template.MalformedRightNegativeOnly = op.MalformedRightNegativeOnly;
+        template.Calculator = op.Calculator;
+        template.Render();
+    }
+    
+    var t = new CaseTestsTemplate();
+    t.Output.File = @"..\CaseTests.generated.cs";
+    t.ClassName = "CaseTests";
+    t.Render();
+#>

@@ -5,7 +5,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
-    public class LnOperatorTests
+    public class AbsFunctionTests
     {
         Expression func;
 
@@ -18,87 +18,87 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
         
         [Test]
-        public void LnOperator_CalledWithPositiveWhole_IsCorrect()
+        public void AbsOperator_CalledWithPositiveWhole_IsCorrect()
         {
-            func.Function = "ln(2)";
-            Assert.AreEqual(0.69314718055994529d, func.EvaluateNumeric());
+            func.Function = "abs(2)";
+            Assert.AreEqual(2d, func.EvaluateNumeric());
         }
         
         [Test]
-        public void LnOperator_CalledWithPositiveFraction_IsCorrect()
+        public void AbsOperator_CalledWithPositiveFraction_IsCorrect()
         {
-            func.Function = "ln(0.5)";
-            Assert.AreEqual(-0.69314718055994529d, func.EvaluateNumeric());
+            func.Function = "abs(0.5)";
+            Assert.AreEqual(0.5d, func.EvaluateNumeric());
         }
         
         [Test]
-        public void LnOperator_CalledWithNegativeWhole_IsCorrect()
+        public void AbsOperator_CalledWithNegativeWhole_IsCorrect()
         {
-            func.Function = "ln(-2)";
-            Assert.AreEqual(double.NaN, func.EvaluateNumeric());
+            func.Function = "abs(-2)";
+            Assert.AreEqual(2d, func.EvaluateNumeric());
         }
         
         [Test]
-        public void LnOperator_CalledWithNegativeFraction_IsCorrect()
+        public void AbsOperator_CalledWithNegativeFraction_IsCorrect()
         {
-            func.Function = "ln(-0.5)";
-            Assert.AreEqual(double.NaN, func.EvaluateNumeric());
-        }
-        
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
-        {
-            func.Function = "ln(2";
+            func.Function = "abs(-0.5)";
+            Assert.AreEqual(0.5d, func.EvaluateNumeric());
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
+        public void AbsOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "ln(0.5";
+            func.Function = "abs(2";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
+        public void AbsOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "ln(-2";
+            func.Function = "abs(0.5";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
+        public void AbsOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "ln(-0.5";
+            func.Function = "abs(-2";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
+        public void AbsOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "ln 2)";
+            func.Function = "abs(-0.5";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
+        public void AbsOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "ln 0.5)";
+            func.Function = "abs 2)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
+        public void AbsOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "ln -2)";
+            func.Function = "abs 0.5)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
+        public void AbsOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "ln -0.5)";
+            func.Function = "abs -2)";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void AbsOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
+        {
+            func.Function = "abs -0.5)";
         }
         
     }
