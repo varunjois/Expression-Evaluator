@@ -59,16 +59,21 @@
     </Compile>
     <Compile Include="ConditionalTests.cs" />
     <Compile Include="DateTimeTests.cs" />
+    <Compile Include="DaysFunctionTests.generated.cs" />
     <Compile Include="DivisionOperatorTests.generated.cs" />
     <Compile Include="ExpressionTests.cs" />
     <Compile Include="GroupingTests.cs" />
+    <Compile Include="HoursFunctionTests.generated.cs" />
     <Compile Include="LnFunctionTests.generated.cs" />
+    <Compile Include="MinutesFunctionTests.generated.cs" />
     <Compile Include="MultiplicationOperatorTests.generated.cs" />
     <Compile Include="NegFunctionTests.generated.cs" />
     <Compile Include="OperatorTests.cs" />
     <Compile Include="PowerOperatorTests.generated.cs" />
+    <Compile Include="PrecedenceTestsBase.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScientificNotationTests.cs" />
+    <Compile Include="SecondsFunctionTests.generated.cs" />
     <Compile Include="SignFunctionTests.generated.cs" />
     <Compile Include="SubtractionOperatorTests.generated.cs" />
     <Compile Include="VariableTests.cs" />
@@ -81,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CodeGen\CaseTestsTemplate.tt" />
+    <None Include="CodeGen\PrecedenceTestsTemplate.tt" />
     <None Include="CodeGen\OperatorTestsTemplate.tt" />
     <None Include="CodeGen\TestsGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

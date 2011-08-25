@@ -1,4 +1,5 @@
 // ReSharper disable InconsistentNaming
+using System;
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
@@ -251,5 +252,59 @@ namespace ExpressionEvaluatorTests
             func.Function = "SECONDS(a)";
         }
 		
+        [Test]
+        public void Variable_FormulaIsMixedCaseVariableIsMixedCase_NoException()
+        {
+            func.Function = "aAaA";
+            Assert.IsTrue(func.IsVariable("aAaA"));
+        }		
+        [Test]
+        public void Variable_FormulaIsMixedCaseVariableIsAllCaps_NoException()
+        {
+            func.Function = "aAaA";
+            Assert.IsTrue(func.IsVariable("AAAA"));
+        }		
+        [Test]
+        public void Variable_FormulaIsMixedCaseVariableIsAllLower_NoException()
+        {
+            func.Function = "aAaA";
+            Assert.IsTrue(func.IsVariable("aaaa"));
+        }		
+        [Test]
+        public void Variable_FormulaIsAllCapsVariableIsMixedCase_NoException()
+        {
+            func.Function = "AAAA";
+            Assert.IsTrue(func.IsVariable("aAaA"));
+        }		
+        [Test]
+        public void Variable_FormulaIsAllCapsVariableIsAllCaps_NoException()
+        {
+            func.Function = "AAAA";
+            Assert.IsTrue(func.IsVariable("AAAA"));
+        }		
+        [Test]
+        public void Variable_FormulaIsAllCapsVariableIsAllLower_NoException()
+        {
+            func.Function = "AAAA";
+            Assert.IsTrue(func.IsVariable("aaaa"));
+        }		
+        [Test]
+        public void Variable_FormulaIsAllLowerVariableIsMixedCase_NoException()
+        {
+            func.Function = "aaaa";
+            Assert.IsTrue(func.IsVariable("aAaA"));
+        }		
+        [Test]
+        public void Variable_FormulaIsAllLowerVariableIsAllCaps_NoException()
+        {
+            func.Function = "aaaa";
+            Assert.IsTrue(func.IsVariable("AAAA"));
+        }		
+        [Test]
+        public void Variable_FormulaIsAllLowerVariableIsAllLower_NoException()
+        {
+            func.Function = "aaaa";
+            Assert.IsTrue(func.IsVariable("aaaa"));
+        }		
     }
 }

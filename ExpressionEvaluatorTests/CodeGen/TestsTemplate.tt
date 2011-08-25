@@ -11,6 +11,7 @@ public class TestsTemplate : Template
     {
 #>
 // ReSharper disable InconsistentNaming
+using System;
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
@@ -39,6 +40,7 @@ namespace ExpressionEvaluatorTests
 }
 <#+
     }
+
 }
 
 public class ValueDescription
@@ -53,41 +55,4 @@ public class ValueDescription
     public string Description;
 }
 
-public class FunctionDescription<T>
-{
-    public FunctionDescription(string opName, string op, T calculator)
-    {
-        OpName = opName;
-        Op = op;
-        Calculator = calculator;
-    }
-    
-    public string OpName;
-    public string Op;
-    public T Calculator;
-}
-
-public class OperatorDescription
-{
-    public OperatorDescription(string opName, string op, Func<double, double, double> calculator, bool malformedRightNegativeOnly)
-	{
-        OpName = opName;
-		Op = op;
-    	Calculator = calculator;
-		MalformedRightNegativeOnly = malformedRightNegativeOnly;
-	}
-	
-    public OperatorDescription(string opName, string op, Func<double, double, double> calculator)
-    {
-        OpName = opName;
-		Op = op;
-    	Calculator = calculator;
-    }
-    
-    public string OpName;
-	public string Op;
-	public Func<double, double, double> Calculator;
-	
-	public bool MalformedRightNegativeOnly = false;
-}
 #>

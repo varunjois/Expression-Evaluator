@@ -1,4 +1,5 @@
 // ReSharper disable InconsistentNaming
+using System;
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
@@ -99,6 +100,34 @@ namespace ExpressionEvaluatorTests
         public void NegOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
         {
             func.Function = "neg -0.5)";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void NegOperator_MalformedExpressionMissingBothParenthesisPositiveWholeArgument_ThrowsException()
+        {
+            func.Function = "neg 2";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void NegOperator_MalformedExpressionMissingBothParenthesisPositiveFractionArgument_ThrowsException()
+        {
+            func.Function = "neg 0.5";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void NegOperator_MalformedExpressionMissingBothParenthesisNegativeWholeArgument_ThrowsException()
+        {
+            func.Function = "neg -2";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void NegOperator_MalformedExpressionMissingBothParenthesisNegativeFractionArgument_ThrowsException()
+        {
+            func.Function = "neg -0.5";
         }
         
     }

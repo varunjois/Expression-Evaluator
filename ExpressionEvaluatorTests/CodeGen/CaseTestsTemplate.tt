@@ -24,21 +24,28 @@ public class CaseTestsTemplate : TestsTemplate
 	        "d"
 	    };
 	    
+		List<Tuple<string,string>> variableNames = new List<Tuple<string,string>>
+		{
+			new Tuple<string,string>("aAaA", "MixedCase"),
+			new Tuple<string,string>("AAAA", "AllCaps"),
+			new Tuple<string,string>("aaaa", "AllLower"),
+		};
+		
 	    List<Func> funcs = new List<Func>()
 	    {
-	        new Func{Name = "Sign", NumParameters = 1},
-	        new Func{Name = "Abs", NumParameters = 1},
-	        new Func{Name = "Neg", NumParameters = 1},
-	        new Func{Name = "Ln", NumParameters = 1},
-	        new Func{Name = "Now", NumParameters = 0},
-	        new Func{Name = "TotalDays", NumParameters = 1},
-	        new Func{Name = "TotalHours", NumParameters = 1},
-	        new Func{Name = "TotalMinutes", NumParameters = 1},
-	        new Func{Name = "TotalSeconds", NumParameters = 1},
-	        new Func{Name = "Days", NumParameters = 1},
-	        new Func{Name = "Hours", NumParameters = 1},
-	        new Func{Name = "Minutes", NumParameters = 1},
-	        new Func{Name = "Seconds", NumParameters = 1},
+	        new Func("Sign", 1),
+	        new Func("Abs", 1),
+	        new Func("Neg", 1),
+	        new Func("Ln", 1),
+	        new Func("Now", 0),
+	        new Func("TotalDays", 1),
+	        new Func("TotalHours", 1),
+	        new Func("TotalMinutes", 1),
+	        new Func("TotalSeconds", 1),
+	        new Func("Days", 1),
+	        new Func("Hours", 1),
+	        new Func("Minutes", 1),
+	        new Func("Seconds", 1),
 	    };
 
 	    foreach (var f in funcs)
@@ -71,11 +78,33 @@ public class CaseTestsTemplate : TestsTemplate
 		
 <#+
     	}
+		
+		foreach(Tuple<string, string> v1 in variableNames)
+		{
+			foreach(Tuple<string, string> v2 in variableNames)
+			{
+#>
+        [Test]
+        public void Variable_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>_NoException()
+        {
+            func.Function = "<#= v1.Item1 #>";
+            Assert.IsTrue(func.IsVariable("<#= v2.Item1 #>"));
+        }		
+<#+
+            }
+		}
+		
     }
 }
 
 public class Func
 {
+	public Func(string name, int numParamameters)
+	{
+		Name = name;
+		NumParameters = numParamameters;
+	}
+	
     public string Name;
     public int NumParameters;
 }

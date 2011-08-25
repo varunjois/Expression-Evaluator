@@ -9,7 +9,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
-    public class OperatorTests
+    public class PrecedanceTests
     {
         Expression func;
 
@@ -22,32 +22,46 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
 
         [Test]
-        public void Abs001()
+        public void Precedance_AdditionSubtraction_IsCorrect()
         {
-            func.Function = "abs(-165)";
-            Assert.AreEqual(165, func.EvaluateNumeric());
+            func.Function = "2 + 3 - 2";
+            Assert.AreEqual(3, func.EvaluateNumeric());
         }
 
         [Test]
-        public void Abs002()
+        public void Precedance_SubtractionAddition_IsCorrect()
         {
-            func.Function = "abs(8964)";
-            Assert.AreEqual(8964, func.EvaluateNumeric());
+            func.Function = "3 - 2 + 2";
+            Assert.AreEqual(3, func.EvaluateNumeric());
         }
 
         [Test]
-        public void Abs003()
+        public void Precedance_AdditionMultiplication_IsCorrect()
         {
-            func.Function = "abs(0)";
-            Assert.AreEqual(0, func.EvaluateNumeric());
+            func.Function = "2 * 3 - 2";
+            Assert.AreEqual(4, func.EvaluateNumeric());
         }
 
         [Test]
-        public void Ln_001()
+        public void Precedance_MultiplicationAddition_IsCorrect()
         {
-            func.Function = "ln(5)";
-            Assert.AreEqual(1.6094379124341003, func.EvaluateNumeric());
+            func.Function = "8 - 2 * 3";
+            Assert.AreEqual(2, func.EvaluateNumeric());
         }
+    }
+
+    [TestFixture]
+    public class OperatorTests
+    {
+        Expression func;
+
+        [SetUp]
+        public void init()
+        { this.func = new Expression(); }
+
+        [TearDown]
+        public void clear()
+        { func.Clear(); }
 
         [Test]
         public void Ln_002()
@@ -64,49 +78,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void Negation002()
-        {
-            func.Function = "neg(9832)";
-            Assert.AreEqual(-9832, func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void Sign001()
-        {
-            func.Function = "sign(-9832)";
-            Assert.AreEqual(-1, func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void Sign002()
-        {
-            func.Function = "sign(2341)";
-            Assert.AreEqual(1, func.EvaluateNumeric());
-        }
-
-        [Test]
         public void Sign003()
-        {
-            func.Function = "sign(0)";
-            Assert.AreEqual(1, func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void Sign004()
-        {
-            func.Function = "sign(-12)";
-            Assert.AreEqual(-1, func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void Sign005()
-        {
-            func.Function = "sign(12)";
-            Assert.AreEqual(1, func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void Sign006()
         {
             func.Function = "sign(0)";
             Assert.AreEqual(1, func.EvaluateNumeric());
@@ -117,48 +89,6 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "-23";
             Assert.AreEqual(-23, func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void Subtraction002()
-        {
-            func.Function = "-22-23";
-            Assert.AreEqual(-45, func.EvaluateNumeric());
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "abs not formatted correctly. Open and close parenthesis required.", MatchType = MessageMatch.Contains)]
-        public void Abs_BadExpression001_ExpressionException()
-        {
-            func.Function = "abs -165";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "abs not formatted correctly. Open and close parenthesis required.", MatchType = MessageMatch.Contains)]
-        public void Abs_NoParenthisis001_ExpressionException()
-        {
-            func.Function = "abs 8964 ";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "abs not formatted correctly. Open and close parenthesis required.", MatchType = MessageMatch.Contains)]
-        public void Abs_NoParenthisis002_ExpressionException()
-        {
-            func.Function = "abs 0";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "abs not formatted correctly. Open and close parenthesis required.", MatchType = MessageMatch.Contains)]
-        public void Abs_NoClosingParenthisis_ExpressionException()
-        {
-            func.Function = "abs (10";
-        }
-
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "abs not formatted correctly. Open and close parenthesis required.", MatchType = MessageMatch.Contains)]
-        public void Abs_NoOpeningParenthisis_ExpressionException()
-        {
-            func.Function = "abs 20)";
         }
 
         [Test]

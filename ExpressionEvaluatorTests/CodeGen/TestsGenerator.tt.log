@@ -8,10 +8,15 @@
 ..\NegFunctionTests.generated.cs
 ..\AbsFunctionTests.generated.cs
 ..\SignFunctionTests.generated.cs
+..\DaysFunctionTests.generated.cs
+..\HoursFunctionTests.generated.cs
+..\MinutesFunctionTests.generated.cs
+..\SecondsFunctionTests.generated.cs
 ..\AdditionOperatorTests.generated.cs
 ..\SubtractionOperatorTests.generated.cs
 ..\MultiplicationOperatorTests.generated.cs
 ..\DivisionOperatorTests.generated.cs
 ..\PowerOperatorTests.generated.cs
 ..\CaseTests.generated.cs
+..\PrecedenceTestsBase.generated.cs
 .\TestsGenerator.tt.log

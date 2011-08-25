@@ -1,0 +1,92 @@
+﻿<#+
+public class PrecedenceTestsTemplate : TestsTemplate
+{
+	public string ClassName;
+	
+	public override string TransformText()
+	{
+		
+        StartClass(ClassName);
+
+		WriteTests();
+
+        EndClass();
+			
+        return this.GenerationEnvironment.ToString();
+	}
+
+	public void WriteTests()
+    {
+	    var ops = new List<Tuple<string, string>>()
+	    {
+	        new Tuple<string, string>("Addition", "+"),
+	        new Tuple<string, string>("Multiplication", "*"),
+			new Tuple<string, string>("Subtraction", "-"),
+			new Tuple<string, string>("Division", "/"),
+		};
+
+	    var funcsTwoOperand = new List<Tuple<string, string, string>>()
+	    {
+			new Tuple<string, string, string>("Power", "^", "Math.Pow"),
+		};
+
+	    var funcs2 = new List<string>()
+	    {
+			"Sign",
+			"Abs",
+			"Neg",
+			"Ln",
+			"Now",
+			"TotalDays",
+			"TotalHours",
+			"TotalMinutes",
+			"TotalSeconds",
+			"Days",
+			"Hours",
+			"Minutes",
+			"Seconds",
+	    };
+
+	    foreach (var i in ops)
+	    {
+		    foreach (var p in ops)
+		    {
+#>
+		[Test]
+        public void Precedence_<#= i.Item1 #><#= p.Item1 #>_IsCorrect()
+		{
+			func.Function = "3<#= i.Item2 #>7<#= p.Item2 #>11";
+			Assert.AreEqual(3d<#= i.Item2 #>7d<#= p.Item2 #>11d, func.EvaluateNumeric());
+		}
+		
+<#+
+            }
+    	}
+		
+	    foreach (var i in ops)
+	    {
+		    foreach (var f in funcsTwoOperand)
+		    {
+#>
+		[Test]
+        public void Precedence_<#= i.Item1 #><#= f.Item1 #>_IsCorrect()
+		{
+			func.Function = "3<#= i.Item2 #>7<#= f.Item2 #>11";
+			Assert.AreEqual(3d<#= i.Item2 #><#= f.Item3 #>(7d, 11d), func.EvaluateNumeric());
+		}
+		
+		[Test]
+        public void Precedence_<#= f.Item1 #><#= i.Item1 #>_IsCorrect()
+		{
+			func.Function = "3<#= f.Item2 #>7<#= i.Item2 #>11";
+			Assert.AreEqual(<#= f.Item3 #>(3d, 7d)<#= i.Item2 #>11d, func.EvaluateNumeric());
+		}
+		
+<#+
+            }
+    	}
+		
+    }
+}
+
+#>

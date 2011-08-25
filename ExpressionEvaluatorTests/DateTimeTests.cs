@@ -26,38 +26,6 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
 
         [Test]
-        public void DateTime_Day_IsCorrect()
-        {
-            var expected = new TimeSpan(1, 0, 0, 0);
-            func.Function = "days(1)";
-            Assert.AreEqual(expected, func.Evaluate<TimeSpan>());
-        }
-
-        [Test]
-        public void DateTime_Hour_IsCorrect()
-        {
-            var expected = new TimeSpan(1, 0, 0);
-            func.Function = "hours(1)";
-            Assert.AreEqual(expected, func.Evaluate<TimeSpan>());
-        }
-
-        [Test]
-        public void DateTime_Minute_IsCorrect()
-        {
-            var expected = new TimeSpan(0, 1, 0);
-            func.Function = "minutes(1)";
-            Assert.AreEqual(expected, func.Evaluate<TimeSpan>());
-        }
-
-        [Test]
-        public void DateTime_Second_IsCorrect()
-        {
-            var expected = new TimeSpan(0, 0, 1);
-            func.Function = "seconds(1)";
-            Assert.AreEqual(expected, func.Evaluate<TimeSpan>());
-        }
-
-        [Test]
         public void Seconds_Timespan_IsCorrect()
         {
             func.Function = "totalseconds(a)";

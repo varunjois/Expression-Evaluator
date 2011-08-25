@@ -6,7 +6,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
-    public class LnFunctionTests
+    public class DaysFunctionTests
     {
         Expression func;
 
@@ -19,115 +19,115 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
         
         [Test]
-        public void LnOperator_CalledWithPositiveWhole_IsCorrect()
+        public void DaysOperator_CalledWithPositiveWhole_IsCorrect()
         {
-            func.Function = "ln(2)";
-            Assert.AreEqual(0.69314718055994529d, func.EvaluateNumeric());
+            func.Function = "days(2)";
+            Assert.AreEqual(new TimeSpan(1728000000000L), func.Evaluate<TimeSpan>());
         }
         
         [Test]
-        public void LnOperator_CalledWithPositiveFraction_IsCorrect()
+        public void DaysOperator_CalledWithPositiveFraction_IsCorrect()
         {
-            func.Function = "ln(0.5)";
-            Assert.AreEqual(-0.69314718055994529d, func.EvaluateNumeric());
+            func.Function = "days(0.5)";
+            Assert.AreEqual(new TimeSpan(432000000000L), func.Evaluate<TimeSpan>());
         }
         
         [Test]
-        public void LnOperator_CalledWithNegativeWhole_IsCorrect()
+        public void DaysOperator_CalledWithNegativeWhole_IsCorrect()
         {
-            func.Function = "ln(-2)";
-            Assert.AreEqual(double.NaN, func.EvaluateNumeric());
+            func.Function = "days(-2)";
+            Assert.AreEqual(new TimeSpan(-1728000000000L), func.Evaluate<TimeSpan>());
         }
         
         [Test]
-        public void LnOperator_CalledWithNegativeFraction_IsCorrect()
+        public void DaysOperator_CalledWithNegativeFraction_IsCorrect()
         {
-            func.Function = "ln(-0.5)";
-            Assert.AreEqual(double.NaN, func.EvaluateNumeric());
-        }
-        
-        [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
-        {
-            func.Function = "ln(2";
+            func.Function = "days(-0.5)";
+            Assert.AreEqual(new TimeSpan(-432000000000L), func.Evaluate<TimeSpan>());
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "ln(0.5";
+            func.Function = "days(2";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "ln(-2";
+            func.Function = "days(0.5";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "ln(-0.5";
+            func.Function = "days(-2";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "ln 2)";
+            func.Function = "days(-0.5";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "ln 0.5)";
+            func.Function = "days 2)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "ln -2)";
+            func.Function = "days 0.5)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "ln -0.5)";
+            func.Function = "days -2)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingBothParenthesisPositiveWholeArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "ln 2";
+            func.Function = "days -0.5)";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingBothParenthesisPositiveFractionArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingBothParenthesisPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "ln 0.5";
+            func.Function = "days 2";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingBothParenthesisNegativeWholeArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingBothParenthesisPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "ln -2";
+            func.Function = "days 0.5";
         }
         
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void LnOperator_MalformedExpressionMissingBothParenthesisNegativeFractionArgument_ThrowsException()
+        public void DaysOperator_MalformedExpressionMissingBothParenthesisNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "ln -0.5";
+            func.Function = "days -2";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void DaysOperator_MalformedExpressionMissingBothParenthesisNegativeFractionArgument_ThrowsException()
+        {
+            func.Function = "days -0.5";
         }
         
     }

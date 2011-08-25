@@ -21,14 +21,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             new GreaterThan(30),
             new LesserThan(30),
             new NotEqual(30),
-            new Power(30),
-
 
             new Addition(40),
             new Subtraction(40),
 
             new Multiplication(50),
             new Division(50),
+
+                new Power(55),
 
             new Absolute(60),
             new Negate(60),

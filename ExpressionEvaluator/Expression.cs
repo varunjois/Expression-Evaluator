@@ -240,8 +240,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         /// <param name="token">String to check.</param>
         /// <returns></returns>
-        protected bool IsVariable(string token)
+        public bool IsVariable(string token)
         {
+            token = token.ToLower();
+
             if (token == "true" || token == "false")
                 return false;
 

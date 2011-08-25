@@ -4,76 +4,84 @@ public class FunctionTestsTemplate : TestsTemplate
 	public string ClassName;
 	public string OperatorName;
 	public string Operator;
-	public Func<double, double> Calculator; 
+	public Func<double, string> Calculator; 
     public List<ValueDescription> Values;
+	public string EvaluateType;
 	
 	public override string TransformText()
 	{
 		StartClass(ClassName);
 		
-		WriteFunctionTests(OperatorName, Operator, Values, Calculator);
-        WriteMalformedMissingRightParenTests(OperatorName, Operator, Values);            
-        WriteMalformedMissingLeftParenTests(OperatorName, Operator, Values);            		
+		WriteFunctionTests();
+        WriteMalformedMissingRightParenTests();            
+        WriteMalformedMissingLeftParenTests();            		
+        WriteMalformedMissingBothParenthesisTests();            		
 		
 		EndClass();
 		
         return this.GenerationEnvironment.ToString();
 	}
 
-	public void WriteFunctionTests(
-        string opName, 
-        string op,
-        List<ValueDescription> values,
-        Func<double, double> calculator)
+	public void WriteFunctionTests()
     {
-        foreach (var vd1 in values)
+        foreach (var vd1 in Values)
         {
-            double outputVal = calculator(vd1.Value);
-            var valueString = double.NaN.Equals(outputVal) ? "double.NaN" : outputVal.ToString("R") + "d";
+            string outputVal = Calculator(vd1.Value);
+            //var valueString = double.NaN.Equals(outputVal) ? "double.NaN" : outputVal.ToString("R") + "d";
 #>
         [Test]
-        public void <#= opName #>Operator_CalledWith<#= vd1.Description #>_IsCorrect()
+        public void <#= OperatorName #>Operator_CalledWith<#= vd1.Description #>_IsCorrect()
         {
-            func.Function = "<#= op #>(<#= vd1.Value #>)";
-            Assert.AreEqual(<#= valueString #>, func.EvaluateNumeric());
+            func.Function = "<#= Operator #>(<#= vd1.Value #>)";
+            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
         
 <#+
         }
     }
     
-    public void WriteMalformedMissingRightParenTests(
-        string opName, 
-        string op,
-        List<ValueDescription> values)
+    public void WriteMalformedMissingRightParenTests()
     {
-        foreach (var vd1 in values)
+        foreach (var vd1 in Values)
         {
 #>
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void <#= opName #>Operator_MalformedExpressionMissingRightParen<#= vd1.Description #>Argument_ThrowsException()
+        public void <#= OperatorName #>Operator_MalformedExpressionMissingRightParen<#= vd1.Description #>Argument_ThrowsException()
         {
-            func.Function = "<#= op #>(<#= vd1.Value #>";
+            func.Function = "<#= Operator #>(<#= vd1.Value #>";
         }
         
 <#+
         }
     }
 
-    public void WriteMalformedMissingLeftParenTests(
-        string opName, 
-        string op,
-        List<ValueDescription> values)
+    public void WriteMalformedMissingLeftParenTests()
     {
-        foreach (var vd1 in values)
+        foreach (var vd1 in Values)
         {
 #>
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
-        public void <#= opName #>Operator_MalformedExpressionMissingLeftParen<#= vd1.Description #>Argument_ThrowsException()
+        public void <#= OperatorName #>Operator_MalformedExpressionMissingLeftParen<#= vd1.Description #>Argument_ThrowsException()
         {
-            func.Function = "<#= op #> <#= vd1.Value #>)";
+            func.Function = "<#= Operator #> <#= vd1.Value #>)";
+        }
+        
+<#+
+        }
+    }
+
+    public void WriteMalformedMissingBothParenthesisTests()
+    {
+        foreach (var vd1 in Values)
+        {
+#>
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void <#= OperatorName #>Operator_MalformedExpressionMissingBothParenthesis<#= vd1.Description #>Argument_ThrowsException()
+        {
+            func.Function = "<#= Operator #> <#= vd1.Value #>";
         }
         
 <#+

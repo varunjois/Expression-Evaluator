@@ -1,4 +1,5 @@
 // ReSharper disable InconsistentNaming
+using System;
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
@@ -99,6 +100,34 @@ namespace ExpressionEvaluatorTests
         public void AbsOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
         {
             func.Function = "abs -0.5)";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void AbsOperator_MalformedExpressionMissingBothParenthesisPositiveWholeArgument_ThrowsException()
+        {
+            func.Function = "abs 2";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void AbsOperator_MalformedExpressionMissingBothParenthesisPositiveFractionArgument_ThrowsException()
+        {
+            func.Function = "abs 0.5";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void AbsOperator_MalformedExpressionMissingBothParenthesisNegativeWholeArgument_ThrowsException()
+        {
+            func.Function = "abs -2";
+        }
+        
+        [Test]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        public void AbsOperator_MalformedExpressionMissingBothParenthesisNegativeFractionArgument_ThrowsException()
+        {
+            func.Function = "abs -0.5";
         }
         
     }
