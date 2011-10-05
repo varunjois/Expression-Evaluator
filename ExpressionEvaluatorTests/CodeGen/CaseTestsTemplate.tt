@@ -89,7 +89,25 @@ public class CaseTestsTemplate : TestsTemplate
         {
             func.Function = "<#= v1.Item1 #>";
             Assert.IsTrue(func.IsVariable("<#= v2.Item1 #>"));
-        }		
+        }
+		
+<#+
+            }
+		}
+		
+		foreach(Tuple<string, string> v1 in variableNames)
+		{
+			foreach(Tuple<string, string> v2 in variableNames)
+			{
+#>
+        [Test]
+        public void Variable_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>ValueSet_CorrectEvaluation()
+        {
+            func.Function = "<#= v1.Item1 #>";
+			func.AddSetVariable("<#= v2.Item1 #>", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
 <#+
             }
 		}

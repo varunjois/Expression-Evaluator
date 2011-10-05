@@ -142,6 +142,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         private void AddSetVariable<T>(string name, T val)
         {
+            name = name.ToLower();
             if (_variables.ContainsKey(name)
                 && _variables[name].Type == typeof(object))
             {

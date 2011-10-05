@@ -257,54 +257,135 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "aAaA";
             Assert.IsTrue(func.IsVariable("aAaA"));
-        }		
+        }
+		
         [Test]
         public void Variable_FormulaIsMixedCaseVariableIsAllCaps_NoException()
         {
             func.Function = "aAaA";
             Assert.IsTrue(func.IsVariable("AAAA"));
-        }		
+        }
+		
         [Test]
         public void Variable_FormulaIsMixedCaseVariableIsAllLower_NoException()
         {
             func.Function = "aAaA";
             Assert.IsTrue(func.IsVariable("aaaa"));
-        }		
+        }
+		
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsMixedCase_NoException()
         {
             func.Function = "AAAA";
             Assert.IsTrue(func.IsVariable("aAaA"));
-        }		
+        }
+		
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsAllCaps_NoException()
         {
             func.Function = "AAAA";
             Assert.IsTrue(func.IsVariable("AAAA"));
-        }		
+        }
+		
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsAllLower_NoException()
         {
             func.Function = "AAAA";
             Assert.IsTrue(func.IsVariable("aaaa"));
-        }		
+        }
+		
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsMixedCase_NoException()
         {
             func.Function = "aaaa";
             Assert.IsTrue(func.IsVariable("aAaA"));
-        }		
+        }
+		
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsAllCaps_NoException()
         {
             func.Function = "aaaa";
             Assert.IsTrue(func.IsVariable("AAAA"));
-        }		
+        }
+		
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsAllLower_NoException()
         {
             func.Function = "aaaa";
             Assert.IsTrue(func.IsVariable("aaaa"));
-        }		
+        }
+		
+        [Test]
+        public void Variable_FormulaIsMixedCaseVariableIsMixedCaseValueSet_CorrectEvaluation()
+        {
+            func.Function = "aAaA";
+			func.AddSetVariable("aAaA", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
+        [Test]
+        public void Variable_FormulaIsMixedCaseVariableIsAllCapsValueSet_CorrectEvaluation()
+        {
+            func.Function = "aAaA";
+			func.AddSetVariable("AAAA", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
+        [Test]
+        public void Variable_FormulaIsMixedCaseVariableIsAllLowerValueSet_CorrectEvaluation()
+        {
+            func.Function = "aAaA";
+			func.AddSetVariable("aaaa", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
+        [Test]
+        public void Variable_FormulaIsAllCapsVariableIsMixedCaseValueSet_CorrectEvaluation()
+        {
+            func.Function = "AAAA";
+			func.AddSetVariable("aAaA", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
+        [Test]
+        public void Variable_FormulaIsAllCapsVariableIsAllCapsValueSet_CorrectEvaluation()
+        {
+            func.Function = "AAAA";
+			func.AddSetVariable("AAAA", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
+        [Test]
+        public void Variable_FormulaIsAllCapsVariableIsAllLowerValueSet_CorrectEvaluation()
+        {
+            func.Function = "AAAA";
+			func.AddSetVariable("aaaa", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
+        [Test]
+        public void Variable_FormulaIsAllLowerVariableIsMixedCaseValueSet_CorrectEvaluation()
+        {
+            func.Function = "aaaa";
+			func.AddSetVariable("aAaA", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
+        [Test]
+        public void Variable_FormulaIsAllLowerVariableIsAllCapsValueSet_CorrectEvaluation()
+        {
+            func.Function = "aaaa";
+			func.AddSetVariable("AAAA", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
+        [Test]
+        public void Variable_FormulaIsAllLowerVariableIsAllLowerValueSet_CorrectEvaluation()
+        {
+            func.Function = "aaaa";
+			func.AddSetVariable("aaaa", 2.2);
+            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+        }
+		
     }
 }
