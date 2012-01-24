@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures.Functions
         public Negate(int precedance)
             : base("neg", precedance, 1)
         {
-            _name2 = "Absolute";
+            _name2 = "Negate";
             DoubleDouble = x => -1 * x;
         }
     }
