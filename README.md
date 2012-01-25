@@ -21,7 +21,7 @@ Mathmatical Operators
 * Subtraction
 
         2 - 1
-        returns: 3
+        returns: 1
         
         2.2 - 1.1
         returns: 1.1
