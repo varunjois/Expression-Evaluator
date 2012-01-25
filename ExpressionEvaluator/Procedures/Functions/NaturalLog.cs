@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Procedures.Functions
     {
         public NaturalLog(int precedance) : base("ln", precedance, 1)
         {
-            _name2 = "Natural Log";
+            _name2 = "NaturalLog";
             DoubleDouble = Math.Log;
         }
     }
