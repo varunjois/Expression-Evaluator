@@ -1,0 +1,328 @@
+<h2 id="expressionevaluationlibrary">Expression Evaluation Library</h2>
+
+<p>This is a library written in C# to allow the use of mathmatical expressions in an application.</p>
+
+<h2 id="mathmaticaloperators">Mathmatical Operators</h2>
+
+<ul>
+<li><p>Addition</p>
+
+<pre><code>1 + 2
+returns: 3
+
+1.1 + 2.2
+returns: 3.3
+
+a + 2
+a = 1
+returns: 3
+</code></pre></li>
+<li><p>Subtraction</p>
+
+<pre><code>2 - 1
+returns: 3
+
+2.2 - 1.1
+returns: 1.1
+
+a - 1
+a = 2
+returns: 1
+</code></pre></li>
+<li><p>Multiplication</p>
+
+<pre><code>2 * 3
+returns: 6
+
+2.2 * 3.3
+returns: 7.26
+
+a * 3
+a = 2
+returns: 6
+</code></pre></li>
+<li><p>Division</p>
+
+<pre><code>2 / 4
+returns: 0.5
+
+2 / 0.5
+returns: 4
+
+a * 3
+a = 2
+returns: 6
+</code></pre></li>
+<li><p>Power</p>
+
+<pre><code>2^2
+returns: 4
+
+2.1^2
+returns: 4.41
+
+a^2
+a = 2
+returns: 4
+</code></pre></li>
+<li><p>Absolute</p>
+
+<pre><code>abs(5)
+returns: 5
+
+abs(-5.5)
+returns: 5.5
+</code></pre></li>
+<li><p>Negate</p>
+
+<pre><code>neg(5)
+returns: -5
+
+neg(-5.5)
+returns: 5.5
+</code></pre></li>
+<li><p>Natural Log</p>
+
+<pre><code>ln(5)
+returns: 1.60943791
+</code></pre></li>
+<li><p>Sign</p>
+
+<pre><code>sign(5)
+returns: 1
+
+sign(0)
+returns: 1
+
+sign(-5.5)
+returns: -1
+</code></pre></li>
+</ul>
+
+<h2 id="logicaloperators">Logical Operators</h2>
+
+<ul>
+<li><p>Or</p>
+
+<pre><code>true || true
+returns: true
+
+true || false
+returns: true
+</code></pre></li>
+<li><p>And</p>
+
+<pre><code>true &amp;&amp; true
+returns: true
+
+true &amp;&amp; false
+returns: false
+</code></pre></li>
+<li><p>Equal</p>
+
+<pre><code>true == true
+returns: true
+
+1 == 2
+returns: false
+</code></pre></li>
+<li><p>GreaterEqual</p>
+
+<pre><code>1 &gt;= 2
+returns: false
+
+2 &gt;= 2
+returns: true
+</code></pre></li>
+<li><p>LesserEqual</p>
+
+<pre><code>1 &lt;= 2
+returns: false
+
+2 &lt;= 2
+returns: true
+</code></pre></li>
+<li><p>GreaterThan</p>
+
+<pre><code>2 &gt; 1
+returns: true
+
+2 &gt; 2
+returns: false
+</code></pre></li>
+<li><p>LesserThan</p>
+
+<pre><code>1 &lt; 2
+returns: true
+
+2 &lt; 2
+returns: false
+</code></pre></li>
+<li><p>NotEqual</p>
+
+<pre><code>1 != 2
+returns: true
+
+2 != 2
+returns: false
+</code></pre></li>
+</ul>
+
+<h2 id="datetimeoperators">Date Time Operators</h2>
+
+<ul>
+<li><p>Now</p>
+
+<pre><code>now()
+returns: DateTime with current time and date
+</code></pre></li>
+<li><p>Days</p>
+
+<pre><code>days(5)
+returns: TimeSpan of 5 days
+</code></pre></li>
+<li><p>Hours</p>
+
+<pre><code>hours(5)
+returns: TimeSpan of 5 hours
+</code></pre></li>
+<li><p>Minutes</p>
+
+<pre><code>minutes(5)
+returns: TimeSpan of 5 minutes
+</code></pre></li>
+<li><p>Seconds</p>
+
+<pre><code>seconds(5)
+returns: TimeSpan of 5 hours
+</code></pre></li>
+<li><p>TotalDays</p>
+
+<pre><code>totaldays(timespan)
+timespan = 2 days
+returns: 2
+</code></pre></li>
+<li><p>TotalHours</p>
+
+<pre><code>totaldays(timespan)
+timespan = 2 days
+returns: 48
+</code></pre></li>
+<li><p>TotalMinutes</p>
+
+<pre><code>totaldays(timespan)
+timespan = 2 hours
+returns: 120
+</code></pre></li>
+<li><p>TotalSeconds</p>
+
+<pre><code>totaldays(timespan)
+timespan = 2 minutes
+returns: 120
+</code></pre></li>
+<li><p>Addition</p>
+
+<pre><code>timespan1 + timespan2
+timespan1 = 2 minutes
+timespan2 = 1 hour
+returns: TimeSpan of 62 minutes
+
+datetime1 + timespan1
+datetime1 = 2012-01-25 11:06:40
+timespan1 = 1 day
+returns: 2012-01-26 11:06:40
+</code></pre></li>
+<li><p>Subtraction</p>
+
+<pre><code>timespan1 - timespan2
+timespan1 = 1 hour
+timespan2 = 2 minutes
+returns: TimeSpan of 58 minutes
+
+datetime1 - timespan1
+datetime1 = 2012-01-25 11:06:40
+timespan1 = 1 day
+returns: 2012-01-24 11:06:40
+
+datetime1 - datetime2
+datetime1 = 2012-01-25 11:06:40
+datetime2 = 2012-01-24 11:06:40
+returns: timespan of 1 day
+</code></pre></li>
+</ul>
+
+<h2 id="precedance">Precedance</h2>
+
+<p>Higher value wins. Ex: 2 + 3 * 4 = 2+(3*4) = 14. This can be overridden by the use of parenthesis and curley braces.</p>
+
+<ul>
+<li>1
+
+<ul>
+<li><code>Or</code></li>
+</ul></li>
+<li>2
+
+<ul>
+<li><code>And</code></li>
+</ul></li>
+<li>3
+
+<ul>
+<li><code>Equal</code></li>
+<li><code>GreaterEqual</code></li>
+<li><code>LesserEqual</code></li>
+<li><code>GreaterThan</code></li>
+<li><code>LesserThan</code></li>
+<li><code>NotEqual</code></li>
+</ul></li>
+<li>4
+
+<ul>
+<li><code>Addition</code></li>
+<li><code>Subtraction</code></li>
+</ul></li>
+<li>5
+
+<ul>
+<li><code>Multiplication</code></li>
+<li><code>Division</code></li>
+</ul></li>
+<li>6
+
+<ul>
+<li><code>Power</code></li>
+</ul></li>
+<li>7
+
+<ul>
+<li><code>Absolute</code></li>
+<li><code>Negate</code></li>
+<li><code>NaturalLog</code></li>
+<li><code>Sign</code></li>
+<li><code>Now</code></li>
+<li><code>Days</code></li>
+<li><code>Hours</code></li>
+<li><code>Minutes</code></li>
+<li><code>Seconds</code></li>
+<li><code>TotalDays</code></li>
+<li><code>TotalHours</code></li>
+<li><code>TotalMinutes</code></li>
+<li><code>TotalSeconds</code></li>
+</ul></li>
+<li>8
+
+<ul>
+<li><code>if</code></li>
+<li><code>elseif</code></li>
+<li><code>else</code></li>
+</ul></li>
+<li>9
+
+<ul>
+<li><code>(</code></li>
+<li><code>)</code></li>
+<li><code>{</code></li>
+<li><code>}</code></li>
+</ul></li>
+</ul>
