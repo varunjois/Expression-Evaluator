@@ -33,6 +33,12 @@
         new ValueDescription<bool>("BooleanFalse", false, "false"),
     };
     
+    List<ValueDescription<string>> stringValues = new List<ValueDescription<string>>
+    {
+        new ValueDescription<string>("StringFirst", "'first'", "\"first\""),
+        new ValueDescription<string>("StringSecond", "'second'", "\"second\""),
+    };
+    
     var doubleDoubleFunctions = new List<ProcedureDescription<Func<double, string>>>
     {
         new NumericProcedureDescription<Func<double, string>>("Ln", "ln", x=> GetString(Math.Log(x))),
@@ -56,14 +62,22 @@
         new BooleanProcedureDescription<Func<double, double, string>>("GreaterEqual", ">=", (a,b) => GetString(a>=b)),
         new BooleanProcedureDescription<Func<double, double, string>>("LesserThan", "<", (a,b) => GetString(a<b)),
         new BooleanProcedureDescription<Func<double, double, string>>("LesserEqual", "<=", (a,b) => GetString(a<=b)),
-        new BooleanProcedureDescription<Func<double, double, string>>("Equal", "==", (a,b) => GetString(a==b)),
-        new BooleanProcedureDescription<Func<double, double, string>>("NotEqual", "!=", (a,b) => GetString(a!=b)),
+        new BooleanProcedureDescription<Func<double, double, string>>("EqualNumeric", "==", (a,b) => GetString(a==b)),
+        new BooleanProcedureDescription<Func<double, double, string>>("NotEqualNumeric", "!=", (a,b) => GetString(a!=b)),
     };
 
     var leftRightBooleanOperators = new List<ProcedureDescription<Func<bool, bool, string>>>
     {
         new BooleanProcedureDescription<Func<bool, bool, string>>("Or", "||", (a,b) => GetString(a||b)),
         new BooleanProcedureDescription<Func<bool, bool, string>>("And", "&&", (a,b) => GetString(a&&b)),
+        new BooleanProcedureDescription<Func<bool, bool, string>>("EqualBoolean", "==", (a,b) => GetString(a==b)),
+        new BooleanProcedureDescription<Func<bool, bool, string>>("NotEqualBoolean", "!=", (a,b) => GetString(a!=b)),
+    };
+
+    var leftRightStringOperators = new List<ProcedureDescription<Func<string, string, string>>>
+    {
+        new BooleanProcedureDescription<Func<string, string, string>>("EqualString", "==", (a,b) => GetString(a==b)),
+        new BooleanProcedureDescription<Func<string, string, string>>("NotEqualString", "!=", (a,b) => GetString(a!=b)),
     };
 
     var values = positiveValues.Union(negativeValues).ToList();
@@ -105,6 +119,19 @@
         template.OperatorName = op.OpName;
 		template.Operator = op.Op;    
         template.Values = booleanValues;
+        template.Calculator = op.Calculator;
+		template.EvaluateType = op.EvaluationType;
+        template.Render();
+    }
+    
+    foreach(var op in leftRightStringOperators)
+    {
+        var template = new OperatorTestsTemplate<string>();
+        template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
+        template.ClassName = op.OpName + "OperatorTests";
+        template.OperatorName = op.OpName;
+		template.Operator = op.Op;    
+        template.Values = stringValues;
         template.Calculator = op.Calculator;
 		template.EvaluateType = op.EvaluationType;
         template.Render();

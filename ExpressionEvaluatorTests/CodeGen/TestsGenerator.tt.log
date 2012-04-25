@@ -21,10 +21,14 @@
 ..\GreaterEqualOperatorTests.generated.cs
 ..\LesserThanOperatorTests.generated.cs
 ..\LesserEqualOperatorTests.generated.cs
-..\EqualOperatorTests.generated.cs
-..\NotEqualOperatorTests.generated.cs
+..\EqualNumericOperatorTests.generated.cs
+..\NotEqualNumericOperatorTests.generated.cs
 ..\OrOperatorTests.generated.cs
 ..\AndOperatorTests.generated.cs
+..\EqualBooleanOperatorTests.generated.cs
+..\NotEqualBooleanOperatorTests.generated.cs
+..\EqualStringOperatorTests.generated.cs
+..\NotEqualStringOperatorTests.generated.cs
 ..\CaseTests.generated.cs
 ..\PrecedenceTestsBase.generated.cs
 .\TestsGenerator.tt.log

@@ -62,7 +62,9 @@
     <Compile Include="DateTimeTests.cs" />
     <Compile Include="DaysFunctionTests.generated.cs" />
     <Compile Include="DivisionOperatorTests.generated.cs" />
-    <Compile Include="EqualOperatorTests.generated.cs" />
+    <Compile Include="EqualBooleanOperatorTests.generated.cs" />
+    <Compile Include="EqualNumericOperatorTests.generated.cs" />
+    <Compile Include="EqualStringOperatorTests.generated.cs" />
     <Compile Include="ExpressionTests.cs" />
     <Compile Include="GreaterEqualOperatorTests.generated.cs" />
     <Compile Include="GreaterThanOperatorTests.generated.cs" />
@@ -74,7 +76,9 @@
     <Compile Include="MinutesFunctionTests.generated.cs" />
     <Compile Include="MultiplicationOperatorTests.generated.cs" />
     <Compile Include="NegFunctionTests.generated.cs" />
-    <Compile Include="NotEqualOperatorTests.generated.cs" />
+    <Compile Include="NotEqualBooleanOperatorTests.generated.cs" />
+    <Compile Include="NotEqualNumericOperatorTests.generated.cs" />
+    <Compile Include="NotEqualStringOperatorTests.generated.cs" />
     <Compile Include="OperatorTests.cs" />
     <Compile Include="OrOperatorTests.generated.cs" />
     <Compile Include="PowerOperatorTests.generated.cs" />

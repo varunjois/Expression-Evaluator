@@ -125,6 +125,11 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             AddSetVariable<TimeSpan>(name, val);
         }
 
+        public void AddSetVariable(string name, string val)
+        {
+            AddSetVariable<string>(name, val);
+        }
+
         public void AddSetVariable(string name, double val)
         {
             AddSetVariable<double>(name, val);
@@ -223,6 +228,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     _tokens.Add(v);
                 }
 
+                if (IsString(t))
+                {
+                    var v = (GenericOperand<string>)ConvertToOperand(t);
+                    _tokens.Add(v);
+                }
+
                 if (t == "true" || t == "false")
                 {
                     var v = ConvertToOperand(t);
@@ -252,6 +263,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 return false;
 
             if (IsNumber(token))
+                return false;
+
+            if (IsString(token))
                 return false;
 
             return true;
@@ -452,6 +466,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 
                 if (token == "false")
                     return new GenericOperand<bool>(false);
+
+                if (IsString(token))
+                    return new GenericOperand<string>(token.Substring(1, token.Length - 2));
                 
                 // Convert the operand
                 return new GenericOperand<double>(double.Parse(token));
@@ -482,27 +499,24 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             return ret.ToString();
         }
 
-        /// <summary>
-        /// Checks to see if a string is a number.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-08-11 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="token">The string to check.</param>
-        /// <returns>True if is a number, false otherwise.</returns>
         protected bool IsNumber(string token)
         {
-            try 
+            try
             {
                 double.Parse(token);
                 return true;
             }
-            catch 
+            catch
             {
                 return false;
             }
-
         }
+
+        protected bool IsString(string token)
+        {
+            return (token.StartsWith("'") && token.EndsWith("'"));
+        }
+
 
         #region compilation
 

@@ -9,6 +9,7 @@ namespace ExpressionEvaluator.Procedures.Operators
             _name2 = "Equal";
             DoubleDoubleBool = (x, y) => x == y;
             BoolBoolBool = (x, y) => x == y;
+            StringStringBool = (x, y) => x == y;
             TimespanTimespanBool = (x, y) => x == y;
             DatetimeDatetimeBool = (x, y) => x == y;
         }

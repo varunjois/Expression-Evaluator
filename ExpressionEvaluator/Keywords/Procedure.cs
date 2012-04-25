@@ -17,6 +17,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<TimeSpan, TimeSpan, bool> TimespanTimespanBool;
         protected Func<double, double, double> DoubleDoubleDouble;
         protected Func<bool, bool, bool> BoolBoolBool;
+        protected Func<string, string, bool> StringStringBool;
         protected Func<double, double, bool> DoubleDoubleBool;
         protected Func<DateTime, DateTime, bool> DatetimeDatetimeBool;
         protected string _name2;
@@ -119,6 +120,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     var bOp1 = op1 as GenericOperand<double>;
                     var bOp2 = op2 as GenericOperand<double>;
                     return new GenericOperand<bool>(DoubleDoubleBool(bOp1.Value, bOp2.Value));
+                }
+            }
+
+            if (StringStringBool != null)
+            {
+                if (op1.Type == typeof(string) && op2.Type == typeof(string))
+                {
+                    var bOp1 = op1 as GenericOperand<string>;
+                    var bOp2 = op2 as GenericOperand<string>;
+                    return new GenericOperand<bool>(StringStringBool(bOp1.Value, bOp2.Value));
                 }
             }
 

@@ -6,7 +6,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
-    public class NotEqualOperatorTests
+    public class NotEqualNumericOperatorTests
     {
         Expression func;
 
@@ -19,119 +19,119 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
         
         [Test]
-        public void NotEqualOperator_PositiveWholeWithPositiveWhole_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithPositiveWhole_IsCorrect()
         {
             func.Function = "2 != 2";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithPositiveFraction_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithPositiveFraction_IsCorrect()
         {
             func.Function = "2 != 0.5";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithNegativeWhole_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithNegativeWhole_IsCorrect()
         {
             func.Function = "2 != -2";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithNegativeFraction_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithNegativeFraction_IsCorrect()
         {
             func.Function = "2 != -0.5";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithPositiveWhole_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithPositiveWhole_IsCorrect()
         {
             func.Function = "0.5 != 2";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithPositiveFraction_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithPositiveFraction_IsCorrect()
         {
             func.Function = "0.5 != 0.5";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithNegativeWhole_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithNegativeWhole_IsCorrect()
         {
             func.Function = "0.5 != -2";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithNegativeFraction_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithNegativeFraction_IsCorrect()
         {
             func.Function = "0.5 != -0.5";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithPositiveWhole_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithPositiveWhole_IsCorrect()
         {
             func.Function = "-2 != 2";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithPositiveFraction_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithPositiveFraction_IsCorrect()
         {
             func.Function = "-2 != 0.5";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithNegativeWhole_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithNegativeWhole_IsCorrect()
         {
             func.Function = "-2 != -2";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithNegativeFraction_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithNegativeFraction_IsCorrect()
         {
             func.Function = "-2 != -0.5";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithPositiveWhole_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithPositiveWhole_IsCorrect()
         {
             func.Function = "-0.5 != 2";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithPositiveFraction_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithPositiveFraction_IsCorrect()
         {
             func.Function = "-0.5 != 0.5";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithNegativeWhole_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithNegativeWhole_IsCorrect()
         {
             func.Function = "-0.5 != -2";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithNegativeFraction_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithNegativeFraction_IsCorrect()
         {
             func.Function = "-0.5 != -0.5";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithPositiveWholeWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 2";
 			func.AddSetVariable("a", 2d);
@@ -139,7 +139,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithPositiveFractionWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 0.5";
 			func.AddSetVariable("a", 2d);
@@ -147,7 +147,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithNegativeWholeWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a != -2";
 			func.AddSetVariable("a", 2d);
@@ -155,7 +155,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithNegativeFractionWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a != -0.5";
 			func.AddSetVariable("a", 2d);
@@ -163,7 +163,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithPositiveWholeWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 2";
 			func.AddSetVariable("a", 0.5d);
@@ -171,7 +171,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithPositiveFractionWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 0.5";
 			func.AddSetVariable("a", 0.5d);
@@ -179,7 +179,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithNegativeWholeWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a != -2";
 			func.AddSetVariable("a", 0.5d);
@@ -187,7 +187,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithNegativeFractionWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a != -0.5";
 			func.AddSetVariable("a", 0.5d);
@@ -195,7 +195,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithPositiveWholeWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 2";
 			func.AddSetVariable("a", -2d);
@@ -203,7 +203,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithPositiveFractionWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 0.5";
 			func.AddSetVariable("a", -2d);
@@ -211,7 +211,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithNegativeWholeWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a != -2";
 			func.AddSetVariable("a", -2d);
@@ -219,7 +219,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithNegativeFractionWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a != -0.5";
 			func.AddSetVariable("a", -2d);
@@ -227,7 +227,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithPositiveWholeWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 2";
 			func.AddSetVariable("a", -0.5d);
@@ -235,7 +235,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithPositiveFractionWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 0.5";
 			func.AddSetVariable("a", -0.5d);
@@ -243,7 +243,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithNegativeWholeWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a != -2";
 			func.AddSetVariable("a", -0.5d);
@@ -251,7 +251,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithNegativeFractionWithLeftVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a != -0.5";
 			func.AddSetVariable("a", -0.5d);
@@ -259,7 +259,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithPositiveWholeWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "2 != a";
 			func.AddSetVariable("a", 2d);
@@ -267,7 +267,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithPositiveFractionWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "2 != a";
 			func.AddSetVariable("a", 0.5d);
@@ -275,7 +275,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithNegativeWholeWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "2 != a";
 			func.AddSetVariable("a", -2d);
@@ -283,7 +283,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithNegativeFractionWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "2 != a";
 			func.AddSetVariable("a", -0.5d);
@@ -291,7 +291,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithPositiveWholeWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 != a";
 			func.AddSetVariable("a", 2d);
@@ -299,7 +299,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithPositiveFractionWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 != a";
 			func.AddSetVariable("a", 0.5d);
@@ -307,7 +307,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithNegativeWholeWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 != a";
 			func.AddSetVariable("a", -2d);
@@ -315,7 +315,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithNegativeFractionWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 != a";
 			func.AddSetVariable("a", -0.5d);
@@ -323,7 +323,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithPositiveWholeWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-2 != a";
 			func.AddSetVariable("a", 2d);
@@ -331,7 +331,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithPositiveFractionWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-2 != a";
 			func.AddSetVariable("a", 0.5d);
@@ -339,7 +339,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithNegativeWholeWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-2 != a";
 			func.AddSetVariable("a", -2d);
@@ -347,7 +347,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithNegativeFractionWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-2 != a";
 			func.AddSetVariable("a", -0.5d);
@@ -355,7 +355,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithPositiveWholeWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 != a";
 			func.AddSetVariable("a", 2d);
@@ -363,7 +363,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithPositiveFractionWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 != a";
 			func.AddSetVariable("a", 0.5d);
@@ -371,7 +371,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithNegativeWholeWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 != a";
 			func.AddSetVariable("a", -2d);
@@ -379,7 +379,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithNegativeFractionWithRightVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 != a";
 			func.AddSetVariable("a", -0.5d);
@@ -387,7 +387,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithPositiveWholeWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", 2d);
@@ -396,7 +396,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithPositiveFractionWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", 2d);
@@ -405,7 +405,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithNegativeWholeWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", 2d);
@@ -414,7 +414,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveWholeWithNegativeFractionWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveWholeWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", 2d);
@@ -423,7 +423,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithPositiveWholeWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", 0.5d);
@@ -432,7 +432,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithPositiveFractionWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", 0.5d);
@@ -441,7 +441,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithNegativeWholeWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", 0.5d);
@@ -450,7 +450,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_PositiveFractionWithNegativeFractionWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_PositiveFractionWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", 0.5d);
@@ -459,7 +459,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithPositiveWholeWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", -2d);
@@ -468,7 +468,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithPositiveFractionWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", -2d);
@@ -477,7 +477,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithNegativeWholeWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", -2d);
@@ -486,7 +486,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeWholeWithNegativeFractionWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeWholeWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", -2d);
@@ -495,7 +495,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithPositiveWholeWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", -0.5d);
@@ -504,7 +504,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithPositiveFractionWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", -0.5d);
@@ -513,7 +513,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithNegativeWholeWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", -0.5d);
@@ -522,7 +522,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void NotEqualOperator_NegativeFractionWithNegativeFractionWithVariable_IsCorrect()
+        public void NotEqualNumericOperator_NegativeFractionWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", -0.5d);
@@ -532,56 +532,56 @@ namespace ExpressionEvaluatorTests
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void NotEqualOperator_MalformedExpressionPositiveWholeLeftOfOperator_ThrowsException()
+        public void NotEqualNumericOperator_MalformedExpressionPositiveWholeLeftOfOperator_ThrowsException()
         {
             func.Function = "2 !=";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void NotEqualOperator_MalformedExpressionPositiveFractionLeftOfOperator_ThrowsException()
+        public void NotEqualNumericOperator_MalformedExpressionPositiveFractionLeftOfOperator_ThrowsException()
         {
             func.Function = "0.5 !=";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void NotEqualOperator_MalformedExpressionNegativeWholeLeftOfOperator_ThrowsException()
+        public void NotEqualNumericOperator_MalformedExpressionNegativeWholeLeftOfOperator_ThrowsException()
         {
             func.Function = "-2 !=";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void NotEqualOperator_MalformedExpressionNegativeFractionLeftOfOperator_ThrowsException()
+        public void NotEqualNumericOperator_MalformedExpressionNegativeFractionLeftOfOperator_ThrowsException()
         {
             func.Function = "-0.5 !=";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void NotEqualOperator_MalformedExpressionPositiveWholeRightOfOperator_ThrowsException()
+        public void NotEqualNumericOperator_MalformedExpressionPositiveWholeRightOfOperator_ThrowsException()
         {
             func.Function = "!= 2";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void NotEqualOperator_MalformedExpressionPositiveFractionRightOfOperator_ThrowsException()
+        public void NotEqualNumericOperator_MalformedExpressionPositiveFractionRightOfOperator_ThrowsException()
         {
             func.Function = "!= 0.5";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void NotEqualOperator_MalformedExpressionNegativeWholeRightOfOperator_ThrowsException()
+        public void NotEqualNumericOperator_MalformedExpressionNegativeWholeRightOfOperator_ThrowsException()
         {
             func.Function = "!= -2";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
-        public void NotEqualOperator_MalformedExpressionNegativeFractionRightOfOperator_ThrowsException()
+        public void NotEqualNumericOperator_MalformedExpressionNegativeFractionRightOfOperator_ThrowsException()
         {
             func.Function = "!= -0.5";
         }
