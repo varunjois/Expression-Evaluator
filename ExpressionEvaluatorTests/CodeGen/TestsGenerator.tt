@@ -15,37 +15,55 @@
 <#@ include file="PrecedenceTestsTemplate.tt" #>
 <#
 
-    List<ValueDescription> negativeValues = new List<ValueDescription>
+    List<ValueDescription<double>> negativeValues = new List<ValueDescription<double>>
     {
-        new ValueDescription("NegativeWhole", -2d),
-        new ValueDescription("NegativeFraction", -0.5d),
+        new ValueDescription<double>("NegativeWhole", -2d, "-2d"),
+        new ValueDescription<double>("NegativeFraction", -0.5d, "-0.5d"),
     };
     
-    List<ValueDescription> positiveValues = new List<ValueDescription>
+    List<ValueDescription<double>> positiveValues = new List<ValueDescription<double>>
     {
-        new ValueDescription("PositiveWhole", 2d),
-        new ValueDescription("PositiveFraction", 0.5d),
+        new ValueDescription<double>("PositiveWhole", 2d, "2d"),
+        new ValueDescription<double>("PositiveFraction", 0.5d, "0.5d"),
+    };
+    
+    List<ValueDescription<bool>> booleanValues = new List<ValueDescription<bool>>
+    {
+        new ValueDescription<bool>("BooleanTrue", true, "true"),
+        new ValueDescription<bool>("BooleanFalse", false, "false"),
     };
     
     var doubleDoubleFunctions = new List<ProcedureDescription<Func<double, string>>>
     {
-        new ProcedureDescription<Func<double, string>>("Ln", "ln", x=> GetString(Math.Log(x))),
-        new ProcedureDescription<Func<double, string>>("Neg", "neg", x => GetString(-x)),
-        new ProcedureDescription<Func<double, string>>("Abs", "abs", x => GetString(Math.Abs(x))),
-        new ProcedureDescription<Func<double, string>>("Sign", "sign", x => GetString(x < 0 ? -1 : 1)),
-        new ProcedureDescription<Func<double, string>>("Days", "days", x => GetString(new TimeSpan((long)(x * TimeSpan.TicksPerDay))), "<TimeSpan>"),
-        new ProcedureDescription<Func<double, string>>("Hours", "hours", x => GetString(new TimeSpan((long)(x * TimeSpan.TicksPerHour))), "<TimeSpan>"),
-        new ProcedureDescription<Func<double, string>>("Minutes", "minutes", x => GetString(new TimeSpan((long)(x * TimeSpan.TicksPerMinute))), "<TimeSpan>"),
-        new ProcedureDescription<Func<double, string>>("Seconds", "seconds", x => GetString(new TimeSpan((long)(x * TimeSpan.TicksPerSecond))), "<TimeSpan>"),
+        new NumericProcedureDescription<Func<double, string>>("Ln", "ln", x=> GetString(Math.Log(x))),
+        new NumericProcedureDescription<Func<double, string>>("Neg", "neg", x => GetString(-x)),
+        new NumericProcedureDescription<Func<double, string>>("Abs", "abs", x => GetString(Math.Abs(x))),
+        new NumericProcedureDescription<Func<double, string>>("Sign", "sign", x => GetString(x < 0 ? -1 : 1)),
+        new TimeSpanProcedureDescription<Func<double, string>>("Days", "days", x => GetString(new TimeSpan((long)(x * TimeSpan.TicksPerDay)))),
+        new TimeSpanProcedureDescription<Func<double, string>>("Hours", "hours", x => GetString(new TimeSpan((long)(x * TimeSpan.TicksPerHour)))),
+        new TimeSpanProcedureDescription<Func<double, string>>("Minutes", "minutes", x => GetString(new TimeSpan((long)(x * TimeSpan.TicksPerMinute)))),
+        new TimeSpanProcedureDescription<Func<double, string>>("Seconds", "seconds", x => GetString(new TimeSpan((long)(x * TimeSpan.TicksPerSecond)))),
     };
 
-    var leftRightOperators = new List<ProcedureDescription<Func<double, double, string>>>
+    var leftRightNumericOperators = new List<ProcedureDescription<Func<double, double, string>>>
     {
-        new ProcedureDescription<Func<double, double, string>>("Addition", "+", (a,b) => GetString(a+b)),
-        new ProcedureDescription<Func<double, double, string>>("Subtraction", "-", (a,b) => GetString(a-b), true),
-        new ProcedureDescription<Func<double, double, string>>("Multiplication", "*", (a,b) => GetString(a*b)),
-        new ProcedureDescription<Func<double, double, string>>("Division", "/", (a,b) => GetString(a/b)),
-        new ProcedureDescription<Func<double, double, string>>("Power", "^", (a,b) => GetString(Math.Pow(a,b))),
+        new NumericProcedureDescription<Func<double, double, string>>("Addition", "+", (a,b) => GetString(a+b)),
+        new NumericProcedureDescription<Func<double, double, string>>("Subtraction", "-", (a,b) => GetString(a-b)),
+        new NumericProcedureDescription<Func<double, double, string>>("Multiplication", "*", (a,b) => GetString(a*b)),
+        new NumericProcedureDescription<Func<double, double, string>>("Division", "/", (a,b) => GetString(a/b)),
+        new NumericProcedureDescription<Func<double, double, string>>("Power", "^", (a,b) => GetString(Math.Pow(a,b))),
+        new BooleanProcedureDescription<Func<double, double, string>>("GreaterThan", ">", (a,b) => GetString(a>b)),
+        new BooleanProcedureDescription<Func<double, double, string>>("GreaterEqual", ">=", (a,b) => GetString(a>=b)),
+        new BooleanProcedureDescription<Func<double, double, string>>("LesserThan", "<", (a,b) => GetString(a<b)),
+        new BooleanProcedureDescription<Func<double, double, string>>("LesserEqual", "<=", (a,b) => GetString(a<=b)),
+        new BooleanProcedureDescription<Func<double, double, string>>("Equal", "==", (a,b) => GetString(a==b)),
+        new BooleanProcedureDescription<Func<double, double, string>>("NotEqual", "!=", (a,b) => GetString(a!=b)),
+    };
+
+    var leftRightBooleanOperators = new List<ProcedureDescription<Func<bool, bool, string>>>
+    {
+        new BooleanProcedureDescription<Func<bool, bool, string>>("Or", "||", (a,b) => GetString(a||b)),
+        new BooleanProcedureDescription<Func<bool, bool, string>>("And", "&&", (a,b) => GetString(a&&b)),
     };
 
     var values = positiveValues.Union(negativeValues).ToList();
@@ -63,17 +81,32 @@
         template.Render();
     }
     
-    foreach(var op in leftRightOperators)
+    foreach(var op in leftRightNumericOperators)
     {
-        var template = new OperatorTestsTemplate();
+        var template = new OperatorTestsTemplate<double>();
         template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
         template.ClassName = op.OpName + "OperatorTests";
         template.OperatorName = op.OpName;
-        template.Operator = op.Op;    
+		template.Operator = op.Op;    
         template.Values = values;
-        template.NegativeValues = negativeValues;
-        template.MalformedRightNegativeOnly = op.MalformedRightNegativeOnly;
+        
+		template.NegativeValues = negativeValues;
+
+		template.Calculator = op.Calculator;
+		template.EvaluateType = op.EvaluationType;
+        template.Render();
+    }
+    
+    foreach(var op in leftRightBooleanOperators)
+    {
+        var template = new OperatorTestsTemplate<bool>();
+        template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
+        template.ClassName = op.OpName + "OperatorTests";
+        template.OperatorName = op.OpName;
+		template.Operator = op.Op;    
+        template.Values = booleanValues;
         template.Calculator = op.Calculator;
+		template.EvaluateType = op.EvaluationType;
         template.Render();
     }
     
@@ -88,6 +121,11 @@
     q.Render();
 #>
 <#+ 
+public string GetString(bool val)
+{
+	return val ? "true" : "false";
+}
+
 public string GetString(double val)
 {
 	return double.NaN.Equals(val) ? "double.NaN" : val.ToString("R") + "d";
@@ -100,33 +138,59 @@ public string GetString(TimeSpan val)
 
 public class ProcedureDescription<T>
 {
-    public ProcedureDescription(string opName, string op, T calculator, bool malformedRightNegativeOnly)
-	{
-        OpName = opName;
-		Op = op;
-    	Calculator = calculator;
-		MalformedRightNegativeOnly = malformedRightNegativeOnly;
-	}
-	
-    public ProcedureDescription(string opName, string op, T calculator, string evaluationType)
-    {
-        OpName = opName;
-        Op = op;
-        Calculator = calculator;
-		EvaluationType = evaluationType;
-    }
-    
     public ProcedureDescription(string opName, string op, T calculator)
     {
         OpName = opName;
 		Op = op;
     	Calculator = calculator;
+		Init();
     }
     
     public string OpName;
 	public string Op;
 	public T Calculator;
-	public string EvaluationType = "Numeric";	
+	public string EvaluationType;	
 	public bool MalformedRightNegativeOnly = false;
+	
+	virtual protected void Init()
+	{}
 
-}#>
+}
+
+public class NumericProcedureDescription<T> : ProcedureDescription<T>
+{	
+    public NumericProcedureDescription(string opName, string op, T calculator) :
+		base(opName, op, calculator)
+	{}
+	
+	override protected void Init()
+	{
+		EvaluationType = "Numeric";
+	}
+}
+
+public class TimeSpanProcedureDescription<T> : ProcedureDescription<T>
+{	
+    public TimeSpanProcedureDescription(string opName, string op, T calculator) :
+		base(opName, op, calculator)
+	{}
+	
+	override protected void Init()
+	{
+		EvaluationType = "<TimeSpan>";
+	}
+}
+
+public class BooleanProcedureDescription<T> : ProcedureDescription<T>
+{	
+    public BooleanProcedureDescription(string opName, string op, T calculator) :
+		base(opName, op, calculator)
+	{}
+	
+	override protected void Init()
+	{
+		EvaluationType = "Boolean";
+	}
+}
+
+#>

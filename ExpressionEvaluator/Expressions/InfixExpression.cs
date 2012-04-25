@@ -81,7 +81,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             function = Regex.Replace( function, @"^- (\b)", @"-$1");
 
             // Fix negatives after a math function.
-            function = Regex.Replace(function, @"([+-/\(^*]) - (\d)", @"$1 -$2");
+            function = Regex.Replace(function, @"([=><+-/\(^*]) - (\d)", @"$1 -$2");
 
             // Fix negatives between two numbers.
             function = Regex.Replace(function, @"(\d)[ ]*-[ ]*(\d)", @"$1 - $2");

@@ -5,7 +5,7 @@ public class FunctionTestsTemplate : TestsTemplate
 	public string OperatorName;
 	public string Operator;
 	public Func<double, string> Calculator; 
-    public List<ValueDescription> Values;
+    public List<ValueDescription<double>> Values;
 	public string EvaluateType;
 	
 	public override string TransformText()

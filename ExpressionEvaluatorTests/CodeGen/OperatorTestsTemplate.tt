@@ -1,13 +1,13 @@
 ﻿<#+
-public class OperatorTestsTemplate : TestsTemplate
+public class OperatorTestsTemplate<T> : TestsTemplate
 {
     public string ClassName;
     public string OperatorName;
     public string Operator;
-    public Func<double, double, string> Calculator; 
-    public List<ValueDescription> Values;
-    public List<ValueDescription> NegativeValues;
-    public bool MalformedRightNegativeOnly = false;
+    public Func<T, T, string> Calculator; 
+    public List<ValueDescription<T>> Values;
+    public List<ValueDescription<T>> NegativeValues;
+	public string EvaluateType;
 
     public override string TransformText()
     {
@@ -18,7 +18,7 @@ public class OperatorTestsTemplate : TestsTemplate
 		WriteLeftRightOperatorRightVariableTests();
 		WriteLeftRightOperatorWithVariableTests();
         WriteMalformedLeftOfOperatorTests();
-        if (MalformedRightNegativeOnly)
+        if (Operator == "-")
             WriteMalformedRightOfOperatorTests(NegativeValues);
         else
             WriteMalformedRightOfOperatorTests(Values);
@@ -37,10 +37,10 @@ public class OperatorTestsTemplate : TestsTemplate
                 var outputVal = Calculator(vd1.Value, vd2.Value);
 #>
         [Test]
-        public void <#= OperatorName #>Operator_<#= vd1.Description #>AddedTo<#= vd2.Description #>_IsCorrect()
+        public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>_IsCorrect()
         {
             func.Function = "<#= vd1.Value #> <#= Operator #> <#= vd2.Value#>";
-            Assert.AreEqual(<#= outputVal #>, func.EvaluateNumeric());
+            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -57,11 +57,11 @@ public class OperatorTestsTemplate : TestsTemplate
                 var outputVal = Calculator(vd1.Value, vd2.Value);
 #>
         [Test]
-        public void <#= OperatorName #>Operator_<#= vd1.Description #>AddedTo<#= vd2.Description #>WithLeftVariable_IsCorrect()
+        public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithLeftVariable_IsCorrect()
         {
             func.Function = "a <#= Operator #> <#= vd2.Value#>";
-			func.AddSetVariable("a", <#= vd1.Value #>);
-            Assert.AreEqual(<#= outputVal #>, func.EvaluateNumeric());
+			func.AddSetVariable("a", <#= vd1.TextValue #>);
+            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -78,11 +78,11 @@ public class OperatorTestsTemplate : TestsTemplate
                 var outputVal = Calculator(vd1.Value, vd2.Value);
 #>
         [Test]
-        public void <#= OperatorName #>Operator_<#= vd1.Description #>AddedTo<#= vd2.Description #>WithRightVariable_IsCorrect()
+        public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithRightVariable_IsCorrect()
         {
             func.Function = "<#= vd1.Value #> <#= Operator #> a";
-			func.AddSetVariable("a", <#= vd2.Value #>);
-            Assert.AreEqual(<#= outputVal #>, func.EvaluateNumeric());
+			func.AddSetVariable("a", <#= vd2.TextValue #>);
+            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -99,12 +99,12 @@ public class OperatorTestsTemplate : TestsTemplate
                 var outputVal = Calculator(vd1.Value, vd2.Value);
 #>
         [Test]
-        public void <#= OperatorName #>Operator_<#= vd1.Description #>AddedTo<#= vd2.Description #>WithVariable_IsCorrect()
+        public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithVariable_IsCorrect()
         {
             func.Function = "a <#= Operator #> b";
-			func.AddSetVariable("a", <#= vd1.Value #>);
-			func.AddSetVariable("b", <#= vd2.Value #>);
-            Assert.AreEqual(<#= outputVal #>, func.EvaluateNumeric());
+			func.AddSetVariable("a", <#= vd1.TextValue #>);
+			func.AddSetVariable("b", <#= vd2.TextValue #>);
+            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -112,7 +112,7 @@ public class OperatorTestsTemplate : TestsTemplate
         }
     }
 
-    public void WriteMalformedRightOfOperatorTests(List<ValueDescription> values)
+    public void WriteMalformedRightOfOperatorTests(List<ValueDescription<T>> values)
     {
         foreach (var vd1 in values)
         {

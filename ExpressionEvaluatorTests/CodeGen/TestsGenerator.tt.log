@@ -17,6 +17,14 @@
 ..\MultiplicationOperatorTests.generated.cs
 ..\DivisionOperatorTests.generated.cs
 ..\PowerOperatorTests.generated.cs
+..\GreaterThanOperatorTests.generated.cs
+..\GreaterEqualOperatorTests.generated.cs
+..\LesserThanOperatorTests.generated.cs
+..\LesserEqualOperatorTests.generated.cs
+..\EqualOperatorTests.generated.cs
+..\NotEqualOperatorTests.generated.cs
+..\OrOperatorTests.generated.cs
+..\AndOperatorTests.generated.cs
 ..\CaseTests.generated.cs
 ..\PrecedenceTestsBase.generated.cs
 .\TestsGenerator.tt.log

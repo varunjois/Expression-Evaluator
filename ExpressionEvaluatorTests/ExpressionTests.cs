@@ -200,25 +200,6 @@ namespace PETNet.Olympus.Tests.ExpressionTesting.Interpreted.Functionality
             Assert.AreEqual(0.25, func.EvaluateNumeric());
         }
 
-        /*
-            2, 2
-            2, 0.5
-            2, -2
-            2, -0.5
-            0.5, 2
-            0.5, 0.5
-            0.5, -2
-            0.5, -0.5
-            -2, 2
-            -2, 0.5
-            -2, -2
-            -2, -0.5
-            -0.5, 2
-            -0.5, 0.5
-            -0.5, -2
-            -0.5, -0.5
-        */
-
     }
 
 }

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="AbsFunctionTests.generated.cs" />
     <Compile Include="AdditionOperatorTests.generated.cs" />
+    <Compile Include="AndOperatorTests.generated.cs" />
     <Compile Include="BooleanOperatorTests.cs" />
     <Compile Include="CaseTests.generated.cs" />
     <Compile Include="CodeGen\TestsGenerator.cs">
@@ -61,14 +62,21 @@
     <Compile Include="DateTimeTests.cs" />
     <Compile Include="DaysFunctionTests.generated.cs" />
     <Compile Include="DivisionOperatorTests.generated.cs" />
+    <Compile Include="EqualOperatorTests.generated.cs" />
     <Compile Include="ExpressionTests.cs" />
+    <Compile Include="GreaterEqualOperatorTests.generated.cs" />
+    <Compile Include="GreaterThanOperatorTests.generated.cs" />
     <Compile Include="GroupingTests.cs" />
     <Compile Include="HoursFunctionTests.generated.cs" />
+    <Compile Include="LesserEqualOperatorTests.generated.cs" />
+    <Compile Include="LesserThanOperatorTests.generated.cs" />
     <Compile Include="LnFunctionTests.generated.cs" />
     <Compile Include="MinutesFunctionTests.generated.cs" />
     <Compile Include="MultiplicationOperatorTests.generated.cs" />
     <Compile Include="NegFunctionTests.generated.cs" />
+    <Compile Include="NotEqualOperatorTests.generated.cs" />
     <Compile Include="OperatorTests.cs" />
+    <Compile Include="OrOperatorTests.generated.cs" />
     <Compile Include="PowerOperatorTests.generated.cs" />
     <Compile Include="PrecedenceTestsBase.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

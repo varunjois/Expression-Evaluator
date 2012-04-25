@@ -19,514 +19,514 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
         
         [Test]
-        public void PowerOperator_PositiveWholeAddedToPositiveWhole_IsCorrect()
+        public void PowerOperator_PositiveWholeWithPositiveWhole_IsCorrect()
         {
             func.Function = "2 ^ 2";
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToPositiveFraction_IsCorrect()
+        public void PowerOperator_PositiveWholeWithPositiveFraction_IsCorrect()
         {
             func.Function = "2 ^ 0.5";
             Assert.AreEqual(1.4142135623730952d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToNegativeWhole_IsCorrect()
+        public void PowerOperator_PositiveWholeWithNegativeWhole_IsCorrect()
         {
             func.Function = "2 ^ -2";
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToNegativeFraction_IsCorrect()
+        public void PowerOperator_PositiveWholeWithNegativeFraction_IsCorrect()
         {
             func.Function = "2 ^ -0.5";
             Assert.AreEqual(0.70710678118654757d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToPositiveWhole_IsCorrect()
+        public void PowerOperator_PositiveFractionWithPositiveWhole_IsCorrect()
         {
             func.Function = "0.5 ^ 2";
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToPositiveFraction_IsCorrect()
+        public void PowerOperator_PositiveFractionWithPositiveFraction_IsCorrect()
         {
             func.Function = "0.5 ^ 0.5";
             Assert.AreEqual(0.70710678118654757d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToNegativeWhole_IsCorrect()
+        public void PowerOperator_PositiveFractionWithNegativeWhole_IsCorrect()
         {
             func.Function = "0.5 ^ -2";
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToNegativeFraction_IsCorrect()
+        public void PowerOperator_PositiveFractionWithNegativeFraction_IsCorrect()
         {
             func.Function = "0.5 ^ -0.5";
             Assert.AreEqual(1.4142135623730952d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToPositiveWhole_IsCorrect()
+        public void PowerOperator_NegativeWholeWithPositiveWhole_IsCorrect()
         {
             func.Function = "-2 ^ 2";
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToPositiveFraction_IsCorrect()
+        public void PowerOperator_NegativeWholeWithPositiveFraction_IsCorrect()
         {
             func.Function = "-2 ^ 0.5";
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToNegativeWhole_IsCorrect()
+        public void PowerOperator_NegativeWholeWithNegativeWhole_IsCorrect()
         {
             func.Function = "-2 ^ -2";
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToNegativeFraction_IsCorrect()
+        public void PowerOperator_NegativeWholeWithNegativeFraction_IsCorrect()
         {
             func.Function = "-2 ^ -0.5";
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToPositiveWhole_IsCorrect()
+        public void PowerOperator_NegativeFractionWithPositiveWhole_IsCorrect()
         {
             func.Function = "-0.5 ^ 2";
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToPositiveFraction_IsCorrect()
+        public void PowerOperator_NegativeFractionWithPositiveFraction_IsCorrect()
         {
             func.Function = "-0.5 ^ 0.5";
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToNegativeWhole_IsCorrect()
+        public void PowerOperator_NegativeFractionWithNegativeWhole_IsCorrect()
         {
             func.Function = "-0.5 ^ -2";
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToNegativeFraction_IsCorrect()
+        public void PowerOperator_NegativeFractionWithNegativeFraction_IsCorrect()
         {
             func.Function = "-0.5 ^ -0.5";
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ 2";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ 0.5";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(1.4142135623730952d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ -2";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ -0.5";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(0.70710678118654757d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ 2";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ 0.5";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(0.70710678118654757d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ -2";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ -0.5";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(1.4142135623730952d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ 2";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ 0.5";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ -2";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ -0.5";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ 2";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ 0.5";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ -2";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a ^ -0.5";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "2 ^ a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "2 ^ a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(1.4142135623730952d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "2 ^ a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "2 ^ a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(0.70710678118654757d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 ^ a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 ^ a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(0.70710678118654757d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 ^ a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 ^ a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(1.4142135623730952d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-2 ^ a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-2 ^ a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-2 ^ a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-2 ^ a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 ^ a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 ^ a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 ^ a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 ^ a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToPositiveWholeWithVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToPositiveFractionWithVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(1.4142135623730952d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToNegativeWholeWithVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveWholeAddedToNegativeFractionWithVariable_IsCorrect()
+        public void PowerOperator_PositiveWholeWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(0.70710678118654757d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToPositiveWholeWithVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToPositiveFractionWithVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(0.70710678118654757d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToNegativeWholeWithVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_PositiveFractionAddedToNegativeFractionWithVariable_IsCorrect()
+        public void PowerOperator_PositiveFractionWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(1.4142135623730952d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToPositiveWholeWithVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToPositiveFractionWithVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToNegativeWholeWithVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeWholeAddedToNegativeFractionWithVariable_IsCorrect()
+        public void PowerOperator_NegativeWholeWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToPositiveWholeWithVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToPositiveFractionWithVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToNegativeWholeWithVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void PowerOperator_NegativeFractionAddedToNegativeFractionWithVariable_IsCorrect()
+        public void PowerOperator_NegativeFractionWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a ^ b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 

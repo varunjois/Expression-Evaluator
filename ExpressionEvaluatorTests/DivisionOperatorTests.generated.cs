@@ -19,514 +19,514 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
         
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToPositiveWhole_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithPositiveWhole_IsCorrect()
         {
             func.Function = "2 / 2";
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToPositiveFraction_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithPositiveFraction_IsCorrect()
         {
             func.Function = "2 / 0.5";
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToNegativeWhole_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithNegativeWhole_IsCorrect()
         {
             func.Function = "2 / -2";
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToNegativeFraction_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithNegativeFraction_IsCorrect()
         {
             func.Function = "2 / -0.5";
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToPositiveWhole_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithPositiveWhole_IsCorrect()
         {
             func.Function = "0.5 / 2";
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToPositiveFraction_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithPositiveFraction_IsCorrect()
         {
             func.Function = "0.5 / 0.5";
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToNegativeWhole_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithNegativeWhole_IsCorrect()
         {
             func.Function = "0.5 / -2";
             Assert.AreEqual(-0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToNegativeFraction_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithNegativeFraction_IsCorrect()
         {
             func.Function = "0.5 / -0.5";
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToPositiveWhole_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithPositiveWhole_IsCorrect()
         {
             func.Function = "-2 / 2";
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToPositiveFraction_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithPositiveFraction_IsCorrect()
         {
             func.Function = "-2 / 0.5";
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToNegativeWhole_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithNegativeWhole_IsCorrect()
         {
             func.Function = "-2 / -2";
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToNegativeFraction_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithNegativeFraction_IsCorrect()
         {
             func.Function = "-2 / -0.5";
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToPositiveWhole_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithPositiveWhole_IsCorrect()
         {
             func.Function = "-0.5 / 2";
             Assert.AreEqual(-0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToPositiveFraction_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithPositiveFraction_IsCorrect()
         {
             func.Function = "-0.5 / 0.5";
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToNegativeWhole_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithNegativeWhole_IsCorrect()
         {
             func.Function = "-0.5 / -2";
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToNegativeFraction_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithNegativeFraction_IsCorrect()
         {
             func.Function = "-0.5 / -0.5";
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a / 2";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a / 0.5";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a / -2";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a / -0.5";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a / 2";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a / 0.5";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a / -2";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(-0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a / -0.5";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a / 2";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a / 0.5";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a / -2";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a / -0.5";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a / 2";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(-0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a / 0.5";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a / -2";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a / -0.5";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "2 / a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "2 / a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "2 / a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "2 / a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 / a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 / a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 / a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(-0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 / a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-2 / a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-2 / a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-2 / a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-2 / a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 / a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(-0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 / a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 / a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 / a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToPositiveWholeWithVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToPositiveFractionWithVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToNegativeWholeWithVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveWholeAddedToNegativeFractionWithVariable_IsCorrect()
+        public void DivisionOperator_PositiveWholeWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToPositiveWholeWithVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToPositiveFractionWithVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToNegativeWholeWithVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(-0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_PositiveFractionAddedToNegativeFractionWithVariable_IsCorrect()
+        public void DivisionOperator_PositiveFractionWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToPositiveWholeWithVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToPositiveFractionWithVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToNegativeWholeWithVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeWholeAddedToNegativeFractionWithVariable_IsCorrect()
+        public void DivisionOperator_NegativeWholeWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToPositiveWholeWithVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(-0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToPositiveFractionWithVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToNegativeWholeWithVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(0.25d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void DivisionOperator_NegativeFractionAddedToNegativeFractionWithVariable_IsCorrect()
+        public void DivisionOperator_NegativeFractionWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a / b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 

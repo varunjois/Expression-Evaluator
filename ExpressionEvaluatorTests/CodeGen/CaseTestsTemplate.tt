@@ -1,62 +1,62 @@
 ﻿<#+
 public class CaseTestsTemplate : TestsTemplate
 {
-	public string ClassName;
-	
-	public override string TransformText()
-	{
-		StartClass(ClassName);
-		
-		WriteFunctionTests();
-		
-		EndClass();
-		
-        return this.GenerationEnvironment.ToString();
-	}
-
-	public void WriteFunctionTests()
+    public string ClassName;
+    
+    public override string TransformText()
     {
-	    List<string> paramNames = new List<string>
-	    {
-	        "a",
-	        "b",
-	        "c",
-	        "d"
-	    };
-	    
-		List<Tuple<string,string>> variableNames = new List<Tuple<string,string>>
-		{
-			new Tuple<string,string>("aAaA", "MixedCase"),
-			new Tuple<string,string>("AAAA", "AllCaps"),
-			new Tuple<string,string>("aaaa", "AllLower"),
-		};
-		
-	    List<Func> funcs = new List<Func>()
-	    {
-	        new Func("Sign", 1),
-	        new Func("Abs", 1),
-	        new Func("Neg", 1),
-	        new Func("Ln", 1),
-	        new Func("Now", 0),
-	        new Func("TotalDays", 1),
-	        new Func("TotalHours", 1),
-	        new Func("TotalMinutes", 1),
-	        new Func("TotalSeconds", 1),
-	        new Func("Days", 1),
-	        new Func("Hours", 1),
-	        new Func("Minutes", 1),
-	        new Func("Seconds", 1),
-	    };
+        StartClass(ClassName);
+        
+        WriteFunctionTests();
+        
+        EndClass();
+        
+        return this.GenerationEnvironment.ToString();
+    }
 
-	    foreach (var f in funcs)
-	    {
-	        string prms = "";
-	        for (int i = 0; i < f.NumParameters; i++)
-	        {
-	            prms += paramNames[i] + ",";
-	        }
-	        if (prms.Length > 1)
-	            prms = prms.Remove(prms.Length - 1);
+    public void WriteFunctionTests()
+    {
+        List<string> paramNames = new List<string>
+        {
+            "a",
+            "b",
+            "c",
+            "d"
+        };
+        
+        List<Tuple<string,string>> variableNames = new List<Tuple<string,string>>
+        {
+            new Tuple<string,string>("aAaA", "MixedCase"),
+            new Tuple<string,string>("AAAA", "AllCaps"),
+            new Tuple<string,string>("aaaa", "AllLower"),
+        };
+        
+        List<Func> funcs = new List<Func>()
+        {
+            new Func("Sign", 1),
+            new Func("Abs", 1),
+            new Func("Neg", 1),
+            new Func("Ln", 1),
+            new Func("Now", 0),
+            new Func("TotalDays", 1),
+            new Func("TotalHours", 1),
+            new Func("TotalMinutes", 1),
+            new Func("TotalSeconds", 1),
+            new Func("Days", 1),
+            new Func("Hours", 1),
+            new Func("Minutes", 1),
+            new Func("Seconds", 1),
+        };
+
+        foreach (var f in funcs)
+        {
+            string prms = "";
+            for (int i = 0; i < f.NumParameters; i++)
+            {
+                prms += paramNames[i] + ",";
+            }
+            if (prms.Length > 1)
+                prms = prms.Remove(prms.Length - 1);
 #>
         [Test]
         public void <#= f.Name #>_HasCaps_NoException()
@@ -75,14 +75,14 @@ public class CaseTestsTemplate : TestsTemplate
         {
             func.Function = "<#= f.Name.ToUpper() #>(<#= prms #>)";
         }
-		
+        
 <#+
-    	}
-		
-		foreach(Tuple<string, string> v1 in variableNames)
-		{
-			foreach(Tuple<string, string> v2 in variableNames)
-			{
+        }
+        
+        foreach(Tuple<string, string> v1 in variableNames)
+        {
+            foreach(Tuple<string, string> v2 in variableNames)
+            {
 #>
         [Test]
         public void Variable_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>_NoException()
@@ -90,39 +90,39 @@ public class CaseTestsTemplate : TestsTemplate
             func.Function = "<#= v1.Item1 #>";
             Assert.IsTrue(func.IsVariable("<#= v2.Item1 #>"));
         }
-		
+        
 <#+
             }
-		}
-		
-		foreach(Tuple<string, string> v1 in variableNames)
-		{
-			foreach(Tuple<string, string> v2 in variableNames)
-			{
+        }
+        
+        foreach(Tuple<string, string> v1 in variableNames)
+        {
+            foreach(Tuple<string, string> v2 in variableNames)
+            {
 #>
         [Test]
         public void Variable_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>ValueSet_CorrectEvaluation()
         {
             func.Function = "<#= v1.Item1 #>";
-			func.AddSetVariable("<#= v2.Item1 #>", 2.2);
+            func.AddSetVariable("<#= v2.Item1 #>", 2.2);
             Assert.AreEqual(func.EvaluateNumeric(), 2.2);
         }
-		
+        
 <#+
             }
-		}
-		
+        }
+        
     }
 }
 
 public class Func
 {
-	public Func(string name, int numParamameters)
-	{
-		Name = name;
-		NumParameters = numParamameters;
-	}
-	
+    public Func(string name, int numParamameters)
+    {
+        Name = name;
+        NumParameters = numParamameters;
+    }
+    
     public string Name;
     public int NumParameters;
 }

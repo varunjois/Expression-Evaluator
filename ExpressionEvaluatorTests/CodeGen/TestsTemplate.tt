@@ -43,16 +43,18 @@ namespace ExpressionEvaluatorTests
 
 }
 
-public class ValueDescription
+public class ValueDescription<T>
 {
-    public ValueDescription(string description, double value)
+    public ValueDescription(string description, T value, string textValue)
     {
         Value = value;
         Description = description;
+		TextValue = textValue;
     }
     
-    public double Value;
+    public T Value;
     public string Description;
+    public string TextValue;
 }
 
 #>

@@ -19,514 +19,514 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
         
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToPositiveWhole_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithPositiveWhole_IsCorrect()
         {
             func.Function = "2 - 2";
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToPositiveFraction_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithPositiveFraction_IsCorrect()
         {
             func.Function = "2 - 0.5";
             Assert.AreEqual(1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToNegativeWhole_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithNegativeWhole_IsCorrect()
         {
             func.Function = "2 - -2";
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToNegativeFraction_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithNegativeFraction_IsCorrect()
         {
             func.Function = "2 - -0.5";
             Assert.AreEqual(2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToPositiveWhole_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithPositiveWhole_IsCorrect()
         {
             func.Function = "0.5 - 2";
             Assert.AreEqual(-1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToPositiveFraction_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithPositiveFraction_IsCorrect()
         {
             func.Function = "0.5 - 0.5";
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToNegativeWhole_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithNegativeWhole_IsCorrect()
         {
             func.Function = "0.5 - -2";
             Assert.AreEqual(2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToNegativeFraction_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithNegativeFraction_IsCorrect()
         {
             func.Function = "0.5 - -0.5";
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToPositiveWhole_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithPositiveWhole_IsCorrect()
         {
             func.Function = "-2 - 2";
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToPositiveFraction_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithPositiveFraction_IsCorrect()
         {
             func.Function = "-2 - 0.5";
             Assert.AreEqual(-2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToNegativeWhole_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithNegativeWhole_IsCorrect()
         {
             func.Function = "-2 - -2";
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToNegativeFraction_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithNegativeFraction_IsCorrect()
         {
             func.Function = "-2 - -0.5";
             Assert.AreEqual(-1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToPositiveWhole_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithPositiveWhole_IsCorrect()
         {
             func.Function = "-0.5 - 2";
             Assert.AreEqual(-2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToPositiveFraction_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithPositiveFraction_IsCorrect()
         {
             func.Function = "-0.5 - 0.5";
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToNegativeWhole_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithNegativeWhole_IsCorrect()
         {
             func.Function = "-0.5 - -2";
             Assert.AreEqual(1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToNegativeFraction_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithNegativeFraction_IsCorrect()
         {
             func.Function = "-0.5 - -0.5";
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a - 2";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a - 0.5";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a - -2";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a - -0.5";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a - 2";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(-1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a - 0.5";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a - -2";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a - -0.5";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a - 2";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a - 0.5";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(-2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a - -2";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a - -0.5";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(-1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToPositiveWholeWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithPositiveWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a - 2";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(-2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToPositiveFractionWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithPositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a - 0.5";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToNegativeWholeWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithNegativeWholeWithLeftVariable_IsCorrect()
         {
             func.Function = "a - -2";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToNegativeFractionWithLeftVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithNegativeFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "a - -0.5";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "2 - a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "2 - a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "2 - a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "2 - a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 - a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(-1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 - a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 - a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "0.5 - a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-2 - a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-2 - a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(-2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-2 - a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-2 - a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(-1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToPositiveWholeWithRightVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithPositiveWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 - a";
-			func.AddSetVariable("a", 2);
+			func.AddSetVariable("a", 2d);
             Assert.AreEqual(-2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToPositiveFractionWithRightVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithPositiveFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 - a";
-			func.AddSetVariable("a", 0.5);
+			func.AddSetVariable("a", 0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToNegativeWholeWithRightVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithNegativeWholeWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 - a";
-			func.AddSetVariable("a", -2);
+			func.AddSetVariable("a", -2d);
             Assert.AreEqual(1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToNegativeFractionWithRightVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithNegativeFractionWithRightVariable_IsCorrect()
         {
             func.Function = "-0.5 - a";
-			func.AddSetVariable("a", -0.5);
+			func.AddSetVariable("a", -0.5d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToPositiveWholeWithVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToPositiveFractionWithVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToNegativeWholeWithVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveWholeAddedToNegativeFractionWithVariable_IsCorrect()
+        public void SubtractionOperator_PositiveWholeWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", 2);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", 2d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToPositiveWholeWithVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(-1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToPositiveFractionWithVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToNegativeWholeWithVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_PositiveFractionAddedToNegativeFractionWithVariable_IsCorrect()
+        public void SubtractionOperator_PositiveFractionWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", 0.5);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", 0.5d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToPositiveWholeWithVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(-4d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToPositiveFractionWithVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(-2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToNegativeWholeWithVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeWholeAddedToNegativeFractionWithVariable_IsCorrect()
+        public void SubtractionOperator_NegativeWholeWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", -2);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", -2d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(-1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToPositiveWholeWithVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithPositiveWholeWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", 2);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", 2d);
             Assert.AreEqual(-2.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToPositiveFractionWithVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithPositiveFractionWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", 0.5);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", 0.5d);
             Assert.AreEqual(-1d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToNegativeWholeWithVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithNegativeWholeWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", -2);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", -2d);
             Assert.AreEqual(1.5d, func.EvaluateNumeric());
         }
 
         [Test]
-        public void SubtractionOperator_NegativeFractionAddedToNegativeFractionWithVariable_IsCorrect()
+        public void SubtractionOperator_NegativeFractionWithNegativeFractionWithVariable_IsCorrect()
         {
             func.Function = "a - b";
-			func.AddSetVariable("a", -0.5);
-			func.AddSetVariable("b", -0.5);
+			func.AddSetVariable("a", -0.5d);
+			func.AddSetVariable("b", -0.5d);
             Assert.AreEqual(0d, func.EvaluateNumeric());
         }
 
