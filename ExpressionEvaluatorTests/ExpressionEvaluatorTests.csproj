@@ -59,6 +59,7 @@
       <DependentUpon>TestsGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="ConditionalTests.cs" />
+    <Compile Include="ContiansTests.cs" />
     <Compile Include="DateTimeTests.cs" />
     <Compile Include="DaysFunctionTests.generated.cs" />
     <Compile Include="DivisionOperatorTests.generated.cs" />

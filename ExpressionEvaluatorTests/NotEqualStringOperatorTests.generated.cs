@@ -28,21 +28,21 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void NotEqualStringOperator_StringFirstWithStringSecond_IsCorrect()
         {
-            func.Function = "'first' != 'second'";
+            func.Function = "'first' != '1sec.ond'";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void NotEqualStringOperator_StringSecondWithStringFirst_IsCorrect()
         {
-            func.Function = "'second' != 'first'";
+            func.Function = "'1sec.ond' != 'first'";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void NotEqualStringOperator_StringSecondWithStringSecond_IsCorrect()
         {
-            func.Function = "'second' != 'second'";
+            func.Function = "'1sec.ond' != '1sec.ond'";
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -57,7 +57,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void NotEqualStringOperator_StringFirstWithStringSecondWithLeftVariable_IsCorrect()
         {
-            func.Function = "a != 'second'";
+            func.Function = "a != '1sec.ond'";
 			func.AddSetVariable("a", "first");
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
@@ -66,15 +66,15 @@ namespace ExpressionEvaluatorTests
         public void NotEqualStringOperator_StringSecondWithStringFirstWithLeftVariable_IsCorrect()
         {
             func.Function = "a != 'first'";
-			func.AddSetVariable("a", "second");
+			func.AddSetVariable("a", "1sec.ond");
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void NotEqualStringOperator_StringSecondWithStringSecondWithLeftVariable_IsCorrect()
         {
-            func.Function = "a != 'second'";
-			func.AddSetVariable("a", "second");
+            func.Function = "a != '1sec.ond'";
+			func.AddSetVariable("a", "1sec.ond");
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -90,14 +90,14 @@ namespace ExpressionEvaluatorTests
         public void NotEqualStringOperator_StringFirstWithStringSecondWithRightVariable_IsCorrect()
         {
             func.Function = "'first' != a";
-			func.AddSetVariable("a", "second");
+			func.AddSetVariable("a", "1sec.ond");
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
         [Test]
         public void NotEqualStringOperator_StringSecondWithStringFirstWithRightVariable_IsCorrect()
         {
-            func.Function = "'second' != a";
+            func.Function = "'1sec.ond' != a";
 			func.AddSetVariable("a", "first");
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
@@ -105,8 +105,8 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void NotEqualStringOperator_StringSecondWithStringSecondWithRightVariable_IsCorrect()
         {
-            func.Function = "'second' != a";
-			func.AddSetVariable("a", "second");
+            func.Function = "'1sec.ond' != a";
+			func.AddSetVariable("a", "1sec.ond");
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -124,7 +124,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "a != b";
 			func.AddSetVariable("a", "first");
-			func.AddSetVariable("b", "second");
+			func.AddSetVariable("b", "1sec.ond");
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
@@ -132,7 +132,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualStringOperator_StringSecondWithStringFirstWithVariable_IsCorrect()
         {
             func.Function = "a != b";
-			func.AddSetVariable("a", "second");
+			func.AddSetVariable("a", "1sec.ond");
 			func.AddSetVariable("b", "first");
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
@@ -141,8 +141,8 @@ namespace ExpressionEvaluatorTests
         public void NotEqualStringOperator_StringSecondWithStringSecondWithVariable_IsCorrect()
         {
             func.Function = "a != b";
-			func.AddSetVariable("a", "second");
-			func.AddSetVariable("b", "second");
+			func.AddSetVariable("a", "1sec.ond");
+			func.AddSetVariable("b", "1sec.ond");
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -157,7 +157,7 @@ namespace ExpressionEvaluatorTests
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void NotEqualStringOperator_MalformedExpressionStringSecondLeftOfOperator_ThrowsException()
         {
-            func.Function = "'second' !=";
+            func.Function = "'1sec.ond' !=";
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace ExpressionEvaluatorTests
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void NotEqualStringOperator_MalformedExpressionStringSecondRightOfOperator_ThrowsException()
         {
-            func.Function = "!= 'second'";
+            func.Function = "!= '1sec.ond'";
         }
 
     }

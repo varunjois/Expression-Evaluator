@@ -36,7 +36,7 @@
     List<ValueDescription<string>> stringValues = new List<ValueDescription<string>>
     {
         new ValueDescription<string>("StringFirst", "'first'", "\"first\""),
-        new ValueDescription<string>("StringSecond", "'second'", "\"second\""),
+        new ValueDescription<string>("StringSecond", "'1sec.ond'", "\"1sec.ond\""),
     };
     
     var doubleDoubleFunctions = new List<ProcedureDescription<Func<double, string>>>
