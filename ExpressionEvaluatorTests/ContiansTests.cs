@@ -36,5 +36,28 @@ namespace ExpressionEvaluatorTests
             func.Function = @"Contains('abcd','cd')";
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
+
+        [Test]
+        public void Contains_CaseMismatch_True()
+        {
+            func.Function = @"Contains('abCd','cd')";
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Contains_CaseMismatchCapInVariable_True()
+        {
+            func.Function = @"Contains('abcd', a)";
+            func.AddSetVariable("a", "Cd");
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Contains_CaseMismatchCapInFunc_True()
+        {
+            func.Function = @"Contains('abCd', a)";
+            func.AddSetVariable("a", "cd");
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
     }
 }
