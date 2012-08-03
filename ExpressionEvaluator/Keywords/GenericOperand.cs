@@ -23,7 +23,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public override string ToString()
         {
 
-            return Value == null ? "" : Value.ToString();
+            return Value == null ? "null" : Value.ToString();
         }
     }
 }

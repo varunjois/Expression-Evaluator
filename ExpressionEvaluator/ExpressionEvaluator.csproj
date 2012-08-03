@@ -55,6 +55,7 @@
     <Compile Include="Keywords\Procedure.cs" />
     <Compile Include="Keywords\Token.cs" />
     <Compile Include="Keywords\Variable.cs" />
+    <Compile Include="Procedures\Constants\Null.cs" />
     <Compile Include="Procedures\Functions\Absolute.cs" />
     <Compile Include="Procedures\Functions\Contains.cs" />
     <Compile Include="Procedures\Functions\Days.cs" />

@@ -9,6 +9,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 {
     public static class ExpressionKeywords
     {
+        static public readonly Dictionary<string, IVariable> Constants = new Dictionary<string, IVariable>()
+        {
+            {"null", new GenericVariable<object>("null") {Value = null}},
+            {"true", new GenericVariable<bool>("true") {Value = true}},
+            {"false", new GenericVariable<bool>("false") {Value = false}}
+        };
+
         static public readonly List<Keyword> Keywords = new List<Keyword>
         {
             new Or(10),

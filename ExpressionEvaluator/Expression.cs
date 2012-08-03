@@ -46,6 +46,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected InfixExpression _inFunction;
         protected PostFixExpression _postFunction;
         protected Dictionary<string, IVariable> _variables = new Dictionary<string, IVariable>();
+        protected Dictionary<string, IVariable> _constants = new Dictionary<string, IVariable>();
         protected const double TRUE = 1;
         protected const double FALSE = 0;
         protected string[] _splitPostFunction;
@@ -234,9 +235,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     _tokens.Add(v);
                 }
 
-                if (t == "true" || t == "false")
+                if (IsConstant(t))
                 {
-                    var v = ConvertToOperand(t);
+                    var v = ExpressionKeywords.Constants[t];
                     _tokens.Add(v);
                 }
             }
@@ -256,7 +257,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             token = token.ToLower();
 
-            if (token == "true" || token == "false")
+            if (IsConstant(token))
                 return false;
 
             if (!ExpressionKeywords.IsOperand(token))
@@ -322,6 +323,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public double EvaluateNumeric()
         {
             var result = Evaluate();
+            if (result.Type == typeof(Object))
+                return Double.NaN;
             return ((GenericOperand<double>)result).Value;
         }
 
@@ -461,11 +464,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             }
             catch
             {
-                if (token == "true")
-                    return new GenericOperand<bool>(true);
+                //if (token == "true")
+                //    return new GenericOperand<bool>(true);
                 
-                if (token == "false")
-                    return new GenericOperand<bool>(false);
+                //if (token == "false")
+                //    return new GenericOperand<bool>(false);
+
+                if (IsConstant(token))
+                    return ExpressionKeywords.Constants[token];
 
                 if (IsString(token))
                     return new GenericOperand<string>(token.Substring(1, token.Length - 2));
@@ -510,6 +516,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             {
                 return false;
             }
+        }
+
+        protected bool IsConstant(string token)
+        {
+            if (ExpressionKeywords.Constants.Keys.Contains(token))
+                return true;
+            return false;
         }
 
         protected bool IsString(string token)
