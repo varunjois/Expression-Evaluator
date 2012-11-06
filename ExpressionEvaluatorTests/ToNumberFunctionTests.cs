@@ -47,7 +47,6 @@ namespace ExpressionEvaluatorTests
             NUnit.Framework.Assert.AreEqual(0.5d, func.EvaluateNumeric());
         }
 
-
         [Test]
         [NUnit.Framework.ExpectedException(typeof(ExpressionException), ExpectedMessage = "ToNumber operator used incorrectly", MatchType = MessageMatch.Contains)]
         public void ToNumberOperator_PositiveFractionNotStringWithLeftVariable_IsNotCorrect()
