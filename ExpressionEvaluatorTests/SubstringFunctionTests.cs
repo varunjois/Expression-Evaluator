@@ -60,7 +60,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [NUnit.Framework.ExpectedException(typeof(InvalidCastException), ExpectedMessage = "Unable to cast object", MatchType = MessageMatch.Contains)]
+        [NUnit.Framework.ExpectedException(typeof(InvalidTypeExpressionException), ExpectedMessage = "Result was null because of an invalid type", MatchType = MessageMatch.Contains)]
         public void SubstringOperator_VariableWithoutSetVariable_OperatorError()
         {
             func.Function = "substring('hello', a, 2)";
@@ -68,7 +68,7 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [NUnit.Framework.ExpectedException(typeof(InvalidCastException), ExpectedMessage = "Unable to cast object of type", MatchType = MessageMatch.Contains)]
+        [NUnit.Framework.ExpectedException(typeof(InvalidTypeExpressionException), ExpectedMessage = "Result was null because of an invalid type", MatchType = MessageMatch.Contains)]
         public void SubstringOperator_ExecuteSubstringOnNonString_OperatorError()
         {
             func.Function = "substring(3a, 0, 1)";

@@ -343,7 +343,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public T Evaluate<T>()
         {
             var result = Evaluate();
-            return ((GenericOperand<T>)result).Value;            
+            try
+            {
+                return ((GenericOperand<T>)result).Value;            
+            }
+            catch (InvalidCastException)
+            {
+                throw new InvalidTypeExpressionException("Result was null because of an invalid type.");
+            }            
         }
 
         private IOperand Evaluate()

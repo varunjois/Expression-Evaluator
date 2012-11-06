@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InvalidTypeExpressionException.cs" />
     <Compile Include="IExpression.cs" />
     <Compile Include="Keywords\Operand.cs" />
     <Compile Include="Keywords\Conditional.cs" />
