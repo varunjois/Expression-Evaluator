@@ -68,11 +68,11 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [NUnit.Framework.ExpectedException(typeof(ExpressionException), ExpectedMessage = "Expression formatted incorrecty", MatchType = MessageMatch.Contains)]
+        [NUnit.Framework.ExpectedException(typeof(InvalidCastException), ExpectedMessage = "Unable to cast object of type", MatchType = MessageMatch.Contains)]
         public void SubstringOperator_ExecuteSubstringOnNonString_OperatorError()
         {
-            func.Function = "toNumber(3a, 0, 1)";
-            func.EvaluateNumeric();
+            func.Function = "substring(3a, 0, 1)";
+            func.Evaluate<String>();
         }
 
     }
