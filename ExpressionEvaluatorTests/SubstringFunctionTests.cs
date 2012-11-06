@@ -33,7 +33,6 @@ namespace ExpressionEvaluatorTests
             NUnit.Framework.Assert.AreEqual("hel", func.Evaluate<String>());
         }
 
-
         [Test]
         [NUnit.Framework.ExpectedException(typeof(ExpressionException), ExpectedMessage = "One or more of the substring parameters contain decimals and not integers", MatchType = MessageMatch.Contains)]
         public void SubstringOperator_CalledWithFloat_IsNotCorrect()
