@@ -1,20 +1,19 @@
 ﻿<#@ template language="C#" hostspecific="True" debug="True" #>
-<#@ assembly name="System.Core.dll" #>
-<#@ output extension="cs" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension="log" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Diagnostics" #>
 <#@ import namespace="System.Collections" #>
 <#@ import namespace="System.Collections.Generic" #> 
-<#@ include file="T4Toolbox.tt" #>
+<#@ include file="MultipleOutputHelper.ttinclude" #>
 <#@ include file="TestsTemplate.tt" #>
-<#@ include file="FunctionTestsTemplate.tt" #>
 <#@ include file="OperatorTestsTemplate.tt" #>
 <#@ include file="CaseTestsTemplate.tt" #>
 <#@ include file="PrecedenceTestsTemplate.tt" #>
+<#@ include file="FunctionTestsTemplate.tt" #>
 <#
-
     List<ValueDescription<double>> negativeValues = new List<ValueDescription<double>>
     {
         new ValueDescription<double>("NegativeWhole", -2d, "-2d"),
@@ -65,7 +64,7 @@
         new BooleanProcedureDescription<Func<double, double, string>>("EqualNumeric", "==", (a,b) => GetString(a==b)),
         new BooleanProcedureDescription<Func<double, double, string>>("NotEqualNumeric", "!=", (a,b) => GetString(a!=b)),
     };
-
+    
     var leftRightBooleanOperators = new List<ProcedureDescription<Func<bool, bool, string>>>
     {
         new BooleanProcedureDescription<Func<bool, bool, string>>("Or", "||", (a,b) => GetString(a||b)),
@@ -82,23 +81,27 @@
 
     var values = positiveValues.Union(negativeValues).ToList();
 
+    var manager = Manager.Create(Host, GenerationEnvironment);
+
     foreach(var func in doubleDoubleFunctions)
     {
         var template = new FunctionTestsTemplate();
-        template.Output.File = @"..\" + func.OpName + @"FunctionTests.generated.cs";
+        //template.Output.File = @"..\" + func.OpName + @"FunctionTests.generated.cs";
         template.ClassName = func.OpName + "FunctionTests";
         template.OperatorName = func.OpName;
         template.Operator = func.Op;    
         template.Values = values;
         template.Calculator = func.Calculator;
 		template.EvaluateType = func.EvaluationType;
-        template.Render();
+        manager.StartNewFile(@"..\" + func.OpName + @"FunctionTests.generated.cs");
+        #><#= template.TransformText() #><#
+        manager.EndBlock();
     }
     
     foreach(var op in leftRightNumericOperators)
     {
         var template = new OperatorTestsTemplate<double>();
-        template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
+        //template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
         template.ClassName = op.OpName + "OperatorTests";
         template.OperatorName = op.OpName;
 		template.Operator = op.Op;    
@@ -108,46 +111,56 @@
 
 		template.Calculator = op.Calculator;
 		template.EvaluateType = op.EvaluationType;
-        template.Render();
+        manager.StartNewFile(@"..\" + op.OpName + @"OperatorTests.generated.cs");
+        #><#= template.TransformText() #><#
+        manager.EndBlock();
     }
     
     foreach(var op in leftRightBooleanOperators)
     {
         var template = new OperatorTestsTemplate<bool>();
-        template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
+        //template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
         template.ClassName = op.OpName + "OperatorTests";
         template.OperatorName = op.OpName;
 		template.Operator = op.Op;    
         template.Values = booleanValues;
         template.Calculator = op.Calculator;
 		template.EvaluateType = op.EvaluationType;
-        template.Render();
+        manager.StartNewFile(@"..\" + op.OpName + @"OperatorTests.generated.cs");
+        #><#= template.TransformText() #><#
+        manager.EndBlock();
     }
     
     foreach(var op in leftRightStringOperators)
     {
         var template = new OperatorTestsTemplate<string>();
-        template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
+        //template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
         template.ClassName = op.OpName + "OperatorTests";
         template.OperatorName = op.OpName;
 		template.Operator = op.Op;    
         template.Values = stringValues;
         template.Calculator = op.Calculator;
 		template.EvaluateType = op.EvaluationType;
-        template.Render();
+        manager.StartNewFile(@"..\" + op.OpName + @"OperatorTests.generated.cs");
+        #><#= template.TransformText() #><#
+        manager.EndBlock();
     }
     
     var t = new CaseTestsTemplate();
-    t.Output.File = @"..\CaseTests.generated.cs";
     t.ClassName = "CaseTests";
-    t.Render();
+    manager.StartNewFile(@"..\CaseTests.generated.cs");
+    #><#= t.TransformText() #><#
+    manager.EndBlock();
     
     var q = new PrecedenceTestsTemplate();
-    q.Output.File = @"..\PrecedenceTestsBase.generated.cs";
     q.ClassName = "PrecedenceTestsBase";
-    q.Render();
+    manager.StartNewFile(@"..\PrecedenceTestsBase.generated.cs");
+    #><#= q.TransformText() #><#
+    manager.EndBlock();
+
+    manager.Process(true, false);
 #>
-<#+ 
+<#+
 public string GetString(bool val)
 {
 	return val ? "true" : "false";

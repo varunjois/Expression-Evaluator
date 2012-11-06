@@ -1,12 +1,7 @@
-﻿<#+
-public class TestsTemplate : Template
+﻿<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#+
+abstract public class TestsTemplate : TextTransformation
 {
-	public override string TransformText()
-	{
-
-        return this.GenerationEnvironment.ToString();
-	}
-	
 	public void StartClass(string name)
     {
 #>

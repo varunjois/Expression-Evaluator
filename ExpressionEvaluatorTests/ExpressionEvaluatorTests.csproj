@@ -52,13 +52,7 @@
     <Compile Include="AbsFunctionTests.generated.cs" />
     <Compile Include="AdditionOperatorTests.generated.cs" />
     <Compile Include="AndOperatorTests.generated.cs" />
-    <Compile Include="BooleanOperatorTests.cs" />
     <Compile Include="CaseTests.generated.cs" />
-    <Compile Include="CodeGen\TestsGenerator.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestsGenerator.tt</DependentUpon>
-    </Compile>
     <Compile Include="ConditionalTests.cs" />
     <Compile Include="ContiansTests.cs" />
     <Compile Include="DateTimeTests.cs" />
@@ -87,7 +81,6 @@
     <Compile Include="PowerOperatorTests.generated.cs" />
     <Compile Include="PrecedenceTestsBase.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScientificNotationTests.cs" />
     <Compile Include="SecondsFunctionTests.generated.cs" />
     <Compile Include="SignFunctionTests.generated.cs" />
     <Compile Include="SubtractionOperatorTests.generated.cs" />
@@ -102,11 +95,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CodeGen\CaseTestsTemplate.tt" />
+    <None Include="CodeGen\MultipleOutputHelper.ttinclude" />
     <None Include="CodeGen\PrecedenceTestsTemplate.tt" />
     <None Include="CodeGen\OperatorTestsTemplate.tt" />
+    <None Include="CodeGen\TestsGenerator.log">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestsGenerator.tt</DependentUpon>
+    </None>
     <None Include="CodeGen\TestsGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TestsGenerator.cs</LastGenOutput>
+      <LastGenOutput>TestsGenerator.log</LastGenOutput>
     </None>
     <None Include="CodeGen\FunctionTestsTemplate.tt" />
     <None Include="CodeGen\TestsTemplate.tt" />
@@ -115,9 +114,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CodeGen\TestsGenerator.tt.log">
-      <DependentUpon>TestsGenerator.tt</DependentUpon>
-    </Content>
+    <Folder Include="CodeGen\..\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
