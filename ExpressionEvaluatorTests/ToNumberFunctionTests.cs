@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Vanderbilt.Biostatistics.Wfccm2;
 using NUnit.Framework;
@@ -39,12 +39,20 @@ namespace ExpressionEvaluatorTests
             NUnit.Framework.Assert.AreEqual(-2.0f, func.EvaluateNumeric());
         }
 
-
         [Test]
         public void ToNumberOperator_PositiveFractionWithLeftVariable_IsCorrect()
         {
             func.Function = "toNumber(a)";
             func.AddSetVariable("a", "0.5");
+            NUnit.Framework.Assert.AreEqual(0.5d, func.EvaluateNumeric());
+        }
+
+        [Test]
+        [NUnit.Framework.ExpectedException(typeof(FormatException), ExpectedMessage = "Input string was not in a correct format", MatchType = MessageMatch.Contains)]
+        public void ToNumberOperator_PositiveFractionWithLeftVariableOfWrongType_IsNotCorrect()
+        {
+            func.Function = "toNumber(a)";
+            func.AddSetVariable("a", "b");
             NUnit.Framework.Assert.AreEqual(0.5d, func.EvaluateNumeric());
         }
 
@@ -55,7 +63,6 @@ namespace ExpressionEvaluatorTests
             func.Function = "toNumber(a)";
             func.EvaluateNumeric();
         }
-
 
         [Test]
         [NUnit.Framework.ExpectedException(typeof(ExpressionException), ExpectedMessage = "ToNumber operator used incorrectly", MatchType = MessageMatch.Contains)]
