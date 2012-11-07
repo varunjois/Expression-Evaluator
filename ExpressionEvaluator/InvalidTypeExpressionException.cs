@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
     [Serializable]
-    public class InvalidTypeExpressionException : Exception
+    public class InvalidTypeExpressionException : ExpressionException
     {
         public InvalidTypeExpressionException(string description) : base (description)
         {
