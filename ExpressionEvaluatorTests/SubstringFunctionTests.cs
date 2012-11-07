@@ -30,7 +30,7 @@ namespace ExpressionEvaluatorTests
         public void SubstringOperator_CalledWithNegativeIndex_IsCorrect()
         {
             func.Function = "substring('hello', -1, 3)";
-            NUnit.Framework.Assert.AreEqual("hel", func.Evaluate<String>());
+            func.Evaluate<String>();
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace ExpressionEvaluatorTests
         public void SubstringOperator_CalledWithFloat_IsNotCorrect()
         {
             func.Function = "substring('hello', 0.1, 3)";
-            NUnit.Framework.Assert.AreEqual("hel", func.Evaluate<String>());
+            func.Evaluate<String>();
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "substring('hello', 0, a)";
             func.AddSetVariable("a", 2.1);
-            NUnit.Framework.Assert.AreEqual(2.1d, func.Evaluate<String>());
+            func.Evaluate<String>();
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "substring('hello', 0, a)";
             func.AddSetVariable("a", "b");
-            NUnit.Framework.Assert.AreEqual(0.5d, func.Evaluate<String>());
+            func.Evaluate<String>();
         }
 
         [Test]
