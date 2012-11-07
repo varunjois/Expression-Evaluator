@@ -1,12 +1,8 @@
-﻿// ReSharper disable InconsistentNaming
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+// ReSharper disable InconsistentNaming
 using Vanderbilt.Biostatistics.Wfccm2;
 using NUnit.Framework;
 
-namespace PETNet.Olympus.Tests.ExpressionTesting.Interpreted.Functionality
+namespace ExpressionEvaluatorTests
 {
     /// <summary>
     /// Summary description for ExpressionTests

@@ -1,12 +1,11 @@
 ﻿// ReSharper disable InconsistentNaming
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Vanderbilt.Biostatistics.Wfccm2;
 using NUnit.Framework;
 
 namespace ExpressionEvaluatorTests
 {
-    [TestClass]
+    [TestFixture]
     public class ToNumberFunctionTests
     {
         Expression func;
