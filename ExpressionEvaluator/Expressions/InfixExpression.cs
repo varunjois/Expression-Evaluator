@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,7 +9,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     {
         public InfixExpression(string expression)
         {
+            AutoVariable = new List<IVariable>();
             _original = expression;
+            expression = replaceStrings(expression);
             Expression = Expand(expression.ToLower());
             _tokens = Expression.Split(new[]
             { ' ' });
@@ -19,9 +21,30 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             CheckConditionals(Expression, _tokens);
         }
 
+        private string replaceStrings(string expression)
+        {
+            foreach (var op in ExpressionKeywords.StringGroupOperators)
+            {
+                if (expression.Count(s => s == op[0]) % 2 != 0)
+                    throw new ExpressionException("String grouping error! \"" + op + "\" use incorrectly.");
+                var pattern = string.Format("{0}.*?{0}", op);
+                var regex = new Regex(pattern);
+                expression = regex.Replace(expression, m =>
+                {
+                    var name = Guid.NewGuid().ToString("N");
+                    var value = m.Value.Substring(1, m.Value.Length-2).ToLower();
+                    var newVar = new GenericVariable<string>(name, value);
+                    AutoVariable.Add(newVar);
+                    return name;
+                });
+            }
+            return expression;
+        }
+
         private string _expression;
         private string _original;
         private string[] _tokens;
+        public List<IVariable> AutoVariable { get; private set; }
 
         public string Original
         {

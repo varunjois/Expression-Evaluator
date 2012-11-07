@@ -93,6 +93,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 _inFunction = new InfixExpression(value);
                 _postFunction = new PostFixExpression(_inFunction);
                 ClearVariables();
+                foreach(var v in _inFunction.AutoVariable)
+                    _variables.Add(v.Name, v);
                 BuildTokens();
             }
         }
@@ -203,23 +205,24 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             {
                 if (IsVariable(t))
                 {
-                    GenericVariable<object> v;
                     if (!_variables.ContainsKey(t))
                     {
+                        GenericVariable<object> v;
                         v = new GenericVariable<object>(t, null);
                         _variables.Add(t, v);
+                        _tokens.Add(v);
                     }
                     else
                     {
-                        v = (GenericVariable<object>)_variables[t];
+                        var v = _variables[t];
+                        _tokens.Add(v);
                     }
-                    _tokens.Add(v);
                     continue;
                 }
 
-                if (ExpressionKeywords.Keywords.Where(x => x.Name == t).Count() == 1)
+                if (ExpressionKeywords.Keywords.Count(x => x.Name == t) == 1)
                 {
-                    var v = ExpressionKeywords.Keywords.Where(x => x.Name == t).Single();
+                    var v = ExpressionKeywords.Keywords.Single(x => x.Name == t);
                     _tokens.Add(v);
                 }
 

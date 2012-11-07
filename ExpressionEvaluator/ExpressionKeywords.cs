@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ExpressionEvaluator.Procedures;
@@ -60,6 +60,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
             new Grouping("Paranthesis", "(", ")"),
             new Grouping("Curley Braces", "{", "}"),
+            new StringGrouping("String", "'"),
         };
 
         static public readonly List<string> Operators
@@ -67,6 +68,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         static public readonly List<string> Functions
             = Keywords.OfType<Function>().Select(x => x.Name).ToList();
+
+        static public readonly List<string> StringGroupOperators =
+            Keywords.OfType<StringGrouping>()
+                .Select(x => x.Delimiter).ToList();
 
         static public readonly List<string> OpenGroupOperators =
             Keywords.OfType<Grouping>()

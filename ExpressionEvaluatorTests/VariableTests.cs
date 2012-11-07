@@ -22,6 +22,59 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
 
         [Test]
+        public void VariableList_HasVariableNotSet_IsInList()
+        {
+            func.Function = "a";
+            Assert.IsTrue(func.FunctionVariables.Contains("a"));
+        }
+
+        [Test]
+        public void VariableList_HasNumericVariableSet_IsInList()
+        {
+            func.Function = "a";
+            func.AddSetVariable("a", 2);
+            Assert.IsTrue(func.FunctionVariables.Contains("a"));
+        }
+
+        [Test]
+        public void VariableList_HasNumericVariableSet_CountCorrect()
+        {
+            func.Function = "a";
+            func.AddSetVariable("a", 2);
+            Assert.AreEqual(1, func.FunctionVariables.Count);
+        }
+
+        [Test]
+        public void VariableList_HasStringVariableSet_IsInList()
+        {
+            func.Function = "a";
+            func.AddSetVariable("a", "2");
+            Assert.IsTrue(func.FunctionVariables.Contains("a"));
+        }
+
+        [Test]
+        public void VariableList_HasStringVariableSet_CountCorrect()
+        {
+            func.Function = "a";
+            func.AddSetVariable("a", "2");
+            Assert.AreEqual(1, func.FunctionVariables.Count);
+        }
+
+        [Test]
+        public void VariableList_HasNumericValue_CountCorrect()
+        {
+            func.Function = "1";
+            Assert.AreEqual(0, func.FunctionVariables.Count);
+        }
+
+        [Test]
+        public void VariableList_HasStringValue_CountCorrect()
+        {
+            func.Function = "'1'";
+            Assert.AreEqual(0, func.FunctionVariables.Count);
+        }
+
+        [Test]
         public void EvaluationWithVariables001()
         {
             func.Function = "a^3";

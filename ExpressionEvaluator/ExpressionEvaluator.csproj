@@ -54,6 +54,7 @@
     <Compile Include="Expressions\PostFixExpression.cs" />
     <Compile Include="Keywords\GenericOperand.cs" />
     <Compile Include="Keywords\Procedure.cs" />
+    <Compile Include="Keywords\StringGrouping.cs" />
     <Compile Include="Keywords\Token.cs" />
     <Compile Include="Keywords\Variable.cs" />
     <Compile Include="Procedures\Functions\Absolute.cs" />

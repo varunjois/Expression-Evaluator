@@ -33,8 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.VisualStudio.TextTemplating.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\ThirdPartyLibs\NUnit-2.5.10.11092\nunit.framework.dll</HintPath>
     </Reference>
@@ -52,6 +50,7 @@
     <Compile Include="AbsFunctionTests.generated.cs" />
     <Compile Include="AdditionOperatorTests.generated.cs" />
     <Compile Include="AndOperatorTests.generated.cs" />
+    <Compile Include="BooleanOperatorTests.cs" />
     <Compile Include="CaseTests.generated.cs" />
     <Compile Include="ConditionalTests.cs" />
     <Compile Include="ContiansTests.cs" />
@@ -82,8 +81,10 @@
     <Compile Include="PowerOperatorTests.generated.cs" />
     <Compile Include="PrecedenceTestsBase.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScientificNotationTests.cs" />
     <Compile Include="SecondsFunctionTests.generated.cs" />
     <Compile Include="SignFunctionTests.generated.cs" />
+    <Compile Include="StringTests.cs" />
     <Compile Include="SubtractionOperatorTests.generated.cs" />
     <Compile Include="ToNumberFunctionTests.cs" />
     <Compile Include="VariableTests.cs" />
@@ -114,9 +115,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CodeGen\..\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
