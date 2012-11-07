@@ -93,8 +93,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 _inFunction = new InfixExpression(value);
                 _postFunction = new PostFixExpression(_inFunction);
                 ClearVariables();
-                foreach(var v in _inFunction.AutoVariable)
-                    _variables.Add(v.Name, v);
+                foreach(var v in _inFunction.AutoVariables)
+                    _variables.Add(v.Key, v.Value);
                 BuildTokens();
             }
         }
@@ -281,17 +281,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             {
                 if (_inFunction == null)
                     throw new ExpressionException("Function does not exist");
-
-                // The arraylist to return
-                List<string> retVal = new List<string>();
-
-                // Check each token to see if its a variable.
-                foreach (string token in _inFunction.Tokens)
-                {
-                    if (IsVariable(token))
-                        retVal.Add(token);
-                }
-
+                var retVal = _inFunction.Tokens.Where(IsVariable).Where(x=>!_inFunction.AutoVariables.ContainsKey(x)).ToList();
                 return retVal.AsReadOnly();
             }
         }

@@ -9,7 +9,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     {
         public InfixExpression(string expression)
         {
-            AutoVariable = new List<IVariable>();
+            AutoVariables = new Dictionary<string, IVariable>();
             _original = expression;
             expression = replaceStrings(expression);
             Expression = Expand(expression.ToLower());
@@ -34,7 +34,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     var name = Guid.NewGuid().ToString("N");
                     var value = m.Value.Substring(1, m.Value.Length-2).ToLower();
                     var newVar = new GenericVariable<string>(name, value);
-                    AutoVariable.Add(newVar);
+                    AutoVariables.Add(name, newVar);
                     return name;
                 });
             }
@@ -44,7 +44,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         private string _expression;
         private string _original;
         private string[] _tokens;
-        public List<IVariable> AutoVariable { get; private set; }
+        public Dictionary<string, IVariable> AutoVariables { get; private set; }
 
         public string Original
         {
