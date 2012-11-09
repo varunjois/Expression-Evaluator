@@ -19,6 +19,13 @@ namespace ExpressionEvaluatorTests
         { func.Clear(); }
 
         [Test]
+        public void ToNumberOperator_CalledWithPositiveWholeWithSpaces_IsCorrect()
+        {
+            func.Function = "toNumber(' 2 ')";
+            NUnit.Framework.Assert.AreEqual(2.0f, func.EvaluateNumeric());
+        }
+
+        [Test]
         public void ToNumberOperator_CalledWithPositiveWhole_IsCorrect()
         {
             func.Function = "toNumber('2')";

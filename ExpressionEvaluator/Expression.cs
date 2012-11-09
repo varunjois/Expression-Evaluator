@@ -37,7 +37,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected DynamicFunction _dynamicFunction;
         //protected AppDomain NewAppDomain;
 
-
         #region Member data
         
         /// <summary>

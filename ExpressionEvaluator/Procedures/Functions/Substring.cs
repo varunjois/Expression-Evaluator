@@ -9,7 +9,7 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("substring", precedance, 3)
         {
             _name2 = "Substring";
-            StringDoubleDoubleString = (x, y, z) => ((String) x).Substring((int) y, (int) z);
+            StringDoubleDoubleString = (x, y, z) => x.Substring((int)y, (int)z);
         }
     }
 }

@@ -53,7 +53,8 @@
     <Compile Include="BooleanOperatorTests.cs" />
     <Compile Include="CaseTests.generated.cs" />
     <Compile Include="ConditionalTests.cs" />
-    <Compile Include="ContiansTests.cs" />
+    <Compile Include="ContainsTests.cs" />
+    <Compile Include="LengthTests.cs" />
     <Compile Include="SubstringFunctionTests.cs" />
     <Compile Include="DateTimeTests.cs" />
     <Compile Include="DaysFunctionTests.generated.cs" />

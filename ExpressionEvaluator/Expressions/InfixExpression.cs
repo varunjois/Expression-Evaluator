@@ -35,7 +35,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     var value = m.Value.Substring(1, m.Value.Length-2).ToLower();
                     var newVar = new GenericVariable<string>(name, value);
                     AutoVariables.Add(name, newVar);
-                    return name;
+                    return " " + name + " ";
                 });
             }
             return expression;

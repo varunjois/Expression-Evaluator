@@ -4,7 +4,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
-    public class ContiansTests
+    public class ContainsTests
     {
         Expression func;
 
