@@ -26,6 +26,14 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void ToNumberOperator_ResultFromSubstringVariable_IsCorrect()
+        {
+            func.Function = "toNumber(substring(a, 1, length(a) - 1))";
+            func.AddSetVariable("a", "<2.0");
+            Assert.AreEqual(2.0f, func.EvaluateNumeric());
+        }
+
+        [Test]
         public void ToNumberOperator_CalledWithPositiveWhole_IsCorrect()
         {
             func.Function = "toNumber('2')";
@@ -64,12 +72,11 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [NUnit.Framework.ExpectedException(typeof(FormatException), ExpectedMessage = "Input string was not in a correct format", MatchType = MessageMatch.Contains)]
-        public void ToNumberOperator_PositiveFractionWithLeftVariableOfWrongType_IsNotCorrect()
+        public void ToNumberOperator_VariableNotStringButNotNumber_NaN()
         {
             func.Function = "toNumber(a)";
             func.AddSetVariable("a", "b");
-            NUnit.Framework.Assert.AreEqual(0.5d, func.EvaluateNumeric());
+            NUnit.Framework.Assert.AreEqual(double.NaN, func.EvaluateNumeric());
         }
 
         [Test]
@@ -86,6 +93,20 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = "toNumber(3a)";
             func.EvaluateNumeric();
+        }
+
+        [Test]
+        public void ToNumber_IfValidElseWillThrowException_StillEvaluates()
+        {
+            func.Function = "if (true) { tonumber('2') } else { toNumber('a') }";
+            Assert.AreEqual(2.0f, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void ToNumber_IfWillThrowExceptionElseValid_StillEvaluates()
+        {
+            func.Function = "if (false) { tonumber('a') } else { toNumber('2') }";
+            Assert.AreEqual(2.0f, func.EvaluateNumeric());
         }
 
     }

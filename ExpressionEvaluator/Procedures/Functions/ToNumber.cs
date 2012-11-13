@@ -9,7 +9,17 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("tonumber", precedance, 1)
         {
             _name2 = "ToNumber";
-            StringDouble = x => double.Parse(x);
+            StringDouble = x =>
+            {
+                try
+                {
+                    return double.Parse(x);
+                }
+                catch (Exception e)
+                {
+                    return double.NaN;
+                }
+            };
         }
     }
 }
