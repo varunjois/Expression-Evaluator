@@ -112,6 +112,39 @@ public class CaseTestsTemplate : TestsTemplate
             }
         }
         
+        foreach(Tuple<string, string> v1 in variableNames)
+        {
+            foreach(Tuple<string, string> v2 in variableNames)
+            {
+#>
+        [Test]
+        public void Equals_FormulaIs<#= v1.Item2 #>And<#= v2.Item2 #>ValueSet_CorrectEvaluation()
+        {
+            func.Function = "'<#= v1.Item1 #>' == '<#= v2.Item1 #>'";
+            Assert.IsTrue(func.EvaluateBoolean());
+        }
+        
+<#+
+            }
+        }
+
+        foreach(Tuple<string, string> v1 in variableNames)
+        {
+            foreach(Tuple<string, string> v2 in variableNames)
+            {
+#>
+        [Test]
+        public void Equals_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>ValueSet_CorrectEvaluation()
+        {
+            func.Function = "'<#= v1.Item1 #>' == a";
+            func.AddSetVariable("a", "<#= v2.Item1 #>");
+            Assert.IsTrue(func.EvaluateBoolean());
+        }
+        
+<#+
+            }
+        }
+                
     }
 }
 
