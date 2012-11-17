@@ -1,4 +1,4 @@
-using Vanderbilt.Biostatistics.Wfccm2;
+﻿using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Functions
 {

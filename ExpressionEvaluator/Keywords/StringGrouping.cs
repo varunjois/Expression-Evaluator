@@ -1,4 +1,4 @@
-namespace Vanderbilt.Biostatistics.Wfccm2
+﻿namespace Vanderbilt.Biostatistics.Wfccm2
 {
     public class StringGrouping : Keyword
     {

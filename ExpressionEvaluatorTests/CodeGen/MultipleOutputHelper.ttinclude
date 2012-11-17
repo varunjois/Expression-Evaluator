@@ -80,7 +80,7 @@ class Manager {
 
     protected virtual void CreateFile(String fileName, String content) {
         if (IsFileContentDifferent(fileName, content))
-            File.WriteAllText(fileName, content);
+            File.WriteAllText(fileName, content, System.Text.Encoding.UTF8);
     }
 
     public virtual String GetCustomToolNamespace(String fileName) {
@@ -138,7 +138,7 @@ class Manager {
         protected override void CreateFile(String fileName, String content) {
             if (IsFileContentDifferent(fileName, content)) {
                 CheckoutFileIfRequired(fileName);
-                File.WriteAllText(fileName, content);
+                File.WriteAllText(fileName, content, System.Text.Encoding.UTF8);
             }
         }
 

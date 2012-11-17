@@ -1,4 +1,4 @@
-Expression Evaluation Library
+﻿Expression Evaluation Library
 -----------------------------
 
 This is a library written in C# to allow the use of mathmatical expressions in an application.

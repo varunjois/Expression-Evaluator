@@ -1,4 +1,4 @@
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 using Vanderbilt.Biostatistics.Wfccm2;
 using NUnit.Framework;
 
