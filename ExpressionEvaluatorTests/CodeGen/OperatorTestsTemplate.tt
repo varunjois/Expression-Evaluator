@@ -39,8 +39,8 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         [Test]
         public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>_IsCorrect()
         {
-            func.Function = "<#= vd1.Value #> <#= Operator #> <#= vd2.Value#>";
-            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
+            _func.Function = "<#= vd1.Value #> <#= Operator #> <#= vd2.Value#>";
+            Assert.AreEqual(<#= outputVal #>, _func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -59,9 +59,9 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         [Test]
         public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithLeftVariable_IsCorrect()
         {
-            func.Function = "a <#= Operator #> <#= vd2.Value#>";
-            func.AddSetVariable("a", <#= vd1.TextValue #>);
-            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
+            _func.Function = "a <#= Operator #> <#= vd2.Value#>";
+            _func.AddSetVariable("a", <#= vd1.TextValue #>);
+            Assert.AreEqual(<#= outputVal #>, _func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -80,9 +80,9 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         [Test]
         public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithRightVariable_IsCorrect()
         {
-            func.Function = "<#= vd1.Value #> <#= Operator #> a";
-            func.AddSetVariable("a", <#= vd2.TextValue #>);
-            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
+            _func.Function = "<#= vd1.Value #> <#= Operator #> a";
+            _func.AddSetVariable("a", <#= vd2.TextValue #>);
+            Assert.AreEqual(<#= outputVal #>, _func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -101,10 +101,10 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         [Test]
         public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithVariable_IsCorrect()
         {
-            func.Function = "a <#= Operator #> b";
-            func.AddSetVariable("a", <#= vd1.TextValue #>);
-            func.AddSetVariable("b", <#= vd2.TextValue #>);
-            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
+            _func.Function = "a <#= Operator #> b";
+            _func.AddSetVariable("a", <#= vd1.TextValue #>);
+            _func.AddSetVariable("b", <#= vd2.TextValue #>);
+            Assert.AreEqual(<#= outputVal #>, _func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -121,7 +121,7 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void <#= OperatorName #>Operator_MalformedExpression<#= vd1.Description #>RightOfOperator_ThrowsException()
         {
-            func.Function = "<#= Operator #> <#= vd1.Value #>";
+            _func.Function = "<#= Operator #> <#= vd1.Value #>";
         }
 
 <#+
@@ -137,7 +137,7 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void <#= OperatorName #>Operator_MalformedExpression<#= vd1.Description #>LeftOfOperator_ThrowsException()
         {
-            func.Function = "<#= vd1.Value #> <#= Operator #>";
+            _func.Function = "<#= vd1.Value #> <#= Operator #>";
         }
 
 <#+

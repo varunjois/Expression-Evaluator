@@ -61,19 +61,19 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void <#= f.Name #>_HasCaps_NoException()
         {
-            func.Function = "<#= f.Name #>(<#= prms #>)";
+            _func.Function = "<#= f.Name #>(<#= prms #>)";
         }
 
         [Test]
         public void <#= f.Name #>_AllLower_NoException()
         {
-            func.Function = "<#= f.Name.ToLower() #>(<#= prms #>)";
+            _func.Function = "<#= f.Name.ToLower() #>(<#= prms #>)";
         }
 
         [Test]
         public void <#= f.Name #>_AllUpper_NoException()
         {
-            func.Function = "<#= f.Name.ToUpper() #>(<#= prms #>)";
+            _func.Function = "<#= f.Name.ToUpper() #>(<#= prms #>)";
         }
         
 <#+
@@ -87,8 +87,8 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void Variable_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>_NoException()
         {
-            func.Function = "<#= v1.Item1 #>";
-            Assert.IsTrue(func.IsVariable("<#= v2.Item1 #>"));
+            _func.Function = "<#= v1.Item1 #>";
+            Assert.IsTrue(_func.IsVariable("<#= v2.Item1 #>"));
         }
         
 <#+
@@ -103,9 +103,9 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void Variable_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>ValueSet_CorrectEvaluation()
         {
-            func.Function = "<#= v1.Item1 #>";
-            func.AddSetVariable("<#= v2.Item1 #>", 2.2);
-            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+            _func.Function = "<#= v1.Item1 #>";
+            _func.AddSetVariable("<#= v2.Item1 #>", 2.2);
+            Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
         
 <#+
@@ -120,8 +120,8 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void Equals_FormulaIs<#= v1.Item2 #>And<#= v2.Item2 #>ValueSet_CorrectEvaluation()
         {
-            func.Function = "'<#= v1.Item1 #>' == '<#= v2.Item1 #>'";
-            Assert.IsTrue(func.EvaluateBoolean());
+            _func.Function = "'<#= v1.Item1 #>' == '<#= v2.Item1 #>'";
+            Assert.IsTrue(_func.EvaluateBoolean());
         }
         
 <#+
@@ -136,9 +136,9 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void Equals_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>ValueSet_CorrectEvaluation()
         {
-            func.Function = "'<#= v1.Item1 #>' == a";
-            func.AddSetVariable("a", "<#= v2.Item1 #>");
-            Assert.IsTrue(func.EvaluateBoolean());
+            _func.Function = "'<#= v1.Item1 #>' == a";
+            _func.AddSetVariable("a", "<#= v2.Item1 #>");
+            Assert.IsTrue(_func.EvaluateBoolean());
         }
         
 <#+

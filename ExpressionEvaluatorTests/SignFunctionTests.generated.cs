@@ -7,126 +7,126 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class SignFunctionTests
     {
-        Expression func;
+        Expression _func;
 
         [SetUp]
         public void init()
-        { this.func = new Expression(""); }
+        { this._func = new Expression(""); }
 
         [TearDown]
         public void clear()
-        { func.Clear(); }
+        { _func.Clear(); }
 
         [Test]
         public void SignOperator_CalledWithPositiveWhole_IsCorrect()
         {
-            func.Function = "sign(2)";
-            Assert.AreEqual(1d, func.EvaluateNumeric());
+            _func.Function = "sign(2)";
+            Assert.AreEqual(1d, _func.EvaluateNumeric());
         }
 
         [Test]
         public void SignOperator_CalledWithPositiveFraction_IsCorrect()
         {
-            func.Function = "sign(0.5)";
-            Assert.AreEqual(1d, func.EvaluateNumeric());
+            _func.Function = "sign(0.5)";
+            Assert.AreEqual(1d, _func.EvaluateNumeric());
         }
 
         [Test]
         public void SignOperator_CalledWithNegativeWhole_IsCorrect()
         {
-            func.Function = "sign(-2)";
-            Assert.AreEqual(-1d, func.EvaluateNumeric());
+            _func.Function = "sign(-2)";
+            Assert.AreEqual(-1d, _func.EvaluateNumeric());
         }
 
         [Test]
         public void SignOperator_CalledWithNegativeFraction_IsCorrect()
         {
-            func.Function = "sign(-0.5)";
-            Assert.AreEqual(-1d, func.EvaluateNumeric());
+            _func.Function = "sign(-0.5)";
+            Assert.AreEqual(-1d, _func.EvaluateNumeric());
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "sign(2";
+            _func.Function = "sign(2";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "sign(0.5";
+            _func.Function = "sign(0.5";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "sign(-2";
+            _func.Function = "sign(-2";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "sign(-0.5";
+            _func.Function = "sign(-0.5";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "sign 2)";
+            _func.Function = "sign 2)";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "sign 0.5)";
+            _func.Function = "sign 0.5)";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "sign -2)";
+            _func.Function = "sign -2)";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "sign -0.5)";
+            _func.Function = "sign -0.5)";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingBothParenthesisPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "sign 2";
+            _func.Function = "sign 2";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingBothParenthesisPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "sign 0.5";
+            _func.Function = "sign 0.5";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingBothParenthesisNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "sign -2";
+            _func.Function = "sign -2";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingBothParenthesisNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "sign -0.5";
+            _func.Function = "sign -0.5";
         }
 
     }

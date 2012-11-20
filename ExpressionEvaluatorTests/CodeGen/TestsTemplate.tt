@@ -14,15 +14,15 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class <#= name #>
     {
-        Expression func;
+        Expression _func;
 
         [SetUp]
         public void init()
-        { this.func = new Expression(""); }
+        { this._func = new Expression(""); }
 
         [TearDown]
         public void clear()
-        { func.Clear(); }
+        { _func.Clear(); }
 
 <#+
     }

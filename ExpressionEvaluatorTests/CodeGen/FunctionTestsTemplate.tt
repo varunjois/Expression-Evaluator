@@ -32,8 +32,8 @@ public class FunctionTestsTemplate : TestsTemplate
         [Test]
         public void <#= OperatorName #>Operator_CalledWith<#= vd1.Description #>_IsCorrect()
         {
-            func.Function = "<#= Operator #>(<#= vd1.Value #>)";
-            Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
+            _func.Function = "<#= Operator #>(<#= vd1.Value #>)";
+            Assert.AreEqual(<#= outputVal #>, _func.Evaluate<#= EvaluateType #>());
         }
 
 <#+
@@ -49,7 +49,7 @@ public class FunctionTestsTemplate : TestsTemplate
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void <#= OperatorName #>Operator_MalformedExpressionMissingRightParen<#= vd1.Description #>Argument_ThrowsException()
         {
-            func.Function = "<#= Operator #>(<#= vd1.Value #>";
+            _func.Function = "<#= Operator #>(<#= vd1.Value #>";
         }
 
 <#+
@@ -65,7 +65,7 @@ public class FunctionTestsTemplate : TestsTemplate
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void <#= OperatorName #>Operator_MalformedExpressionMissingLeftParen<#= vd1.Description #>Argument_ThrowsException()
         {
-            func.Function = "<#= Operator #> <#= vd1.Value #>)";
+            _func.Function = "<#= Operator #> <#= vd1.Value #>)";
         }
 
 <#+
@@ -81,7 +81,7 @@ public class FunctionTestsTemplate : TestsTemplate
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void <#= OperatorName #>Operator_MalformedExpressionMissingBothParenthesis<#= vd1.Description #>Argument_ThrowsException()
         {
-            func.Function = "<#= Operator #> <#= vd1.Value #>";
+            _func.Function = "<#= Operator #> <#= vd1.Value #>";
         }
 
 <#+

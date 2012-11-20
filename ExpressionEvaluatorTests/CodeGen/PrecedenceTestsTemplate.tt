@@ -55,8 +55,8 @@ public class PrecedenceTestsTemplate : TestsTemplate
         [Test]
         public void Precedence_<#= i.Item1 #><#= p.Item1 #>_IsCorrect()
         {
-            func.Function = "3<#= i.Item2 #>7<#= p.Item2 #>11";
-            Assert.AreEqual(3d<#= i.Item2 #>7d<#= p.Item2 #>11d, func.EvaluateNumeric());
+            _func.Function = "3<#= i.Item2 #>7<#= p.Item2 #>11";
+            Assert.AreEqual(3d<#= i.Item2 #>7d<#= p.Item2 #>11d, _func.EvaluateNumeric());
         }
 
 <#+
@@ -71,15 +71,15 @@ public class PrecedenceTestsTemplate : TestsTemplate
         [Test]
         public void Precedence_<#= i.Item1 #><#= f.Item1 #>_IsCorrect()
         {
-            func.Function = "3<#= i.Item2 #>7<#= f.Item2 #>11";
-            Assert.AreEqual(3d<#= i.Item2 #><#= f.Item3 #>(7d, 11d), func.EvaluateNumeric());
+            _func.Function = "3<#= i.Item2 #>7<#= f.Item2 #>11";
+            Assert.AreEqual(3d<#= i.Item2 #><#= f.Item3 #>(7d, 11d), _func.EvaluateNumeric());
         }
 
         [Test]
         public void Precedence_<#= f.Item1 #><#= i.Item1 #>_IsCorrect()
         {
-            func.Function = "3<#= f.Item2 #>7<#= i.Item2 #>11";
-            Assert.AreEqual(<#= f.Item3 #>(3d, 7d)<#= i.Item2 #>11d, func.EvaluateNumeric());
+            _func.Function = "3<#= f.Item2 #>7<#= i.Item2 #>11";
+            Assert.AreEqual(<#= f.Item3 #>(3d, 7d)<#= i.Item2 #>11d, _func.EvaluateNumeric());
         }
 
 <#+
