@@ -5,7 +5,6 @@ abstract public class TestsTemplate : TextTransformation
     public void StartClass(string name)
     {
 #>
-// ReSharper disable InconsistentNaming
 using System;
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;

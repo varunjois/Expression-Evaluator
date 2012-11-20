@@ -1,5 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-using Vanderbilt.Biostatistics.Wfccm2;
+﻿using Vanderbilt.Biostatistics.Wfccm2;
 using NUnit.Framework;
 
 namespace ExpressionEvaluatorTests
