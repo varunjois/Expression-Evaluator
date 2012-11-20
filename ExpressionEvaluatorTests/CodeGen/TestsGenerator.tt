@@ -6,7 +6,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Diagnostics" #>
 <#@ import namespace="System.Collections" #>
-<#@ import namespace="System.Collections.Generic" #> 
+<#@ import namespace="System.Collections.Generic" #>
 <#@ include file="MultipleOutputHelper.ttinclude" #>
 <#@ include file="TestsTemplate.tt" #>
 <#@ include file="OperatorTestsTemplate.tt" #>
@@ -19,25 +19,25 @@
         new ValueDescription<double>("NegativeWhole", -2d, "-2d"),
         new ValueDescription<double>("NegativeFraction", -0.5d, "-0.5d"),
     };
-    
+
     List<ValueDescription<double>> positiveValues = new List<ValueDescription<double>>
     {
         new ValueDescription<double>("PositiveWhole", 2d, "2d"),
         new ValueDescription<double>("PositiveFraction", 0.5d, "0.5d"),
     };
-    
+
     List<ValueDescription<bool>> booleanValues = new List<ValueDescription<bool>>
     {
         new ValueDescription<bool>("BooleanTrue", true, "true"),
         new ValueDescription<bool>("BooleanFalse", false, "false"),
     };
-    
+
     List<ValueDescription<string>> stringValues = new List<ValueDescription<string>>
     {
         new ValueDescription<string>("StringFirst", "'first'", "\"first\""),
         new ValueDescription<string>("StringSecond", "'1sec.ond'", "\"1sec.ond\""),
     };
-    
+
     var doubleDoubleFunctions = new List<ProcedureDescription<Func<double, string>>>
     {
         new NumericProcedureDescription<Func<double, string>>("Ln", "ln", x=> GetString(Math.Log(x))),
@@ -64,7 +64,7 @@
         new BooleanProcedureDescription<Func<double, double, string>>("EqualNumeric", "==", (a,b) => GetString(a==b)),
         new BooleanProcedureDescription<Func<double, double, string>>("NotEqualNumeric", "!=", (a,b) => GetString(a!=b)),
     };
-    
+
     var leftRightBooleanOperators = new List<ProcedureDescription<Func<bool, bool, string>>>
     {
         new BooleanProcedureDescription<Func<bool, bool, string>>("Or", "||", (a,b) => GetString(a||b)),
@@ -89,69 +89,69 @@
         //template.Output.File = @"..\" + func.OpName + @"FunctionTests.generated.cs";
         template.ClassName = func.OpName + "FunctionTests";
         template.OperatorName = func.OpName;
-        template.Operator = func.Op;    
+        template.Operator = func.Op;
         template.Values = values;
         template.Calculator = func.Calculator;
-		template.EvaluateType = func.EvaluationType;
+        template.EvaluateType = func.EvaluationType;
         manager.StartNewFile(@"..\" + func.OpName + @"FunctionTests.generated.cs");
         #><#= template.TransformText() #><#
         manager.EndBlock();
     }
-    
+
     foreach(var op in leftRightNumericOperators)
     {
         var template = new OperatorTestsTemplate<double>();
         //template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
         template.ClassName = op.OpName + "OperatorTests";
         template.OperatorName = op.OpName;
-		template.Operator = op.Op;    
+        template.Operator = op.Op;
         template.Values = values;
-        
-		template.NegativeValues = negativeValues;
 
-		template.Calculator = op.Calculator;
-		template.EvaluateType = op.EvaluationType;
+        template.NegativeValues = negativeValues;
+
+        template.Calculator = op.Calculator;
+        template.EvaluateType = op.EvaluationType;
         manager.StartNewFile(@"..\" + op.OpName + @"OperatorTests.generated.cs");
         #><#= template.TransformText() #><#
         manager.EndBlock();
     }
-    
+
     foreach(var op in leftRightBooleanOperators)
     {
         var template = new OperatorTestsTemplate<bool>();
         //template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
         template.ClassName = op.OpName + "OperatorTests";
         template.OperatorName = op.OpName;
-		template.Operator = op.Op;    
+        template.Operator = op.Op;
         template.Values = booleanValues;
         template.Calculator = op.Calculator;
-		template.EvaluateType = op.EvaluationType;
+        template.EvaluateType = op.EvaluationType;
         manager.StartNewFile(@"..\" + op.OpName + @"OperatorTests.generated.cs");
         #><#= template.TransformText() #><#
         manager.EndBlock();
     }
-    
+
     foreach(var op in leftRightStringOperators)
     {
         var template = new OperatorTestsTemplate<string>();
         //template.Output.File = @"..\" + op.OpName + @"OperatorTests.generated.cs";
         template.ClassName = op.OpName + "OperatorTests";
         template.OperatorName = op.OpName;
-		template.Operator = op.Op;    
+        template.Operator = op.Op;
         template.Values = stringValues;
         template.Calculator = op.Calculator;
-		template.EvaluateType = op.EvaluationType;
+        template.EvaluateType = op.EvaluationType;
         manager.StartNewFile(@"..\" + op.OpName + @"OperatorTests.generated.cs");
         #><#= template.TransformText() #><#
         manager.EndBlock();
     }
-    
+
     var t = new CaseTestsTemplate();
     t.ClassName = "CaseTests";
     manager.StartNewFile(@"..\CaseTests.generated.cs");
     #><#= t.TransformText() #><#
     manager.EndBlock();
-    
+
     var q = new PrecedenceTestsTemplate();
     q.ClassName = "PrecedenceTestsBase";
     manager.StartNewFile(@"..\PrecedenceTestsBase.generated.cs");
@@ -163,17 +163,17 @@
 <#+
 public string GetString(bool val)
 {
-	return val ? "true" : "false";
+    return val ? "true" : "false";
 }
 
 public string GetString(double val)
 {
-	return double.NaN.Equals(val) ? "double.NaN" : val.ToString("R") + "d";
+    return double.NaN.Equals(val) ? "double.NaN" : val.ToString("R") + "d";
 }
 
 public string GetString(TimeSpan val)
 {
-	return "new TimeSpan(" + val.Ticks.ToString() + "L)";
+    return "new TimeSpan(" + val.Ticks.ToString() + "L)";
 }
 
 public class ProcedureDescription<T>
@@ -181,56 +181,56 @@ public class ProcedureDescription<T>
     public ProcedureDescription(string opName, string op, T calculator)
     {
         OpName = opName;
-		Op = op;
-    	Calculator = calculator;
-		Init();
+        Op = op;
+        Calculator = calculator;
+        Init();
     }
-    
+
     public string OpName;
-	public string Op;
-	public T Calculator;
-	public string EvaluationType;	
-	public bool MalformedRightNegativeOnly = false;
-	
-	virtual protected void Init()
-	{}
+    public string Op;
+    public T Calculator;
+    public string EvaluationType;
+    public bool MalformedRightNegativeOnly = false;
+
+    virtual protected void Init()
+    {}
 
 }
 
 public class NumericProcedureDescription<T> : ProcedureDescription<T>
-{	
+{
     public NumericProcedureDescription(string opName, string op, T calculator) :
-		base(opName, op, calculator)
-	{}
-	
-	override protected void Init()
-	{
-		EvaluationType = "Numeric";
-	}
+        base(opName, op, calculator)
+    {}
+
+    override protected void Init()
+    {
+        EvaluationType = "Numeric";
+    }
 }
 
 public class TimeSpanProcedureDescription<T> : ProcedureDescription<T>
-{	
+{
     public TimeSpanProcedureDescription(string opName, string op, T calculator) :
-		base(opName, op, calculator)
-	{}
-	
-	override protected void Init()
-	{
-		EvaluationType = "<TimeSpan>";
-	}
+        base(opName, op, calculator)
+    {}
+
+    override protected void Init()
+    {
+        EvaluationType = "<TimeSpan>";
+    }
 }
 
 public class BooleanProcedureDescription<T> : ProcedureDescription<T>
-{	
+{
     public BooleanProcedureDescription(string opName, string op, T calculator) :
-		base(opName, op, calculator)
-	{}
-	
-	override protected void Init()
-	{
-		EvaluationType = "Boolean";
-	}
+        base(opName, op, calculator)
+    {}
+
+    override protected void Init()
+    {
+        EvaluationType = "Boolean";
+    }
 }
 
 #>

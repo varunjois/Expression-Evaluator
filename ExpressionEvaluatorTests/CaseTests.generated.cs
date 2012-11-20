@@ -17,7 +17,7 @@ namespace ExpressionEvaluatorTests
         [TearDown]
         public void clear()
         { func.Clear(); }
-        
+
         [Test]
         public void Sign_HasCaps_NoException()
         {

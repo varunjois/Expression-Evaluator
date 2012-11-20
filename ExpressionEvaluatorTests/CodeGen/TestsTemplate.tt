@@ -2,7 +2,7 @@
 <#+
 abstract public class TestsTemplate : TextTransformation
 {
-	public void StartClass(string name)
+    public void StartClass(string name)
     {
 #>
 // ReSharper disable InconsistentNaming
@@ -24,7 +24,7 @@ namespace ExpressionEvaluatorTests
         [TearDown]
         public void clear()
         { func.Clear(); }
-        
+
 <#+
     }
 
@@ -44,9 +44,9 @@ public class ValueDescription<T>
     {
         Value = value;
         Description = description;
-		TextValue = textValue;
+        TextValue = textValue;
     }
-    
+
     public T Value;
     public string Description;
     public string TextValue;

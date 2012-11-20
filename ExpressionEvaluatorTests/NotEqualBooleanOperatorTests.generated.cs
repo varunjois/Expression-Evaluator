@@ -17,7 +17,7 @@ namespace ExpressionEvaluatorTests
         [TearDown]
         public void clear()
         { func.Clear(); }
-        
+
         [Test]
         public void NotEqualBooleanOperator_BooleanTrueWithBooleanTrue_IsCorrect()
         {
@@ -50,7 +50,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanTrueWithBooleanTrueWithLeftVariable_IsCorrect()
         {
             func.Function = "a != True";
-			func.AddSetVariable("a", true);
+            func.AddSetVariable("a", true);
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -58,7 +58,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanTrueWithBooleanFalseWithLeftVariable_IsCorrect()
         {
             func.Function = "a != False";
-			func.AddSetVariable("a", true);
+            func.AddSetVariable("a", true);
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
@@ -66,7 +66,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanFalseWithBooleanTrueWithLeftVariable_IsCorrect()
         {
             func.Function = "a != True";
-			func.AddSetVariable("a", false);
+            func.AddSetVariable("a", false);
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
@@ -74,7 +74,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanFalseWithBooleanFalseWithLeftVariable_IsCorrect()
         {
             func.Function = "a != False";
-			func.AddSetVariable("a", false);
+            func.AddSetVariable("a", false);
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -82,7 +82,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanTrueWithBooleanTrueWithRightVariable_IsCorrect()
         {
             func.Function = "True != a";
-			func.AddSetVariable("a", true);
+            func.AddSetVariable("a", true);
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -90,7 +90,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanTrueWithBooleanFalseWithRightVariable_IsCorrect()
         {
             func.Function = "True != a";
-			func.AddSetVariable("a", false);
+            func.AddSetVariable("a", false);
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
@@ -98,7 +98,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanFalseWithBooleanTrueWithRightVariable_IsCorrect()
         {
             func.Function = "False != a";
-			func.AddSetVariable("a", true);
+            func.AddSetVariable("a", true);
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
@@ -106,7 +106,7 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanFalseWithBooleanFalseWithRightVariable_IsCorrect()
         {
             func.Function = "False != a";
-			func.AddSetVariable("a", false);
+            func.AddSetVariable("a", false);
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -114,8 +114,8 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanTrueWithBooleanTrueWithVariable_IsCorrect()
         {
             func.Function = "a != b";
-			func.AddSetVariable("a", true);
-			func.AddSetVariable("b", true);
+            func.AddSetVariable("a", true);
+            func.AddSetVariable("b", true);
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
@@ -123,8 +123,8 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanTrueWithBooleanFalseWithVariable_IsCorrect()
         {
             func.Function = "a != b";
-			func.AddSetVariable("a", true);
-			func.AddSetVariable("b", false);
+            func.AddSetVariable("a", true);
+            func.AddSetVariable("b", false);
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
@@ -132,8 +132,8 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanFalseWithBooleanTrueWithVariable_IsCorrect()
         {
             func.Function = "a != b";
-			func.AddSetVariable("a", false);
-			func.AddSetVariable("b", true);
+            func.AddSetVariable("a", false);
+            func.AddSetVariable("b", true);
             Assert.AreEqual(true, func.EvaluateBoolean());
         }
 
@@ -141,8 +141,8 @@ namespace ExpressionEvaluatorTests
         public void NotEqualBooleanOperator_BooleanFalseWithBooleanFalseWithVariable_IsCorrect()
         {
             func.Function = "a != b";
-			func.AddSetVariable("a", false);
-			func.AddSetVariable("b", false);
+            func.AddSetVariable("a", false);
+            func.AddSetVariable("b", false);
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 

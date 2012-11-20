@@ -4,19 +4,19 @@ public class OperatorTestsTemplate<T> : TestsTemplate
     public string ClassName;
     public string OperatorName;
     public string Operator;
-    public Func<T, T, string> Calculator; 
+    public Func<T, T, string> Calculator;
     public List<ValueDescription<T>> Values;
     public List<ValueDescription<T>> NegativeValues;
-	public string EvaluateType;
+    public string EvaluateType;
 
     public override string TransformText()
     {
         StartClass(ClassName);
 
         WriteLeftRightOperatorTests();
-		WriteLeftRightOperatorLeftVariableTests();
-		WriteLeftRightOperatorRightVariableTests();
-		WriteLeftRightOperatorWithVariableTests();
+        WriteLeftRightOperatorLeftVariableTests();
+        WriteLeftRightOperatorRightVariableTests();
+        WriteLeftRightOperatorWithVariableTests();
         WriteMalformedLeftOfOperatorTests();
         if (Operator == "-")
             WriteMalformedRightOfOperatorTests(NegativeValues);
@@ -60,7 +60,7 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithLeftVariable_IsCorrect()
         {
             func.Function = "a <#= Operator #> <#= vd2.Value#>";
-			func.AddSetVariable("a", <#= vd1.TextValue #>);
+            func.AddSetVariable("a", <#= vd1.TextValue #>);
             Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
 
@@ -81,7 +81,7 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithRightVariable_IsCorrect()
         {
             func.Function = "<#= vd1.Value #> <#= Operator #> a";
-			func.AddSetVariable("a", <#= vd2.TextValue #>);
+            func.AddSetVariable("a", <#= vd2.TextValue #>);
             Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
 
@@ -102,8 +102,8 @@ public class OperatorTestsTemplate<T> : TestsTemplate
         public void <#= OperatorName #>Operator_<#= vd1.Description #>With<#= vd2.Description #>WithVariable_IsCorrect()
         {
             func.Function = "a <#= Operator #> b";
-			func.AddSetVariable("a", <#= vd1.TextValue #>);
-			func.AddSetVariable("b", <#= vd2.TextValue #>);
+            func.AddSetVariable("a", <#= vd1.TextValue #>);
+            func.AddSetVariable("b", <#= vd2.TextValue #>);
             Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
 

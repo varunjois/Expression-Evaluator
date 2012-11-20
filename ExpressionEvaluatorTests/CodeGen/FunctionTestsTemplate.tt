@@ -1,28 +1,28 @@
 ﻿<#+
 public class FunctionTestsTemplate : TestsTemplate
 {
-	public string ClassName;
-	public string OperatorName;
-	public string Operator;
-	public Func<double, string> Calculator; 
+    public string ClassName;
+    public string OperatorName;
+    public string Operator;
+    public Func<double, string> Calculator;
     public List<ValueDescription<double>> Values;
-	public string EvaluateType;
-	
-	public override string TransformText()
-	{
-		StartClass(ClassName);
-		
-		WriteFunctionTests();
-        WriteMalformedMissingRightParenTests();            
-        WriteMalformedMissingLeftParenTests();            		
-        WriteMalformedMissingBothParenthesisTests();            		
-		
-		EndClass();
-		
-        return this.GenerationEnvironment.ToString();
-	}
+    public string EvaluateType;
 
-	public void WriteFunctionTests()
+    public override string TransformText()
+    {
+        StartClass(ClassName);
+
+        WriteFunctionTests();
+        WriteMalformedMissingRightParenTests();
+        WriteMalformedMissingLeftParenTests();
+        WriteMalformedMissingBothParenthesisTests();
+
+        EndClass();
+
+        return this.GenerationEnvironment.ToString();
+    }
+
+    public void WriteFunctionTests()
     {
         foreach (var vd1 in Values)
         {
@@ -35,11 +35,11 @@ public class FunctionTestsTemplate : TestsTemplate
             func.Function = "<#= Operator #>(<#= vd1.Value #>)";
             Assert.AreEqual(<#= outputVal #>, func.Evaluate<#= EvaluateType #>());
         }
-        
+
 <#+
         }
     }
-    
+
     public void WriteMalformedMissingRightParenTests()
     {
         foreach (var vd1 in Values)
@@ -51,7 +51,7 @@ public class FunctionTestsTemplate : TestsTemplate
         {
             func.Function = "<#= Operator #>(<#= vd1.Value #>";
         }
-        
+
 <#+
         }
     }
@@ -67,7 +67,7 @@ public class FunctionTestsTemplate : TestsTemplate
         {
             func.Function = "<#= Operator #> <#= vd1.Value #>)";
         }
-        
+
 <#+
         }
     }
@@ -83,7 +83,7 @@ public class FunctionTestsTemplate : TestsTemplate
         {
             func.Function = "<#= Operator #> <#= vd1.Value #>";
         }
-        
+
 <#+
         }
     }
