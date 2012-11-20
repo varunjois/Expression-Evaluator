@@ -14,14 +14,14 @@ namespace ExpressionEvaluatorTests
         DateTime _now;
 
         [SetUp]
-        public void init()
+        public void Init()
         {
             this._func = new Expression("");
             _now = DateTime.Now;
         }
 
         [TearDown]
-        public void clear()
+        public void Clear()
         { _func.Clear(); }
 
         [Test]

@@ -9,10 +9,10 @@ namespace ExpressionEvaluatorTests
         private Expression _func;
 
         [SetUp]
-        public void init() { this._func = new Expression(""); }
+        public void Init() { this._func = new Expression(""); }
 
         [TearDown]
-        public void clear() { _func.Clear(); }
+        public void Clear() { _func.Clear(); }
 
         [Test]
         public void ValidFunctionWithTwoVariables_VariablesNull_NANReturned()

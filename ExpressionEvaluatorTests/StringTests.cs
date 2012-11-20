@@ -9,13 +9,13 @@ namespace ExpressionEvaluatorTests
         private Expression _func;
 
         [SetUp]
-        public void init()
+        public void Init()
         {
             this._func = new Expression("");
         }
 
         [TearDown]
-        public void clear()
+        public void Clear()
         {
             _func.Clear();
         }
