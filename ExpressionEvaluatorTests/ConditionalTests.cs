@@ -250,6 +250,23 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void IfElse_FunctionInFalsePathThrowsException_FunctionStillEvaluates()
+        {
+            func.Function = "if (true) { 1 + 1 } else { TotalDays(a) }";
+            func.AddSetVariable("a", "fail");
+            Assert.AreEqual(2, func.EvaluateNumeric());
+        }
+
+        [Test]
+        [ExpectedException(typeof(ExpressionException))]
+        public void IfElse_FunctionInTruePathThrowsException_ExceptionThrown()
+        {
+            func.Function = "if (false) { 1 + 1 } else { TotalDays(a) }";
+            func.AddSetVariable("a", "fail");
+            func.EvaluateNumeric();
+        }
+
+        [Test]
         [ExpectedException(typeof(ExpressionException))]
         public void Grouping_OutOfOrder001_ExpressionException()
         {

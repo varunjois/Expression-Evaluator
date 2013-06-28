@@ -59,6 +59,8 @@
     <Compile Include="Keywords\Variable.cs" />
     <Compile Include="Procedures\Functions\Absolute.cs" />
     <Compile Include="Procedures\Functions\Contains.cs" />
+    <Compile Include="Procedures\Functions\ToString.cs" />
+    <Compile Include="Procedures\Functions\IsNumber.cs" />
     <Compile Include="Procedures\Functions\Length.cs" />
     <Compile Include="Procedures\Functions\Substring.cs" />
     <Compile Include="Procedures\Functions\Days.cs" />
