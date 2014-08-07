@@ -337,7 +337,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             var result = Evaluate();
             try
             {
-                return ((GenericOperand<T>)result).Value;            
+               return ((GenericOperand<T>)result).Value;            
             }
             catch (InvalidCastException)
             {
@@ -347,6 +347,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         private IOperand Evaluate()
         {
+            var evalExceptions = new Dictionary<int, Exception>();
+
             var workstack = new Stack<IToken>();
 
             var operands = new List<IOperand>();
@@ -421,21 +423,31 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     }
                     else
                     {
-                        if (op.NumParameters == 0)
+                        try
                         {
-                            result = op.Evaluate();
+                            if (op.NumParameters == 0)
+                            {
+                                result = op.Evaluate();
+                            }
+                            if (op.NumParameters == 1)
+                            {
+                                result = op.Evaluate(operands[0]);
+                            }
+                            else if (op.NumParameters == 2)
+                            {
+                                result = op.Evaluate(operands[0], operands[1]);
+                            }
+                            else if (op.NumParameters == 3)
+                            {
+                                result = op.Evaluate(operands[0], operands[1], operands[2]);
+                            }
                         }
-                        if (op.NumParameters == 1)
+                        catch (Exception exp)
                         {
-                            result = op.Evaluate(operands[0]);
-                        }
-                        else if (op.NumParameters == 2)
-                        {
-                            result = op.Evaluate(operands[0], operands[1]);
-                        }
-                        else if (op.NumParameters == 3)
-                        {
-                            result = op.Evaluate(operands[0], operands[1], operands[2]);
+                            if (currentConditionalDepth <= 0)
+                                throw;
+
+                            result = new GenericOperand<Exception>(exp);
                         }
                     }
                 }
@@ -444,7 +456,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 workstack.Push(result);
             }
 
-            return (IOperand)workstack.Peek();
+            var val = workstack.Peek();
+
+            if (val is GenericOperand<Exception>)
+                throw ((GenericOperand<Exception>) val).Value;
+
+            return (IOperand)val;
         }
 
         /// <summary>

@@ -52,6 +52,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             new TotalSeconds(60),
             new Contains(60),
             new ToNumber(60),
+            new ToString(60),
+            new IsNumber(60),
             new Substring(60),
             new Length(60),
             new Sum(60),

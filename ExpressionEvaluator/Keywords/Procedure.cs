@@ -8,10 +8,15 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     {
         protected Func<double> Double;
         protected Func<double, double> DoubleDouble;
+        protected Func<string, bool> StringBool;
         protected Func<DateTime> Datetime;
         protected Func<DateTime, double> DatetimeDouble;
         protected Func<double, TimeSpan> DoubleTimespan;
         protected Func<TimeSpan, double> TimespanDouble;
+        protected Func<double, string> DoubleString;
+        protected Func<DateTime, string> DateTimeString;
+        protected Func<bool, string> BoolString;
+        protected Func<string, string> StringString;
         protected Func<DateTime, TimeSpan, DateTime> DatetimeTimespanDatetime;
         protected Func<TimeSpan, DateTime, DateTime> TimespanDatetimeDatetime;
         protected Func<DateTime, DateTime, TimeSpan> DatetimeDatetimeTimespan;
@@ -19,6 +24,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<TimeSpan, TimeSpan, bool> TimespanTimespanBool;
         protected Func<double, double, double> DoubleDoubleDouble;
         protected Func<Object, Object, bool> AnyAnyBool;
+        protected Func<Object, bool> AnyBool;
+        protected Func<Object, string> AnyString;
         protected Func<bool, bool, bool> BoolBoolBool;
         protected Func<string, string, bool> StringStringBool;
         protected Func<double, double, bool> DoubleDoubleBool;
@@ -70,6 +77,15 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
             }
 
+            if (StringBool != null)
+            {
+                if (op1.Type == typeof(string))
+                {
+                    var dOp1 = op1 as GenericOperand<string>;
+                    return new GenericOperand<bool>(StringBool(dOp1.Value));
+                }
+            }
+
             if (StringDouble != null)
             {
                 if (op1.Type == typeof(string))
@@ -94,6 +110,60 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 {
                     var dOp1 = op1 as GenericOperand<TimeSpan>;
                     return new GenericOperand<double>(TimespanDouble(dOp1.Value));
+                }
+            }
+
+            if (DoubleString != null)
+            {
+                if (op1.Type == typeof(double))
+                {
+                    var dOp1 = op1 as GenericOperand<double>;
+                    return new GenericOperand<string>(DoubleString(dOp1.Value));
+                }
+            }
+
+            if (DateTimeString != null)
+            {
+                if (op1.Type == typeof(DateTime))
+                {
+                    var dOp1 = op1 as GenericOperand<DateTime>;
+                    return new GenericOperand<string>(DateTimeString(dOp1.Value));
+                }
+            }
+
+            if (BoolString != null)
+            {
+                if (op1.Type == typeof(bool))
+                {
+                    var dOp1 = op1 as GenericOperand<bool>;
+                    return new GenericOperand<string>(BoolString(dOp1.Value));
+                }
+            }
+
+            if (StringString != null)
+            {
+                if (op1.Type == typeof(string))
+                {
+                    var dOp1 = op1 as GenericOperand<string>;
+                    return new GenericOperand<string>(StringString(dOp1.Value));
+                }
+            }
+
+            if (AnyString != null)
+            {
+                if (op1.Type == typeof(object))
+                {
+                    var dOp1 = op1 as GenericOperand<object>;
+                    return new GenericOperand<string>(AnyString(dOp1.Value));
+                }
+            }
+
+            if (AnyBool != null)
+            {
+                if (op1.Type == typeof(object))
+                {
+                    var dOp1 = op1 as GenericOperand<object>;
+                    return new GenericOperand<bool>(AnyBool(dOp1.Value));
                 }
             }
 
