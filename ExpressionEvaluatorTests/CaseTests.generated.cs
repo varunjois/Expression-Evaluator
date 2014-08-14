@@ -34,7 +34,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "SIGN(a)";
         }
-        
+
         [Test]
         public void Abs_HasCaps_NoException()
         {
@@ -52,7 +52,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "ABS(a)";
         }
-        
+
         [Test]
         public void Neg_HasCaps_NoException()
         {
@@ -70,7 +70,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "NEG(a)";
         }
-        
+
         [Test]
         public void Ln_HasCaps_NoException()
         {
@@ -88,7 +88,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "LN(a)";
         }
-        
+
         [Test]
         public void Now_HasCaps_NoException()
         {
@@ -106,7 +106,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "NOW()";
         }
-        
+
         [Test]
         public void TotalDays_HasCaps_NoException()
         {
@@ -124,7 +124,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "TOTALDAYS(a)";
         }
-        
+
         [Test]
         public void TotalHours_HasCaps_NoException()
         {
@@ -142,7 +142,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "TOTALHOURS(a)";
         }
-        
+
         [Test]
         public void TotalMinutes_HasCaps_NoException()
         {
@@ -160,7 +160,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "TOTALMINUTES(a)";
         }
-        
+
         [Test]
         public void TotalSeconds_HasCaps_NoException()
         {
@@ -178,7 +178,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "TOTALSECONDS(a)";
         }
-        
+
         [Test]
         public void Days_HasCaps_NoException()
         {
@@ -196,7 +196,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "DAYS(a)";
         }
-        
+
         [Test]
         public void Hours_HasCaps_NoException()
         {
@@ -214,7 +214,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "HOURS(a)";
         }
-        
+
         [Test]
         public void Minutes_HasCaps_NoException()
         {
@@ -232,7 +232,7 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "MINUTES(a)";
         }
-        
+
         [Test]
         public void Seconds_HasCaps_NoException()
         {
@@ -250,70 +250,70 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "SECONDS(a)";
         }
-        
+
         [Test]
         public void Variable_FormulaIsMixedCaseVariableIsMixedCase_NoException()
         {
             _func.Function = "aAaA";
             Assert.IsTrue(_func.IsVariable("aAaA"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsMixedCaseVariableIsAllCaps_NoException()
         {
             _func.Function = "aAaA";
             Assert.IsTrue(_func.IsVariable("AAAA"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsMixedCaseVariableIsAllLower_NoException()
         {
             _func.Function = "aAaA";
             Assert.IsTrue(_func.IsVariable("aaaa"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsMixedCase_NoException()
         {
             _func.Function = "AAAA";
             Assert.IsTrue(_func.IsVariable("aAaA"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsAllCaps_NoException()
         {
             _func.Function = "AAAA";
             Assert.IsTrue(_func.IsVariable("AAAA"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsAllLower_NoException()
         {
             _func.Function = "AAAA";
             Assert.IsTrue(_func.IsVariable("aaaa"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsMixedCase_NoException()
         {
             _func.Function = "aaaa";
             Assert.IsTrue(_func.IsVariable("aAaA"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsAllCaps_NoException()
         {
             _func.Function = "aaaa";
             Assert.IsTrue(_func.IsVariable("AAAA"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsAllLower_NoException()
         {
             _func.Function = "aaaa";
             Assert.IsTrue(_func.IsVariable("aaaa"));
         }
-        
+
         [Test]
         public void Variable_FormulaIsMixedCaseVariableIsMixedCaseValueSet_CorrectEvaluation()
         {
@@ -321,7 +321,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("aAaA", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Variable_FormulaIsMixedCaseVariableIsAllCapsValueSet_CorrectEvaluation()
         {
@@ -329,7 +329,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("AAAA", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Variable_FormulaIsMixedCaseVariableIsAllLowerValueSet_CorrectEvaluation()
         {
@@ -337,7 +337,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("aaaa", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsMixedCaseValueSet_CorrectEvaluation()
         {
@@ -345,7 +345,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("aAaA", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsAllCapsValueSet_CorrectEvaluation()
         {
@@ -353,7 +353,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("AAAA", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllCapsVariableIsAllLowerValueSet_CorrectEvaluation()
         {
@@ -361,7 +361,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("aaaa", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsMixedCaseValueSet_CorrectEvaluation()
         {
@@ -369,7 +369,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("aAaA", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsAllCapsValueSet_CorrectEvaluation()
         {
@@ -377,7 +377,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("AAAA", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Variable_FormulaIsAllLowerVariableIsAllLowerValueSet_CorrectEvaluation()
         {
@@ -385,70 +385,70 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("aaaa", 2.2);
             Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
         [Test]
         public void Equals_FormulaIsMixedCaseAndMixedCaseValueSet_CorrectEvaluation()
         {
             _func.Function = "'aAaA' == 'aAaA'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsMixedCaseAndAllCapsValueSet_CorrectEvaluation()
         {
             _func.Function = "'aAaA' == 'AAAA'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsMixedCaseAndAllLowerValueSet_CorrectEvaluation()
         {
             _func.Function = "'aAaA' == 'aaaa'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllCapsAndMixedCaseValueSet_CorrectEvaluation()
         {
             _func.Function = "'AAAA' == 'aAaA'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllCapsAndAllCapsValueSet_CorrectEvaluation()
         {
             _func.Function = "'AAAA' == 'AAAA'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllCapsAndAllLowerValueSet_CorrectEvaluation()
         {
             _func.Function = "'AAAA' == 'aaaa'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllLowerAndMixedCaseValueSet_CorrectEvaluation()
         {
             _func.Function = "'aaaa' == 'aAaA'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllLowerAndAllCapsValueSet_CorrectEvaluation()
         {
             _func.Function = "'aaaa' == 'AAAA'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllLowerAndAllLowerValueSet_CorrectEvaluation()
         {
             _func.Function = "'aaaa' == 'aaaa'";
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsMixedCaseVariableIsMixedCaseValueSet_CorrectEvaluation()
         {
@@ -456,7 +456,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "aAaA");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsMixedCaseVariableIsAllCapsValueSet_CorrectEvaluation()
         {
@@ -464,7 +464,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "AAAA");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsMixedCaseVariableIsAllLowerValueSet_CorrectEvaluation()
         {
@@ -472,7 +472,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "aaaa");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllCapsVariableIsMixedCaseValueSet_CorrectEvaluation()
         {
@@ -480,7 +480,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "aAaA");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllCapsVariableIsAllCapsValueSet_CorrectEvaluation()
         {
@@ -488,7 +488,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "AAAA");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllCapsVariableIsAllLowerValueSet_CorrectEvaluation()
         {
@@ -496,7 +496,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "aaaa");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllLowerVariableIsMixedCaseValueSet_CorrectEvaluation()
         {
@@ -504,7 +504,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "aAaA");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllLowerVariableIsAllCapsValueSet_CorrectEvaluation()
         {
@@ -512,7 +512,7 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "AAAA");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
         [Test]
         public void Equals_FormulaIsAllLowerVariableIsAllLowerValueSet_CorrectEvaluation()
         {
@@ -520,6 +520,6 @@ namespace ExpressionEvaluatorTests
             _func.AddSetVariable("a", "aaaa");
             Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
     }
 }
