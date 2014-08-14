@@ -3,7 +3,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class Now : Function
+    internal class Now : Function
     {
         public Now(int precedance)
             : base("now", precedance, 0, false)

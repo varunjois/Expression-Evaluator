@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class TotalDays : Function
+    internal class TotalDays : Function
     {
         public TotalDays(int precedance)
             : base("totaldays", precedance, 1, false)

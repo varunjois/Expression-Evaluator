@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Operators
 {
-    class Addition : Operator
+    internal class Addition : Operator
     {
         public Addition(int precedance)
             : base("+", precedance, 2, false)

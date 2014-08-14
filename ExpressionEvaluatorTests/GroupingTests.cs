@@ -1,9 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluatorTests
@@ -11,71 +6,82 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class GroupingTests
     {
-        Expression func;
+        private Expression _func;
 
         [SetUp]
-        public void init()
-        { this.func = new Expression(""); }
+        public void Init()
+        {
+            _func = new Expression("");
+        }
 
         [TearDown]
-        public void clear()
-        { func.Clear(); }
-
+        public void Clear()
+        {
+            _func.Clear();
+        }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing",
+            MatchType = MessageMatch.Contains)]
         public void Braces_MissingClose001_ExpressionException()
         {
-            func.Function = "{{1+2}";
+            _func.Function = "{{1+2}";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing",
+            MatchType = MessageMatch.Contains)]
         public void Braces_MissingClose002_ExpressionException()
         {
-            func.Function = "{1+2";
+            _func.Function = "{1+2";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing",
+            MatchType = MessageMatch.Contains)]
         public void Braces_MissingOpen001_ExpressionException()
         {
-            func.Function = "1+2}";
+            _func.Function = "1+2}";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing",
+            MatchType = MessageMatch.Contains)]
         public void Braces_MissingOpen002_ExpressionException()
         {
-            func.Function = "}{1+2}";
+            _func.Function = "}{1+2}";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing",
+            MatchType = MessageMatch.Contains)]
         public void Parenthesis_MissingClose001_ExpressionException()
         {
-            func.Function = "((1+2)";
+            _func.Function = "((1+2)";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing",
+            MatchType = MessageMatch.Contains)]
         public void Parenthesis_MissingClose002_ExpressionException()
         {
-            func.Function = "(1+2";
+            _func.Function = "(1+2";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing",
+            MatchType = MessageMatch.Contains)]
         public void Parenthesis_MissingOpen001_ExpressionException()
         {
-            func.Function = "1+2)";
+            _func.Function = "1+2)";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing",
+            MatchType = MessageMatch.Contains)]
         public void Parenthesis_MissingOpen002_ExpressionException()
         {
-            func.Function = ")(1+2)";
+            _func.Function = ")(1+2)";
         }
 
         //[Test]
@@ -104,6 +110,5 @@ namespace ExpressionEvaluatorTests
         //public void Bracket_MissingOpen002_ExpressionException()
         //{
         //    func.Function = "][1+2]";
-        
     }
 }

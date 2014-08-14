@@ -6,22 +6,13 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class SumTests
     {
-        Expression func;
+        private Expression func;
 
         [SetUp]
-        public void init()
-        { this.func = new Expression(""); }
+        public void init() { func = new Expression(""); }
 
         [TearDown]
-        public void clear()
-        { func.Clear(); }
-
-        [Test]
-        public void Sum_Numbers_IsCorrect()
-        {
-            func.Function = @"Sum(1, 2, 3, 4)";
-            Assert.AreEqual(10, func.EvaluateNumeric());
-        }
+        public void clear() { func.Clear(); }
 
         [Test]
         public void Sum_NumbersAndLetter_LetterIgnored()
@@ -30,5 +21,11 @@ namespace ExpressionEvaluatorTests
             Assert.AreEqual(9, func.EvaluateNumeric());
         }
 
+        [Test]
+        public void Sum_Numbers_IsCorrect()
+        {
+            func.Function = @"Sum(1, 2, 3, 4)";
+            Assert.AreEqual(10, func.EvaluateNumeric());
+        }
     }
 }

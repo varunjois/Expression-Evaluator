@@ -2,15 +2,15 @@
 public class CaseTestsTemplate : TestsTemplate
 {
     public string ClassName;
-    
+
     public override string TransformText()
     {
         StartClass(ClassName);
-        
+
         WriteFunctionTests();
-        
+
         EndClass();
-        
+
         return this.GenerationEnvironment.ToString();
     }
 
@@ -23,14 +23,14 @@ public class CaseTestsTemplate : TestsTemplate
             "c",
             "d"
         };
-        
+
         List<Tuple<string,string>> variableNames = new List<Tuple<string,string>>
         {
             new Tuple<string,string>("aAaA", "MixedCase"),
             new Tuple<string,string>("AAAA", "AllCaps"),
             new Tuple<string,string>("aaaa", "AllLower"),
         };
-        
+
         List<Func> funcs = new List<Func>()
         {
             new Func("Sign", 1),
@@ -61,24 +61,24 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void <#= f.Name #>_HasCaps_NoException()
         {
-            func.Function = "<#= f.Name #>(<#= prms #>)";
+            _func.Function = "<#= f.Name #>(<#= prms #>)";
         }
 
         [Test]
         public void <#= f.Name #>_AllLower_NoException()
         {
-            func.Function = "<#= f.Name.ToLower() #>(<#= prms #>)";
+            _func.Function = "<#= f.Name.ToLower() #>(<#= prms #>)";
         }
 
         [Test]
         public void <#= f.Name #>_AllUpper_NoException()
         {
-            func.Function = "<#= f.Name.ToUpper() #>(<#= prms #>)";
+            _func.Function = "<#= f.Name.ToUpper() #>(<#= prms #>)";
         }
-        
+
 <#+
         }
-        
+
         foreach(Tuple<string, string> v1 in variableNames)
         {
             foreach(Tuple<string, string> v2 in variableNames)
@@ -87,14 +87,14 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void Variable_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>_NoException()
         {
-            func.Function = "<#= v1.Item1 #>";
-            Assert.IsTrue(func.IsVariable("<#= v2.Item1 #>"));
+            _func.Function = "<#= v1.Item1 #>";
+            Assert.IsTrue(_func.IsVariable("<#= v2.Item1 #>"));
         }
-        
+
 <#+
             }
         }
-        
+
         foreach(Tuple<string, string> v1 in variableNames)
         {
             foreach(Tuple<string, string> v2 in variableNames)
@@ -103,15 +103,15 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void Variable_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>ValueSet_CorrectEvaluation()
         {
-            func.Function = "<#= v1.Item1 #>";
-            func.AddSetVariable("<#= v2.Item1 #>", 2.2);
-            Assert.AreEqual(func.EvaluateNumeric(), 2.2);
+            _func.Function = "<#= v1.Item1 #>";
+            _func.AddSetVariable("<#= v2.Item1 #>", 2.2);
+            Assert.AreEqual(_func.EvaluateNumeric(), 2.2);
         }
-        
+
 <#+
             }
         }
-        
+
         foreach(Tuple<string, string> v1 in variableNames)
         {
             foreach(Tuple<string, string> v2 in variableNames)
@@ -120,10 +120,10 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void Equals_FormulaIs<#= v1.Item2 #>And<#= v2.Item2 #>ValueSet_CorrectEvaluation()
         {
-            func.Function = "'<#= v1.Item1 #>' == '<#= v2.Item1 #>'";
-            Assert.IsTrue(func.EvaluateBoolean());
+            _func.Function = "'<#= v1.Item1 #>' == '<#= v2.Item1 #>'";
+            Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
 <#+
             }
         }
@@ -136,15 +136,15 @@ public class CaseTestsTemplate : TestsTemplate
         [Test]
         public void Equals_FormulaIs<#= v1.Item2 #>VariableIs<#= v2.Item2 #>ValueSet_CorrectEvaluation()
         {
-            func.Function = "'<#= v1.Item1 #>' == a";
-            func.AddSetVariable("a", "<#= v2.Item1 #>");
-            Assert.IsTrue(func.EvaluateBoolean());
+            _func.Function = "'<#= v1.Item1 #>' == a";
+            _func.AddSetVariable("a", "<#= v2.Item1 #>");
+            Assert.IsTrue(_func.EvaluateBoolean());
         }
-        
+
 <#+
             }
         }
-                
+
     }
 }
 
@@ -155,7 +155,7 @@ public class Func
         Name = name;
         NumParameters = numParamameters;
     }
-    
+
     public string Name;
     public int NumParameters;
 }

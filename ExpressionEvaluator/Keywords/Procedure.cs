@@ -1,39 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using ExpressionEvaluator.Procedures;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
     public class Procedure : Keyword
     {
-        protected Func<double> Double;
-        protected Func<double, double> DoubleDouble;
-        protected Func<string, bool> StringBool;
-        protected Func<DateTime> Datetime;
-        protected Func<DateTime, double> DatetimeDouble;
-        protected Func<double, TimeSpan> DoubleTimespan;
-        protected Func<TimeSpan, double> TimespanDouble;
-        protected Func<double, string> DoubleString;
-        protected Func<DateTime, string> DateTimeString;
-        protected Func<bool, string> BoolString;
-        protected Func<string, string> StringString;
-        protected Func<DateTime, TimeSpan, DateTime> DatetimeTimespanDatetime;
-        protected Func<TimeSpan, DateTime, DateTime> TimespanDatetimeDatetime;
-        protected Func<DateTime, DateTime, TimeSpan> DatetimeDatetimeTimespan;
-        protected Func<TimeSpan, TimeSpan, TimeSpan> TimespanTimespanTimespan;
-        protected Func<TimeSpan, TimeSpan, bool> TimespanTimespanBool;
-        protected Func<double, double, double> DoubleDoubleDouble;
         protected Func<Object, Object, bool> AnyAnyBool;
         protected Func<Object, bool> AnyBool;
         protected Func<Object, string> AnyString;
         protected Func<bool, bool, bool> BoolBoolBool;
-        protected Func<string, string, bool> StringStringBool;
-        protected Func<double, double, bool> DoubleDoubleBool;
+        protected Func<bool, string> BoolString;
+        protected Func<DateTime, string> DateTimeString;
+        protected Func<DateTime> Datetime;
         protected Func<DateTime, DateTime, bool> DatetimeDatetimeBool;
+        protected Func<DateTime, DateTime, TimeSpan> DatetimeDatetimeTimespan;
+        protected Func<DateTime, double> DatetimeDouble;
+        protected Func<DateTime, TimeSpan, DateTime> DatetimeTimespanDatetime;
+        protected Func<double> Double;
+        protected Func<double, double> DoubleDouble;
+        protected Func<double, double, bool> DoubleDoubleBool;
+        protected Func<double, double, double> DoubleDoubleDouble;
+        protected Func<double, string> DoubleString;
+        protected Func<double, TimeSpan> DoubleTimespan;
         protected Func<Object, Object, bool> ObjectObjectBool;
+        protected Func<List<double>, double> OperandList;
+        protected Func<string, bool> StringBool;
         protected Func<String, double> StringDouble;
         protected Func<String, double, double, String> StringDoubleDoubleString;
-        protected Func<List<double>, double> OperandList;
+        protected Func<string, string> StringString;
+        protected Func<string, string, bool> StringStringBool;
+        protected Func<TimeSpan, DateTime, DateTime> TimespanDatetimeDatetime;
+        protected Func<TimeSpan, double> TimespanDouble;
+        protected Func<TimeSpan, TimeSpan, bool> TimespanTimespanBool;
+        protected Func<TimeSpan, TimeSpan, TimeSpan> TimespanTimespanTimespan;
         protected string _name2;
 
         public Procedure(string name, int precedance, int numParams, bool variableOperandsCount)
@@ -44,7 +43,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             VariableOperandsCount = variableOperandsCount;
         }
 
-        public Procedure(string name, int precedance, int numParams, bool alwaysReturnsValue, bool variableOperandsCount)
+        public Procedure(string name, int precedance, int numParams, bool alwaysReturnsValue,
+            bool variableOperandsCount)
             : base(name, precedance)
         {
             NumParameters = numParams;
@@ -52,14 +52,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             VariableOperandsCount = variableOperandsCount;
         }
 
+        public bool AlwaysReturnsValue { get; private set; }
         public int NumParameters { get; set; }
         public bool VariableOperandsCount { get; private set; }
-        public bool AlwaysReturnsValue { get; private set; }
 
         public IOperand Evaluate()
         {
-            if (Datetime != null)
-            {
+            if (Datetime != null) {
                 return new GenericOperand<DateTime>(Datetime());
             }
 
@@ -68,100 +67,78 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         public IOperand Evaluate(IOperand op1)
         {
-            if (DoubleDouble != null)
-            {
-                if (op1.Type == typeof(double))
-                {
+            if (DoubleDouble != null) {
+                if (op1.Type == typeof(double)) {
                     var dOp1 = op1 as GenericOperand<double>;
                     return new GenericOperand<double>(DoubleDouble(dOp1.Value));
                 }
             }
 
-            if (StringBool != null)
-            {
-                if (op1.Type == typeof(string))
-                {
+            if (StringBool != null) {
+                if (op1.Type == typeof(string)) {
                     var dOp1 = op1 as GenericOperand<string>;
                     return new GenericOperand<bool>(StringBool(dOp1.Value));
                 }
             }
 
-            if (StringDouble != null)
-            {
-                if (op1.Type == typeof(string))
-                {
+            if (StringDouble != null) {
+                if (op1.Type == typeof(string)) {
                     var dOp1 = op1 as GenericOperand<string>;
                     return new GenericOperand<double>(StringDouble(dOp1.Value));
                 }
             }
 
-            if (DoubleTimespan != null)
-            {
-                if (op1.Type == typeof(double))
-                {
+            if (DoubleTimespan != null) {
+                if (op1.Type == typeof(double)) {
                     var dOp1 = op1 as GenericOperand<double>;
                     return new GenericOperand<TimeSpan>(DoubleTimespan(dOp1.Value));
                 }
             }
 
-            if (TimespanDouble != null)
-            {
-                if (op1.Type == typeof(TimeSpan))
-                {
+            if (TimespanDouble != null) {
+                if (op1.Type == typeof(TimeSpan)) {
                     var dOp1 = op1 as GenericOperand<TimeSpan>;
                     return new GenericOperand<double>(TimespanDouble(dOp1.Value));
                 }
             }
 
-            if (DoubleString != null)
-            {
-                if (op1.Type == typeof(double))
-                {
+            if (DoubleString != null) {
+                if (op1.Type == typeof(double)) {
                     var dOp1 = op1 as GenericOperand<double>;
                     return new GenericOperand<string>(DoubleString(dOp1.Value));
                 }
             }
 
-            if (DateTimeString != null)
-            {
-                if (op1.Type == typeof(DateTime))
-                {
+            if (DateTimeString != null) {
+                if (op1.Type == typeof(DateTime)) {
                     var dOp1 = op1 as GenericOperand<DateTime>;
                     return new GenericOperand<string>(DateTimeString(dOp1.Value));
                 }
             }
 
-            if (BoolString != null)
-            {
-                if (op1.Type == typeof(bool))
-                {
+            if (BoolString != null) {
+                if (op1.Type == typeof(bool)) {
                     var dOp1 = op1 as GenericOperand<bool>;
                     return new GenericOperand<string>(BoolString(dOp1.Value));
                 }
             }
 
-            if (StringString != null)
-            {
-                if (op1.Type == typeof(string))
-                {
+            if (StringString != null) {
+                if (op1.Type == typeof(string)) {
                     var dOp1 = op1 as GenericOperand<string>;
                     return new GenericOperand<string>(StringString(dOp1.Value));
                 }
             }
 
-            if (AnyString != null)
-            {
-                if (op1.Type == typeof(object))
-                {
+            if (AnyString != null) {
+                if (op1.Type == typeof(object)) {
                     var dOp1 = op1 as GenericOperand<object>;
                     return new GenericOperand<string>(AnyString(dOp1.Value));
                 }
             }
 
-            if (AnyBool != null)
-            {
-                if (op1.Type == typeof(object))
-                {
+            if (AnyBool != null) {
+                if (op1.Type == typeof(object)) {
                     var dOp1 = op1 as GenericOperand<object>;
                     return new GenericOperand<bool>(AnyBool(dOp1.Value));
                 }
@@ -172,185 +149,192 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         public IOperand Evaluate(List<IOperand> operands)
         {
-            if (OperandList != null)
-            {
+            if (OperandList != null) {
                 List<double> nums = new List<double>();
-                for (int i = 0; i < operands.Count; i++)
-                {
+                for (int i = 0; i < operands.Count; i++) {
                     var op = operands[i] as GenericOperand<double>;
-                    if (op != null)
+                    if (op != null) {
                         nums.Add(op.Value);
+                    }
                 }
 
                 return new GenericOperand<double>(OperandList(nums));
             }
-            throw new ExpressionException(_name2 + " operator used incorrectly. Operand types: " + operands[0].Type.Name + ", " + operands[0].Type.Name + ".");
+            throw new ExpressionException(
+                _name2 + " operator used incorrectly. Operand types: " + operands[0].Type.Name
+                    + ", " + operands[0].Type.Name + ".");
         }
 
         public IOperand Evaluate(IOperand op1, IOperand op2)
         {
-            try
-            {
-                if (DoubleDoubleDouble != null)
-                {
-                    if (op1.Type == typeof(double) && op2.Type == typeof(double))
-                    {
+            try {
+                if (DoubleDoubleDouble != null) {
+                    if (op1.Type == typeof(double)
+                        && op2.Type == typeof(double)) {
                         var dOp1 = op1 as GenericOperand<double>;
                         var dOp2 = op2 as GenericOperand<double>;
-                        return new GenericOperand<double>(DoubleDoubleDouble(dOp1.Value, dOp2.Value));
+                        return new GenericOperand<double>(
+                            DoubleDoubleDouble(dOp1.Value, dOp2.Value));
                     }
                 }
 
-                if (BoolBoolBool != null)
-                {
-                    if (op1.Type == typeof(bool) && op2.Type == typeof(bool))
-                    {
+                if (BoolBoolBool != null) {
+                    if (op1.Type == typeof(bool)
+                        && op2.Type == typeof(bool)) {
                         var bOp1 = op1 as GenericOperand<bool>;
                         var bOp2 = op2 as GenericOperand<bool>;
                         return new GenericOperand<bool>(BoolBoolBool(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (TimespanTimespanBool != null)
-                {
-                    if (op1.Type == typeof(TimeSpan) && op2.Type == typeof(TimeSpan))
-                    {
+                if (TimespanTimespanBool != null) {
+                    if (op1.Type == typeof(TimeSpan)
+                        && op2.Type == typeof(TimeSpan)) {
                         var bOp1 = op1 as GenericOperand<TimeSpan>;
                         var bOp2 = op2 as GenericOperand<TimeSpan>;
-                        return new GenericOperand<bool>(TimespanTimespanBool(bOp1.Value, bOp2.Value));
+                        return new GenericOperand<bool>(
+                            TimespanTimespanBool(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (DoubleDoubleBool != null)
-                {
-                    if (op1.Type == typeof(double) && op2.Type == typeof(double))
-                    {
+                if (DoubleDoubleBool != null) {
+                    if (op1.Type == typeof(double)
+                        && op2.Type == typeof(double)) {
                         var bOp1 = op1 as GenericOperand<double>;
                         var bOp2 = op2 as GenericOperand<double>;
                         return new GenericOperand<bool>(DoubleDoubleBool(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (StringStringBool != null)
-                {
-                    if (op1.Type == typeof(string) && op2.Type == typeof(string))
-                    {
+                if (StringStringBool != null) {
+                    if (op1.Type == typeof(string)
+                        && op2.Type == typeof(string)) {
                         var bOp1 = op1 as GenericOperand<string>;
                         var bOp2 = op2 as GenericOperand<string>;
                         return new GenericOperand<bool>(StringStringBool(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (TimespanTimespanTimespan != null)
-                {
-                    if (op1.Type == typeof(TimeSpan) && op2.Type == typeof(TimeSpan))
-                    {
+                if (TimespanTimespanTimespan != null) {
+                    if (op1.Type == typeof(TimeSpan)
+                        && op2.Type == typeof(TimeSpan)) {
                         var bOp1 = op1 as GenericOperand<TimeSpan>;
                         var bOp2 = op2 as GenericOperand<TimeSpan>;
-                        return new GenericOperand<TimeSpan>(TimespanTimespanTimespan(bOp1.Value, bOp2.Value));
+                        return
+                            new GenericOperand<TimeSpan>(
+                                TimespanTimespanTimespan(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (DatetimeTimespanDatetime != null)
-                {
-                    if (op1.Type == typeof(DateTime) && op2.Type == typeof(TimeSpan))
-                    {
+                if (DatetimeTimespanDatetime != null) {
+                    if (op1.Type == typeof(DateTime)
+                        && op2.Type == typeof(TimeSpan)) {
                         var bOp1 = op1 as GenericOperand<DateTime>;
                         var bOp2 = op2 as GenericOperand<TimeSpan>;
-                        return new GenericOperand<DateTime>(DatetimeTimespanDatetime(bOp1.Value, bOp2.Value));
+                        return
+                            new GenericOperand<DateTime>(
+                                DatetimeTimespanDatetime(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (TimespanDatetimeDatetime != null)
-                {
-                    if (op1.Type == typeof(TimeSpan) && op2.Type == typeof(DateTime))
-                    {
+                if (TimespanDatetimeDatetime != null) {
+                    if (op1.Type == typeof(TimeSpan)
+                        && op2.Type == typeof(DateTime)) {
                         var bOp1 = op1 as GenericOperand<TimeSpan>;
                         var bOp2 = op2 as GenericOperand<DateTime>;
-                        return new GenericOperand<DateTime>(TimespanDatetimeDatetime(bOp1.Value, bOp2.Value));
+                        return
+                            new GenericOperand<DateTime>(
+                                TimespanDatetimeDatetime(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (DatetimeDatetimeTimespan != null)
-                {
-                    if (op1.Type == typeof(DateTime) && op2.Type == typeof(DateTime))
-                    {
+                if (DatetimeDatetimeTimespan != null) {
+                    if (op1.Type == typeof(DateTime)
+                        && op2.Type == typeof(DateTime)) {
                         var bOp1 = op1 as GenericOperand<DateTime>;
                         var bOp2 = op2 as GenericOperand<DateTime>;
-                        return new GenericOperand<TimeSpan>(DatetimeDatetimeTimespan(bOp1.Value, bOp2.Value));
+                        return
+                            new GenericOperand<TimeSpan>(
+                                DatetimeDatetimeTimespan(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (DatetimeDatetimeBool != null)
-                {
-                    if (op1.Type == typeof(DateTime) && op2.Type == typeof(DateTime))
-                    {
+                if (DatetimeDatetimeBool != null) {
+                    if (op1.Type == typeof(DateTime)
+                        && op2.Type == typeof(DateTime)) {
                         var bOp1 = op1 as GenericOperand<DateTime>;
                         var bOp2 = op2 as GenericOperand<DateTime>;
-                        return new GenericOperand<bool>(DatetimeDatetimeBool(bOp1.Value, bOp2.Value));
+                        return new GenericOperand<bool>(
+                            DatetimeDatetimeBool(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (ObjectObjectBool != null)
-                {
-                    if (op1.Type == typeof(Object) && op2.Type == typeof(Object))
-                    {
+                if (ObjectObjectBool != null) {
+                    if (op1.Type == typeof(Object)
+                        && op2.Type == typeof(Object)) {
                         var bOp1 = op1 as GenericOperand<Object>;
                         var bOp2 = op2 as GenericOperand<Object>;
                         return new GenericOperand<bool>(ObjectObjectBool(bOp1.Value, bOp2.Value));
                     }
                 }
 
-                if (AnyAnyBool != null)
-                {
+                if (AnyAnyBool != null) {
                     return new GenericOperand<bool>(AnyAnyBool(op1, op2));
                 }
 
-                if (op1.Type == typeof(Object) || op2.Type == typeof(Object))
-                {
+                if (op1.Type == typeof(Object)
+                    || op2.Type == typeof(Object)) {
                     return new GenericOperand<object>();
                 }
             }
-            catch(Exception e)
-            {
-                throw new ExpressionException(_name2 + " operator threw an exception. Operand types: " + op1.Type.Name + ", " + op2.Type.Name + "." + Environment.NewLine + e.Message);
+            catch (Exception e) {
+                throw new ExpressionException(
+                    _name2 + " operator threw an exception. Operand types: " + op1.Type.Name + ", "
+                        + op2.Type.Name + "." + Environment.NewLine + e.Message);
             }
-            throw new ExpressionException(_name2 + " operator used incorrectly. Operand types: " + op1.Type.Name + ", " + op2.Type.Name + ".");
+            throw new ExpressionException(
+                _name2 + " operator used incorrectly. Operand types: " + op1.Type.Name + ", "
+                    + op2.Type.Name + ".");
         }
 
         public IOperand Evaluate(IOperand op1, IOperand op2, IOperand op3)
         {
-            try
-            {
-                if (StringDoubleDoubleString != null)
-                {
-                    if (op1.Type == typeof(string) && op2.Type == typeof(double) && op3.Type == typeof(double))
-                    {                        
+            try {
+                if (StringDoubleDoubleString != null) {
+                    if (op1.Type == typeof(string)
+                        && op2.Type == typeof(double)
+                        && op3.Type == typeof(double)) {
                         var dOp1 = op1 as GenericOperand<string>;
                         var dOp2 = op2 as GenericOperand<double>;
                         var dOp3 = op3 as GenericOperand<double>;
 
-                        if ((dOp2.Value % 1) != 0 || (dOp3.Value % 1) != 0)
-                        {
-                            throw new ExpressionException("One or more of the substring parameters contain decimals and not integers!");
+                        if ((dOp2.Value % 1) != 0
+                            || (dOp3.Value % 1) != 0) {
+                            throw new ExpressionException(
+                                "One or more of the substring parameters contain decimals and not integers!");
                         }
 
-                        return new GenericOperand<string>(StringDoubleDoubleString(dOp1.Value, dOp2.Value, dOp3.Value));
+                        return
+                            new GenericOperand<string>(
+                                StringDoubleDoubleString(dOp1.Value, dOp2.Value, dOp3.Value));
                     }
                 }
 
-                if (op1.Type == typeof(Object) || op2.Type == typeof(Object) || op2.Type == typeof(Object))
-                {
+                if (op1.Type == typeof(Object)
+                    || op2.Type == typeof(Object)
+                    || op2.Type == typeof(Object)) {
                     return new GenericOperand<object>();
                 }
             }
-            catch (Exception e)
-            {
-                throw new ExpressionException(_name2 + " operator threw an exception. Operand types: " + op1.Type.Name + ", " + op2.Type.Name  + ", " + op3.Type.Name + "." + Environment.NewLine + e.Message);
+            catch (Exception e) {
+                throw new ExpressionException(
+                    _name2 + " operator threw an exception. Operand types: " + op1.Type.Name + ", "
+                        + op2.Type.Name + ", " + op3.Type.Name + "." + Environment.NewLine
+                        + e.Message);
             }
-            throw new ExpressionException(_name2 + " operator used incorrectly. Operand types: " + op1.Type.Name + ", " + op2.Type.Name + ", " + op3.Type.Name + ".");
+            throw new ExpressionException(
+                _name2 + " operator used incorrectly. Operand types: " + op1.Type.Name + ", "
+                    + op2.Type.Name + ", " + op3.Type.Name + ".");
         }
-
-
     }
 }

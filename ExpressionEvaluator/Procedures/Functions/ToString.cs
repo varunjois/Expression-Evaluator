@@ -1,9 +1,8 @@
-﻿using System;
-using Vanderbilt.Biostatistics.Wfccm2;
+﻿using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class ToString : Function
+    internal class ToString : Function
     {
         public ToString(int precedance)
             : base("tostring", precedance, 1, false)

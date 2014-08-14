@@ -1,5 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-using System;
+﻿using System;
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
@@ -8,127 +7,127 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class NegFunctionTests
     {
-        Expression func;
+        Expression _func;
 
         [SetUp]
-        public void init()
-        { this.func = new Expression(""); }
+        public void Init()
+        { this._func = new Expression(""); }
 
         [TearDown]
-        public void clear()
-        { func.Clear(); }
-        
+        public void Clear()
+        { _func.Clear(); }
+
         [Test]
         public void NegOperator_CalledWithPositiveWhole_IsCorrect()
         {
-            func.Function = "neg(2)";
-            Assert.AreEqual(-2d, func.EvaluateNumeric());
+            _func.Function = "neg(2)";
+            Assert.AreEqual(-2d, _func.EvaluateNumeric());
         }
-        
+
         [Test]
         public void NegOperator_CalledWithPositiveFraction_IsCorrect()
         {
-            func.Function = "neg(0.5)";
-            Assert.AreEqual(-0.5d, func.EvaluateNumeric());
+            _func.Function = "neg(0.5)";
+            Assert.AreEqual(-0.5d, _func.EvaluateNumeric());
         }
-        
+
         [Test]
         public void NegOperator_CalledWithNegativeWhole_IsCorrect()
         {
-            func.Function = "neg(-2)";
-            Assert.AreEqual(2d, func.EvaluateNumeric());
+            _func.Function = "neg(-2)";
+            Assert.AreEqual(2d, _func.EvaluateNumeric());
         }
-        
+
         [Test]
         public void NegOperator_CalledWithNegativeFraction_IsCorrect()
         {
-            func.Function = "neg(-0.5)";
-            Assert.AreEqual(0.5d, func.EvaluateNumeric());
+            _func.Function = "neg(-0.5)";
+            Assert.AreEqual(0.5d, _func.EvaluateNumeric());
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "neg(2";
+            _func.Function = "neg(2";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "neg(0.5";
+            _func.Function = "neg(0.5";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "neg(-2";
+            _func.Function = "neg(-2";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "neg(-0.5";
+            _func.Function = "neg(-0.5";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "neg 2)";
+            _func.Function = "neg 2)";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "neg 0.5)";
+            _func.Function = "neg 0.5)";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "neg -2)";
+            _func.Function = "neg -2)";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "neg -0.5)";
+            _func.Function = "neg -0.5)";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingBothParenthesisPositiveWholeArgument_ThrowsException()
         {
-            func.Function = "neg 2";
+            _func.Function = "neg 2";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingBothParenthesisPositiveFractionArgument_ThrowsException()
         {
-            func.Function = "neg 0.5";
+            _func.Function = "neg 0.5";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingBothParenthesisNegativeWholeArgument_ThrowsException()
         {
-            func.Function = "neg -2";
+            _func.Function = "neg -2";
         }
-        
+
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
         public void NegOperator_MalformedExpressionMissingBothParenthesisNegativeFractionArgument_ThrowsException()
         {
-            func.Function = "neg -0.5";
+            _func.Function = "neg -0.5";
         }
-        
+
     }
 }

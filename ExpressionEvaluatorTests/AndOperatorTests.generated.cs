@@ -1,5 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-using System;
+﻿using System;
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
 
@@ -8,170 +7,170 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class AndOperatorTests
     {
-        Expression func;
+        Expression _func;
 
         [SetUp]
-        public void init()
-        { this.func = new Expression(""); }
+        public void Init()
+        { this._func = new Expression(""); }
 
         [TearDown]
-        public void clear()
-        { func.Clear(); }
-        
+        public void Clear()
+        { _func.Clear(); }
+
         [Test]
         public void AndOperator_BooleanTrueWithBooleanTrue_IsCorrect()
         {
-            func.Function = "True && True";
-            Assert.AreEqual(true, func.EvaluateBoolean());
+            _func.Function = "True && True";
+            Assert.AreEqual(true, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanTrueWithBooleanFalse_IsCorrect()
         {
-            func.Function = "True && False";
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "True && False";
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanFalseWithBooleanTrue_IsCorrect()
         {
-            func.Function = "False && True";
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "False && True";
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanFalseWithBooleanFalse_IsCorrect()
         {
-            func.Function = "False && False";
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "False && False";
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanTrueWithBooleanTrueWithLeftVariable_IsCorrect()
         {
-            func.Function = "a && True";
-			func.AddSetVariable("a", true);
-            Assert.AreEqual(true, func.EvaluateBoolean());
+            _func.Function = "a && True";
+            _func.AddSetVariable("a", true);
+            Assert.AreEqual(true, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanTrueWithBooleanFalseWithLeftVariable_IsCorrect()
         {
-            func.Function = "a && False";
-			func.AddSetVariable("a", true);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "a && False";
+            _func.AddSetVariable("a", true);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanFalseWithBooleanTrueWithLeftVariable_IsCorrect()
         {
-            func.Function = "a && True";
-			func.AddSetVariable("a", false);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "a && True";
+            _func.AddSetVariable("a", false);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanFalseWithBooleanFalseWithLeftVariable_IsCorrect()
         {
-            func.Function = "a && False";
-			func.AddSetVariable("a", false);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "a && False";
+            _func.AddSetVariable("a", false);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanTrueWithBooleanTrueWithRightVariable_IsCorrect()
         {
-            func.Function = "True && a";
-			func.AddSetVariable("a", true);
-            Assert.AreEqual(true, func.EvaluateBoolean());
+            _func.Function = "True && a";
+            _func.AddSetVariable("a", true);
+            Assert.AreEqual(true, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanTrueWithBooleanFalseWithRightVariable_IsCorrect()
         {
-            func.Function = "True && a";
-			func.AddSetVariable("a", false);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "True && a";
+            _func.AddSetVariable("a", false);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanFalseWithBooleanTrueWithRightVariable_IsCorrect()
         {
-            func.Function = "False && a";
-			func.AddSetVariable("a", true);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "False && a";
+            _func.AddSetVariable("a", true);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanFalseWithBooleanFalseWithRightVariable_IsCorrect()
         {
-            func.Function = "False && a";
-			func.AddSetVariable("a", false);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "False && a";
+            _func.AddSetVariable("a", false);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanTrueWithBooleanTrueWithVariable_IsCorrect()
         {
-            func.Function = "a && b";
-			func.AddSetVariable("a", true);
-			func.AddSetVariable("b", true);
-            Assert.AreEqual(true, func.EvaluateBoolean());
+            _func.Function = "a && b";
+            _func.AddSetVariable("a", true);
+            _func.AddSetVariable("b", true);
+            Assert.AreEqual(true, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanTrueWithBooleanFalseWithVariable_IsCorrect()
         {
-            func.Function = "a && b";
-			func.AddSetVariable("a", true);
-			func.AddSetVariable("b", false);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "a && b";
+            _func.AddSetVariable("a", true);
+            _func.AddSetVariable("b", false);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanFalseWithBooleanTrueWithVariable_IsCorrect()
         {
-            func.Function = "a && b";
-			func.AddSetVariable("a", false);
-			func.AddSetVariable("b", true);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "a && b";
+            _func.AddSetVariable("a", false);
+            _func.AddSetVariable("b", true);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         public void AndOperator_BooleanFalseWithBooleanFalseWithVariable_IsCorrect()
         {
-            func.Function = "a && b";
-			func.AddSetVariable("a", false);
-			func.AddSetVariable("b", false);
-            Assert.AreEqual(false, func.EvaluateBoolean());
+            _func.Function = "a && b";
+            _func.AddSetVariable("a", false);
+            _func.AddSetVariable("b", false);
+            Assert.AreEqual(false, _func.EvaluateBoolean());
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void AndOperator_MalformedExpressionBooleanTrueLeftOfOperator_ThrowsException()
         {
-            func.Function = "True &&";
+            _func.Function = "True &&";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void AndOperator_MalformedExpressionBooleanFalseLeftOfOperator_ThrowsException()
         {
-            func.Function = "False &&";
+            _func.Function = "False &&";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void AndOperator_MalformedExpressionBooleanTrueRightOfOperator_ThrowsException()
         {
-            func.Function = "&& True";
+            _func.Function = "&& True";
         }
 
         [Test]
         [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Operator error", MatchType = MessageMatch.Contains)]
         public void AndOperator_MalformedExpressionBooleanFalseRightOfOperator_ThrowsException()
         {
-            func.Function = "&& False";
+            _func.Function = "&& False";
         }
 
     }

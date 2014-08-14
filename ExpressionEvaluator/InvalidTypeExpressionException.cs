@@ -6,10 +6,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     [Serializable]
     public class InvalidTypeExpressionException : ExpressionException
     {
-        public InvalidTypeExpressionException(string description) : base (description)
-        {
-        }
+        public InvalidTypeExpressionException(string description)
+            : base(description) { }
 
-        protected InvalidTypeExpressionException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected InvalidTypeExpressionException(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
     }
 }

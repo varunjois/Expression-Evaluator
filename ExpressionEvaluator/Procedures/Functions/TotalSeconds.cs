@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class TotalSeconds : Function
+    internal class TotalSeconds : Function
     {
         public TotalSeconds(int precedance)
             : base("totalseconds", precedance, 1, false)

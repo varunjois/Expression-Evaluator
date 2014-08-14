@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class Sign : Function
+    internal class Sign : Function
     {
         public Sign(int precedance)
             : base("sign", precedance, 1, false)

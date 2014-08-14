@@ -2,10 +2,9 @@
 <#+
 abstract public class TestsTemplate : TextTransformation
 {
-	public void StartClass(string name)
+    public void StartClass(string name)
     {
 #>
-// ReSharper disable InconsistentNaming
 using System;
 using NUnit.Framework;
 using Vanderbilt.Biostatistics.Wfccm2;
@@ -15,16 +14,16 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class <#= name #>
     {
-        Expression func;
+        Expression _func;
 
         [SetUp]
-        public void init()
-        { this.func = new Expression(""); }
+        public void Init()
+        { this._func = new Expression(""); }
 
         [TearDown]
-        public void clear()
-        { func.Clear(); }
-        
+        public void Clear()
+        { _func.Clear(); }
+
 <#+
     }
 
@@ -44,9 +43,9 @@ public class ValueDescription<T>
     {
         Value = value;
         Description = description;
-		TextValue = textValue;
+        TextValue = textValue;
     }
-    
+
     public T Value;
     public string Description;
     public string TextValue;

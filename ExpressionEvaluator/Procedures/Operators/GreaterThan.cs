@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Operators
 {
-    class GreaterThan : Operator
+    internal class GreaterThan : Operator
     {
         public GreaterThan(int precedance)
             : base(">", precedance, 2, false)

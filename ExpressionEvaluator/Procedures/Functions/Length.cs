@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class Length : Function
+    internal class Length : Function
     {
         public Length(int precedance)
             : base("length", precedance, 1, false)

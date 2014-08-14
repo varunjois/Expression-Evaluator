@@ -1,5 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
-using System;
+
 using Vanderbilt.Biostatistics.Wfccm2;
 using NUnit.Framework;
 
@@ -8,37 +8,13 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class IsNumberFunctionTests
     {
-        Expression func;
+        private Expression func;
 
         [SetUp]
-        public void init()
-        { this.func = new Expression(""); }
+        public void init() { func = new Expression(""); }
 
         [TearDown]
-        public void clear()
-        { func.Clear(); }
-
-        [Test]
-        public void IsNumber_NumericStringInput_IsCorrect()
-        {
-            func.Function = "isNumber('2')";
-            Assert.AreEqual(true, func.EvaluateBoolean());
-        }
-
-        [Test]
-        public void IsNumber_NumericInputWithSpaces_IsCorrect()
-        {
-            func.Function = "isNumber( ' 2 ' )";
-            Assert.AreEqual(true, func.EvaluateBoolean());
-        }
-
-        [Test]
-        public void IsNumber_VariableIsNumeric_IsCorrect()
-        {
-            func.Function = "isNumber(a)";
-            func.AddSetVariable("a", "2");
-            Assert.AreEqual(true, func.EvaluateBoolean());
-        }
+        public void clear() { func.Clear(); }
 
         [Test]
         public void IsNumber_NotANumber_IsCorrect()
@@ -54,5 +30,26 @@ namespace ExpressionEvaluatorTests
             Assert.AreEqual(false, func.EvaluateBoolean());
         }
 
+        [Test]
+        public void IsNumber_NumericInputWithSpaces_IsCorrect()
+        {
+            func.Function = "isNumber( ' 2 ' )";
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void IsNumber_NumericStringInput_IsCorrect()
+        {
+            func.Function = "isNumber('2')";
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void IsNumber_VariableIsNumeric_IsCorrect()
+        {
+            func.Function = "isNumber(a)";
+            func.AddSetVariable("a", "2");
+            Assert.AreEqual(true, func.EvaluateBoolean());
+        }
     }
 }

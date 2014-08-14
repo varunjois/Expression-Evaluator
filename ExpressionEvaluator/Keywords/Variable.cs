@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Vanderbilt.Biostatistics.Wfccm2
+﻿namespace Vanderbilt.Biostatistics.Wfccm2
 {
     public interface IVariable : IOperand
     {
