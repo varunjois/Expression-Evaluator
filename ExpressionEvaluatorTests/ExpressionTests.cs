@@ -51,6 +51,36 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void Evaulate_CheckFloatingPointErrors01_IsCorrect()
+        {
+            _func.Function = "0.3 / 0.4";
+            Assert.AreEqual(0.75, _func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Evaulate_CheckFloatingPointErrorsWithBoolean01_IsCorrect()
+        {
+            _func.Function = "0.3 / 0.4 == 0.75";
+            Assert.AreEqual(true, _func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Evaulate_CheckFloatingPointErrorsWithBooleanAndVariables_IsCorrect()
+        {
+            _func.Function = "a >= 0.75 * b";
+            _func.AddSetVariable("a", 0.3);
+            _func.AddSetVariable("b", 0.4);
+            Assert.AreEqual(true, _func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Evaulate_CheckFloatingPointErrorsWithBoolean_IsCorrect()
+        {
+            _func.Function = "0.3 >= 0.75 * 0.4";
+            Assert.AreEqual(true, _func.EvaluateBoolean());
+        }
+
+        [Test]
         public void Evaulate_CheckFloatingPointErrors_IsCorrect()
         {
             _func.Function = "99.999999999999/100";
