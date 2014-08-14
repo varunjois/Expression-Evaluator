@@ -1,5 +1,5 @@
-﻿using Vanderbilt.Biostatistics.Wfccm2;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluatorTests
 {
@@ -9,15 +9,13 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class ExpressionTest
     {
-        Expression _func;
+        private Expression _func;
 
         [SetUp]
-        public void Init()
-        { this._func = new Expression(""); }
+        public void Init() { _func = new Expression(""); }
 
         [TearDown]
-        public void Clear()
-        { _func.Clear(); }
+        public void Clear() { _func.Clear(); }
 
         [Test]
         public void Add_SimpleTest_ValueIsCorrect()
@@ -39,56 +37,49 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void Variable_SetThenChanged_IsCorrect()
+        public void DivideByZero_EvaluateFunction001_IsNotANumber()
         {
-            _func.Function = "a+b";
+            _func.Function = "2/0";
+            Assert.AreEqual(true, double.IsNaN(_func.EvaluateNumeric()));
+        }
+
+        [Test]
+        public void DivideByZero_EvaluateFunction002_IsNotANumber()
+        {
+            _func.Function = "2/(1-1)";
+            Assert.AreEqual(true, double.IsNaN(_func.EvaluateNumeric()));
+        }
+
+        [Test]
+        public void Evaulate_CheckFloatingPointErrors_IsCorrect()
+        {
+            _func.Function = "99.999999999999/100";
+            Assert.AreEqual(0.99999999999999, _func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Function001()
+        {
+            _func.Function = "a+b - 2";
+            Assert.AreEqual("a+b - 2", _func.Function);
+        }
+
+        [Test]
+        public void Function002()
+        {
+            _func.Function = "a +b - 2";
             _func.AddSetVariable("a", 2);
             _func.AddSetVariable("b", 3);
-            Assert.AreEqual(2, _func.GetVariableValue("a"));
-            Assert.AreEqual(3, _func.GetVariableValue("b"));
-
-            _func.AddSetVariable("a", 3);
-            _func.AddSetVariable("b", 4);
-            Assert.AreEqual(3, _func.GetVariableValue("a"));
-            Assert.AreEqual(4, _func.GetVariableValue("b"));
+            Assert.AreEqual("a +b - 2", _func.Function);
         }
 
         [Test]
-        public void Variable002()
+        public void Function003()
         {
-            _func.Function = "a+b";
-            Assert.AreEqual(true, double.IsNaN(_func.GetVariableValue("a")));
-            Assert.AreEqual(true, double.IsNaN(_func.GetVariableValue("b")));
-        }
-
-        [Test]
-        public void ToString001()
-        {
-            _func.Function = "a + b";
-            Assert.AreEqual("a + b; a=null, b=null", _func.ToString());
-        }
-
-        [Test]
-        public void ToString002()
-        {
-            _func.Function = "a + b";
+            _func.Function = "a + b - 2";
             _func.AddSetVariable("a", 2);
             _func.AddSetVariable("b", 3);
-            Assert.AreEqual("a + b; a=2, b=3", _func.ToString());
-        }
-
-        [Test]
-        public void PostFix001()
-        {
-            _func.Function = "a + b";
-            Assert.AreEqual("a b +", _func.PostFix);
-        }
-
-        [Test]
-        public void PostFix002()
-        {
-            _func.Function = "a+b";
-            Assert.AreEqual("a b +", _func.PostFix);
+            Assert.AreEqual("a + b - 2", _func.Function);
         }
 
         [Test]
@@ -127,58 +118,26 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void PostFix001()
+        {
+            _func.Function = "a + b";
+            Assert.AreEqual("a b +", _func.PostFix);
+        }
+
+        [Test]
+        public void PostFix002()
+        {
+            _func.Function = "a+b";
+            Assert.AreEqual("a b +", _func.PostFix);
+        }
+
+        [Test]
         public void PostFix003()
         {
             _func.Function = "a+b - 2";
             _func.AddSetVariable("a", 2);
             _func.AddSetVariable("b", 3);
             Assert.AreEqual("a b + 2 -", _func.PostFix);
-        }
-
-        [Test]
-        public void Function001()
-        {
-            _func.Function = "a+b - 2";
-            Assert.AreEqual("a+b - 2", _func.Function);
-        }
-
-        [Test]
-        public void Function002()
-        {
-            _func.Function = "a +b - 2";
-            _func.AddSetVariable("a", 2);
-            _func.AddSetVariable("b", 3);
-            Assert.AreEqual("a +b - 2", _func.Function);
-        }
-
-        [Test]
-        public void Function003()
-        {
-            _func.Function = "a + b - 2";
-            _func.AddSetVariable("a", 2);
-            _func.AddSetVariable("b", 3);
-            Assert.AreEqual("a + b - 2", _func.Function);
-        }
-
-        [Test]
-        public void DivideByZero_EvaluateFunction001_IsNotANumber()
-        {
-            _func.Function = "2/0";
-            Assert.AreEqual(true, double.IsNaN(_func.EvaluateNumeric()));
-        }
-
-        [Test]
-        public void DivideByZero_EvaluateFunction002_IsNotANumber()
-        {
-            _func.Function = "2/(1-1)";
-            Assert.AreEqual(true, double.IsNaN(_func.EvaluateNumeric()));
-        }
-
-        [Test]
-        public void Evaulate_CheckFloatingPointErrors_IsCorrect()
-        {
-            _func.Function = "99.999999999999/100";
-            Assert.AreEqual(0.99999999999999, _func.EvaluateNumeric());
         }
 
         [Test]
@@ -195,7 +154,43 @@ namespace ExpressionEvaluatorTests
             Assert.AreEqual(0.25, _func.EvaluateNumeric());
         }
 
+        [Test]
+        public void ToString001()
+        {
+            _func.Function = "a + b";
+            Assert.AreEqual("a + b; a=null, b=null", _func.ToString());
+        }
+
+        [Test]
+        public void ToString002()
+        {
+            _func.Function = "a + b";
+            _func.AddSetVariable("a", 2);
+            _func.AddSetVariable("b", 3);
+            Assert.AreEqual("a + b; a=2, b=3", _func.ToString());
+        }
+
+        [Test]
+        public void Variable002()
+        {
+            _func.Function = "a+b";
+            Assert.AreEqual(true, double.IsNaN(_func.GetVariableValue("a")));
+            Assert.AreEqual(true, double.IsNaN(_func.GetVariableValue("b")));
+        }
+
+        [Test]
+        public void Variable_SetThenChanged_IsCorrect()
+        {
+            _func.Function = "a+b";
+            _func.AddSetVariable("a", 2);
+            _func.AddSetVariable("b", 3);
+            Assert.AreEqual(2, _func.GetVariableValue("a"));
+            Assert.AreEqual(3, _func.GetVariableValue("b"));
+
+            _func.AddSetVariable("a", 3);
+            _func.AddSetVariable("b", 4);
+            Assert.AreEqual(3, _func.GetVariableValue("a"));
+            Assert.AreEqual(4, _func.GetVariableValue("b"));
+        }
     }
-
 }
-

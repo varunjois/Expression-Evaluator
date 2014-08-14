@@ -11,7 +11,7 @@ namespace ExpressionEvaluatorTests
         [SetUp]
         public void Init()
         {
-            this._func = new Expression("");
+            _func = new Expression("");
         }
 
         [TearDown]
@@ -21,17 +21,12 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void String_ValidNoSpaces_IsCorrect()
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "String grouping error",
+            MatchType = MessageMatch.Contains)]
+        public void String_TooManySeperators_Exception()
         {
-            _func.Function = "'a'";
-            Assert.AreEqual("a", _func.Evaluate<string>());
-        }
-
-        [Test]
-        public void String_ValidFrontSpace_IsCorrect()
-        {
-            _func.Function = "' a'";
-            Assert.AreEqual(" a", _func.Evaluate<string>());
+            _func.Function = "'aoeu ''";
+            _func.Evaluate<string>();
         }
 
         [Test]
@@ -42,11 +37,17 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "String grouping error", MatchType = MessageMatch.Contains)]
-        public void String_TooManySeperators_Exception()
+        public void String_ValidFrontSpace_IsCorrect()
         {
-            _func.Function = "'aoeu ''";
-            _func.Evaluate<string>();
+            _func.Function = "' a'";
+            Assert.AreEqual(" a", _func.Evaluate<string>());
+        }
+
+        [Test]
+        public void String_ValidNoSpaces_IsCorrect()
+        {
+            _func.Function = "'a'";
+            Assert.AreEqual("a", _func.Evaluate<string>());
         }
     }
 }

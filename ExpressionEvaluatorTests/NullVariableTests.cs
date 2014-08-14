@@ -9,10 +9,16 @@ namespace ExpressionEvaluatorTests
         private Expression _func;
 
         [SetUp]
-        public void Init() { this._func = new Expression(""); }
+        public void Init()
+        {
+            _func = new Expression("");
+        }
 
         [TearDown]
-        public void Clear() { _func.Clear(); }
+        public void Clear()
+        {
+            _func.Clear();
+        }
 
         [Test]
         public void ValidFunctionWithTwoVariables_VariablesNull_NANReturned()
@@ -22,33 +28,12 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void ValidFunctionWithVariablesAndIfThenNotEquals_VariableNull_CorrectValueReturned()
+        public void
+            ValidFunctionWithVariablesAndIfThenEquals_MultipleVairableOneNull_CorrectValueReturned()
         {
-            _func.Function = "if (a != null) { a + 1 } else { 0 }";
-            Assert.AreEqual(0, _func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void ValidFunctionWithVariablesAndIfThenNotEquals_VariableNotNull_CorrectValueReturned()
-        {
-            _func.Function = "if (a != null) { a + 1 } else { 0 }";
+            _func.Function = "if (a == null) { 0 } else { a } + if (b == null) { 0 } else { b }";
             _func.AddSetVariable("a", 2);
-            Assert.AreEqual(3, _func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void ValidFunctionWithVariablesAndIfThenEquals_VariableNull_CorrectValueReturned()
-        {
-            _func.Function = "if (a == null) { 0 } else { a + 1 }";
-            Assert.AreEqual(0, _func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void ValidFunctionWithVariablesAndIfThenEquals_VariableNotNull_CorrectValueReturned()
-        {
-            _func.Function = "if (a == null) { 0 } else { a + 1 }";
-            _func.AddSetVariable("a", 2);
-            Assert.AreEqual(3, _func.EvaluateNumeric());
+            Assert.AreEqual(2, _func.EvaluateNumeric());
         }
 
         [Test]
@@ -61,11 +46,34 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void ValidFunctionWithVariablesAndIfThenEquals_MultipleVairableOneNull_CorrectValueReturned()
+        public void ValidFunctionWithVariablesAndIfThenEquals_VariableNotNull_CorrectValueReturned()
         {
-            _func.Function = "if (a == null) { 0 } else { a } + if (b == null) { 0 } else { b }";
+            _func.Function = "if (a == null) { 0 } else { a + 1 }";
             _func.AddSetVariable("a", 2);
-            Assert.AreEqual(2, _func.EvaluateNumeric());
+            Assert.AreEqual(3, _func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void ValidFunctionWithVariablesAndIfThenEquals_VariableNull_CorrectValueReturned()
+        {
+            _func.Function = "if (a == null) { 0 } else { a + 1 }";
+            Assert.AreEqual(0, _func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void
+            ValidFunctionWithVariablesAndIfThenNotEquals_VariableNotNull_CorrectValueReturned()
+        {
+            _func.Function = "if (a != null) { a + 1 } else { 0 }";
+            _func.AddSetVariable("a", 2);
+            Assert.AreEqual(3, _func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void ValidFunctionWithVariablesAndIfThenNotEquals_VariableNull_CorrectValueReturned()
+        {
+            _func.Function = "if (a != null) { a + 1 } else { 0 }";
+            Assert.AreEqual(0, _func.EvaluateNumeric());
         }
     }
 }

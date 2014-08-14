@@ -1,9 +1,8 @@
-﻿using System;
-using Vanderbilt.Biostatistics.Wfccm2;
+﻿using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class Substring : Function
+    internal class Substring : Function
     {
         public Substring(int precedance)
             : base("substring", precedance, 3, false)

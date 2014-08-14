@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Operators
 {
-    class LesserEqual : Operator
+    internal class LesserEqual : Operator
     {
         public LesserEqual(int precedance)
             : base("<=", precedance, 2, false)

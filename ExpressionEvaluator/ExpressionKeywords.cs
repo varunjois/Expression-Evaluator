@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using ExpressionEvaluator.Procedures;
 using ExpressionEvaluator.Procedures.Functions;
 using ExpressionEvaluator.Procedures.Operators;
 
@@ -9,23 +7,15 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 {
     public static class ExpressionKeywords
     {
-        static public readonly Dictionary<string, IVariable> Constants;
-
-        static public readonly List<Keyword> Keywords;
-
-        static public readonly List<string> Operators;
-
-        static public readonly List<string> Functions;
-
-        static public readonly List<string> StringGroupOperators;
-
-        static public readonly List<string> OpenGroupOperators;
-
-        static public readonly List<string> ClosingGroupOperators;
-
-        static public readonly List<string> GroupOperators;
-
-        static public readonly List<string> ConditionalOperators;
+        public static readonly List<string> ClosingGroupOperators;
+        public static readonly List<string> ConditionalOperators;
+        public static readonly Dictionary<string, IVariable> Constants;
+        public static readonly List<string> Functions;
+        public static readonly List<string> GroupOperators;
+        public static readonly List<Keyword> Keywords;
+        public static readonly List<string> OpenGroupOperators;
+        public static readonly List<string> Operators;
+        public static readonly List<string> StringGroupOperators;
 
         static ExpressionKeywords()
         {
@@ -106,9 +96,32 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 .Select(x => x.Name)
                 .ToList();
         }
+
         public static Grouping GetGroupingFromClose(string token)
         {
-            return Keywords.OfType<Grouping>().Where(x => x.Close == token).Single();
+            return Keywords.OfType<Grouping>()
+                .Where(x => x.Close == token)
+                .Single();
+        }
+
+        /// <summary>
+        /// Returns the precedance of an operator.
+        /// </summary>
+        /// <remarks><pre>
+        /// 2004-07-19 - Jeremy Roberts
+        /// </pre></remarks>
+        /// <param name="token">Token to check.</param>
+        /// <returns></returns>
+        public static int GetPrecedence(string token)
+        {
+            if (Keywords.Where(x => x.Name == token)
+                .Count() == 1) {
+                return Keywords.Where(x => x.Name == token)
+                    .Single()
+                    .Precedance;
+            }
+
+            return 0;
         }
 
         /// <summary>
@@ -119,11 +132,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         /// <param name="token">String to check</param>
         /// <returns></returns>
-        static public bool IsOperand(string token)
+        public static bool IsOperand(string token)
         {
-            if (!IsOperator(token) &&
-                !GroupOperators.Contains(token))
+            if (!IsOperator(token)
+                && !GroupOperators.Contains(token)) {
                 return true;
+            }
 
             return false;
         }
@@ -136,30 +150,11 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         /// <param name="token">String to check</param>
         /// <returns></returns>
-        static public bool IsOperator(string token)
+        public static bool IsOperator(string token)
         {
-            return Operators
-                .Union(Functions)
+            return Operators.Union(Functions)
                 .Union(ConditionalOperators)
                 .Contains(token);
         }
-
-        /// <summary>
-        /// Returns the precedance of an operator.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="token">Token to check.</param>
-        /// <returns></returns>
-        static public int GetPrecedence(string token)
-        {
-            if (Keywords.Where(x => x.Name == token).Count() == 1)
-                return Keywords.Where(x => x.Name == token).Single().Precedance;
-
-            return 0;
-        }
-
-
     }
 }

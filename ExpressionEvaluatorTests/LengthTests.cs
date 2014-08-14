@@ -6,22 +6,13 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class LengthTests
     {
-        Expression _func;
+        private Expression _func;
 
         [SetUp]
-        public void Init()
-        { this._func = new Expression(""); }
+        public void Init() { _func = new Expression(""); }
 
         [TearDown]
-        public void Clear()
-        { _func.Clear(); }
-
-        [Test]
-        public void Length_ValidSTring_IsCorrect()
-        {
-            _func.Function = @"Length('abcd')";
-            Assert.AreEqual(4, _func.EvaluateNumeric());
-        }
+        public void Clear() { _func.Clear(); }
 
         [Test]
         public void Contains_StringIsASubstring_True()
@@ -29,6 +20,13 @@ namespace ExpressionEvaluatorTests
             _func.Function = @"substring(a, 1, Length(a) - 1)";
             _func.AddSetVariable("a", "abcd");
             Assert.AreEqual("bcd", _func.Evaluate<string>());
+        }
+
+        [Test]
+        public void Length_ValidSTring_IsCorrect()
+        {
+            _func.Function = @"Length('abcd')";
+            Assert.AreEqual(4, _func.EvaluateNumeric());
         }
     }
 }

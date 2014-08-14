@@ -2,6 +2,7 @@
 * Jeremy Roberts                                                           Expression.cs *
 * 2004-07-23                                                                     Wfccm2 *
 *****************************************************************************************/
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,47 +23,27 @@ namespace Vanderbilt.Biostatistics.Wfccm2
     [Serializable()]
     public class Expression : MarshalByRefObject, IExpression
     {
-        /// <summary>
-        /// Dynaamic function type.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2005-12-20 - Jeremy Roberts
-        /// </pre></remarks>
-        [Serializable()]
-        public abstract class DynamicFunction
-        {
-            public abstract double EvaluateD(Dictionary<string, double> variables);
-            public abstract bool EvaluateB(Dictionary<string, double> variables);
-        }
+        protected const double FALSE = 0;
+        protected const double TRUE = 1;
+        protected Dictionary<string, IVariable> _constants = new Dictionary<string, IVariable>();
         protected DynamicFunction _dynamicFunction;
         //protected AppDomain NewAppDomain;
-
-        #region Member data
-        
         /// <summary>
         /// The function.
         /// </summary>
         protected InfixExpression _inFunction;
         protected PostFixExpression _postFunction;
-        protected Dictionary<string, IVariable> _variables = new Dictionary<string, IVariable>();
-        protected Dictionary<string, IVariable> _constants = new Dictionary<string, IVariable>();
-        protected const double TRUE = 1;
-        protected const double FALSE = 0;
         protected string[] _splitPostFunction;
         protected List<IToken> _tokens = new List<IToken>();
+        protected Dictionary<string, IVariable> _variables = new Dictionary<string, IVariable>();
 
-        #endregion
-
-        #region Constructors
         /// <summary>
         /// Creation constructor.
         /// </summary>
         /// <remarks><pre>
         /// 2004-07-20 - Jeremy Roberts
         /// </pre></remarks>
-        public Expression()
-        {
-        }
+        public Expression() {}
 
         /// <summary>
         /// Creation constructor.
@@ -76,9 +57,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             Function = function;
         }
 
-        #endregion
-
-        #region properties
         /// <summary>
         /// InFix property
         /// </summary>
@@ -87,40 +65,45 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         /// </pre></remarks>
         public string Function
         {
-            get{return _inFunction.Original;}
-            set{
+            get { return _inFunction.Original; }
+            set
+            {
                 _inFunction = new InfixExpression(value);
                 _postFunction = new PostFixExpression(_inFunction);
                 ClearVariables();
-                foreach(var v in _inFunction.AutoVariables)
+                foreach (var v in _inFunction.AutoVariables) {
                     _variables.Add(v.Key, v.Value);
+                }
                 BuildTokens();
             }
         }
-
+        public ReadOnlyCollection<string> FunctionVariables
+        {
+            get
+            {
+                if (_inFunction == null) {
+                    throw new ExpressionException("Function does not exist");
+                }
+                var retVal = _inFunction.Tokens.Where(IsVariable)
+                    .Where(x => !_inFunction.AutoVariables.ContainsKey(x))
+                    .ToList();
+                return retVal.AsReadOnly();
+            }
+        }
         /// <summary>
         /// PostFix property
         /// </summary>
         /// <remarks><pre>
         /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
-        public string PostFix
-        {
-            get { return _postFunction.Expression; }
-        }
-
+        public string InFix { get { return _inFunction.Expression; } }
         /// <summary>
         /// PostFix property
         /// </summary>
         /// <remarks><pre>
         /// 2004-07-19 - Jeremy Roberts
         /// </pre></remarks>
-        public string InFix
-        {
-            get { return _inFunction.Expression; }
-        }
-
-        #endregion
+        public string PostFix { get { return _postFunction.Expression; } }
 
         public void AddSetVariable(string name, TimeSpan val)
         {
@@ -132,56 +115,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             AddSetVariable<string>(name, val.ToLower());
         }
 
-        public void AddSetVariable(string name, double val)
-        {
-            AddSetVariable<double>(name, val);
-        }
+        public void AddSetVariable(string name, double val) { AddSetVariable<double>(name, val); }
 
         public void AddSetVariable(string name, DateTime val)
         {
             AddSetVariable<DateTime>(name, val);
         }
 
-        public void AddSetVariable(string name, bool val)
-        {
-            AddSetVariable<bool>(name, val);
-        }
-
-        private void AddSetVariable<T>(string name, T val)
-        {
-            name = name.ToLower();
-            if (_variables.ContainsKey(name)
-                && _variables[name].Type == typeof(object))
-            {
-                var oldVar = _variables[name];
-                var newVar = new GenericVariable<T>(name);
-
-                for (int i = 0; i < _tokens.Count; i++)
-                {
-                    if (_tokens[i] == oldVar)
-                        _tokens[i] = newVar;
-                }
-                _variables[name] = newVar;
-            }
-            else if (!_variables.ContainsKey(name))
-            {
-                var v = new GenericVariable<T>(name);
-                _variables[name] = v;
-            }
-
-            ((GenericVariable<T>)_variables[name]).Value = val;
-        }
-
-        /// <summary>
-        /// Clears the variable information.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        public void ClearVariables()
-        {
-            _variables.Clear();
-        }
+        public void AddSetVariable(string name, bool val) { AddSetVariable<bool>(name, val); }
 
         /// <summary>
         /// Clears all information.
@@ -196,52 +137,72 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             _variables.Clear();
         }
 
-        private void BuildTokens()
+        /// <summary>
+        /// Clears the variable information.
+        /// </summary>
+        /// <remarks><pre>
+        /// 2004-07-19 - Jeremy Roberts
+        /// </pre></remarks>
+        public void ClearVariables()
         {
-            _tokens = new List<IToken>();
+            _variables.Clear();
+        }
 
-            foreach (var t in _postFunction.Tokens)
-            {
-                if (IsVariable(t))
-                {
-                    if (!_variables.ContainsKey(t))
-                    {
-                        GenericVariable<object> v;
-                        v = new GenericVariable<object>(t, null);
-                        _variables.Add(t, v);
-                        _tokens.Add(v);
-                    }
-                    else
-                    {
-                        var v = _variables[t];
-                        _tokens.Add(v);
-                    }
-                    continue;
-                }
+        public T Evaluate<T>()
+        {
+            var result = Evaluate();
+            try {
+                return ((GenericOperand<T>)result).Value;
+            }
+            catch (InvalidCastException) {
+                throw new InvalidTypeExpressionException(
+                    "Result was null because of an invalid type.");
+            }
+        }
 
-                if (ExpressionKeywords.Keywords.Count(x => x.Name == t) == 1)
-                {
-                    var v = ExpressionKeywords.Keywords.Single(x => x.Name == t);
-                    _tokens.Add(v);
-                }
+        /// <summary>
+        /// Evaluates the function given as a boolean expression.
+        /// </summary>
+        /// <remarks><pre>
+        /// 2004-07-20 - Jeremy Roberts
+        /// </pre></remarks>
+        public bool EvaluateBoolean()
+        {
+            var result = Evaluate();
+            return ((GenericOperand<bool>)result).Value;
+        }
 
-                if (IsNumber(t))
-                {
-                    var v = (GenericOperand<double>)ConvertToOperand(t);
-                    _tokens.Add(v);
-                }
+        /// <summary>
+        /// Evaluates the function as a double.
+        /// </summary>
+        /// <remarks><pre>
+        /// 2004-07-19 - Jeremy Roberts
+        /// </pre></remarks>
+        /// <returns></returns>
+        public double EvaluateNumeric()
+        {
+            var result = Evaluate();
+            if (result.Type == typeof(Object)) {
+                return Double.NaN;
+            }
+            return ((GenericOperand<double>)result).Value;
+        }
 
-                if (IsString(t))
-                {
-                    var v = (GenericOperand<string>)ConvertToOperand(t);
-                    _tokens.Add(v);
-                }
-
-                if (IsConstant(t))
-                {
-                    var v = ExpressionKeywords.Constants[t];
-                    _tokens.Add(v);
-                }
+        /// <summary>
+        /// Returns a variable's value.
+        /// </summary>
+        /// <remarks><pre>
+        /// 2004-07-20 - Jeremy Roberts
+        /// </pre></remarks>
+        /// <param name="token">Variable to return.</param>
+        /// <returns></returns>
+        public double GetVariableValue(string token)
+        {
+            try {
+                return ((GenericOperand<double>)_variables[token]).Value;
+            }
+            catch {
+                return double.NaN;
             }
         }
 
@@ -259,242 +220,23 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             token = token.ToLower();
 
-            if (IsConstant(token))
+            if (IsConstant(token)) {
                 return false;
+            }
 
-            if (!ExpressionKeywords.IsOperand(token))
+            if (!ExpressionKeywords.IsOperand(token)) {
                 return false;
+            }
 
-            if (IsNumber(token))
+            if (IsNumber(token)) {
                 return false;
+            }
 
-            if (IsString(token))
+            if (IsString(token)) {
                 return false;
+            }
 
             return true;
-        }
-
-        public ReadOnlyCollection<string> FunctionVariables
-        {
-            get
-            {
-                if (_inFunction == null)
-                    throw new ExpressionException("Function does not exist");
-                var retVal = _inFunction.Tokens.Where(IsVariable).Where(x=>!_inFunction.AutoVariables.ContainsKey(x)).ToList();
-                return retVal.AsReadOnly();
-            }
-        }
-
-        /// <summary>
-        /// Returns a variable's value.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-20 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="token">Variable to return.</param>
-        /// <returns></returns>
-        public double GetVariableValue(string token)
-        {
-            try
-            {
-                return ((GenericOperand<double>)_variables[token]).Value;
-            }
-            catch
-            {
-                return double.NaN;                
-            }
-        }
-
-        /// <summary>
-        /// Evaluates the function as a double.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-19 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <returns></returns>
-        public double EvaluateNumeric()
-        {
-            var result = Evaluate();
-            if (result.Type == typeof(Object))
-                return Double.NaN;
-            return ((GenericOperand<double>)result).Value;
-        }
-
-        /// <summary>
-        /// Evaluates the function given as a boolean expression.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-20 - Jeremy Roberts
-        /// </pre></remarks>
-        public bool EvaluateBoolean()
-        {
-            var result = Evaluate();
-            return ((GenericOperand<bool>)result).Value;
-        }
-
-        public T Evaluate<T>()
-        {
-            var result = Evaluate();
-            try
-            {
-               return ((GenericOperand<T>)result).Value;            
-            }
-            catch (InvalidCastException)
-            {
-                throw new InvalidTypeExpressionException("Result was null because of an invalid type.");
-            }            
-        }
-
-        private IOperand Evaluate()
-        {
-            var evalExceptions = new Dictionary<int, Exception>();
-
-            var workstack = new Stack<IToken>();
-
-            var operands = new List<IOperand>();
-
-            IOperand result = null;
-            int currentConditionalDepth = 0;
-
-            // loop through the postfix vector
-            foreach (var token in _tokens)
-            {
-                if (!(token is Procedure))
-                {
-                    // push the string on the workstack
-                    workstack.Push(token);
-                    continue;
-                }
-
-                var op = token as Procedure;
-
-                for (int i = 0; i < op.NumParameters; i++)
-                {
-                    operands.Insert(0, (IOperand)workstack.Pop());
-                }
-
-                if (op.Name == "if" || op.Name == "elseif" || op.Name == "else")
-                {
-                    switch (op.Name)
-                    {
-                        case "elseif":
-                            if (currentConditionalDepth > 0)
-                            {
-                                // Eat the result.
-                                continue;
-                            }
-                            goto case "if";
-
-                        case "if":
-                            var dOp1 = operands[0] as GenericOperand<bool>;
-                            if (dOp1 == null || dOp1.Type != typeof(bool))
-                                throw new ExpressionException("variable type error");
-                            if (dOp1.Value)
-                            {
-                                result = operands[1];
-                                currentConditionalDepth++;
-                            }
-                            else
-                            {
-                                // Eat the result.
-                                continue;
-                            }
-                            break;
-
-                        case "else":
-                            if (currentConditionalDepth > 0)
-                            {
-                                currentConditionalDepth--;
-                                // Eat the result.
-                                continue;
-                            }
-                            result = operands[0];
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-                else
-                {
-                    if (op.VariableOperandsCount)
-                    {
-                        result = op.Evaluate(operands);
-                    }
-                    else
-                    {
-                        try
-                        {
-                            if (op.NumParameters == 0)
-                            {
-                                result = op.Evaluate();
-                            }
-                            if (op.NumParameters == 1)
-                            {
-                                result = op.Evaluate(operands[0]);
-                            }
-                            else if (op.NumParameters == 2)
-                            {
-                                result = op.Evaluate(operands[0], operands[1]);
-                            }
-                            else if (op.NumParameters == 3)
-                            {
-                                result = op.Evaluate(operands[0], operands[1], operands[2]);
-                            }
-                        }
-                        catch (Exception exp)
-                        {
-                            if (currentConditionalDepth <= 0)
-                                throw;
-
-                            result = new GenericOperand<Exception>(exp);
-                        }
-                    }
-                }
-
-                // Push the result on the stack
-                workstack.Push(result);
-            }
-
-            var val = workstack.Peek();
-
-            if (val is GenericOperand<Exception>)
-                throw ((GenericOperand<Exception>) val).Value;
-
-            return (IOperand)val;
-        }
-
-        /// <summary>
-        /// Converts a string to its value representation.
-        /// </summary>
-        /// <remarks><pre>
-        /// 2004-07-20 - Jeremy Roberts
-        /// </pre></remarks>
-        /// <param name="token">The string to check.</param>
-        /// <returns></returns>
-        protected IOperand ConvertToOperand(string token)
-        {
-            try
-            {
-                return _variables[token];
-            }
-            catch
-            {
-                //if (token == "true")
-                //    return new GenericOperand<bool>(true);
-                
-                //if (token == "false")
-                //    return new GenericOperand<bool>(false);
-
-                if (IsConstant(token))
-                    return ExpressionKeywords.Constants[token];
-
-                if (IsString(token))
-                    return new GenericOperand<string>(token.Substring(1, token.Length - 2));
-                
-                // Convert the operand
-                return new GenericOperand<double>(double.Parse(token));
-            }
         }
 
         /// <summary>
@@ -510,35 +252,68 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             StringBuilder ret = new StringBuilder();
             ret.Append(_inFunction.Original);
             int count = 0;
-            foreach (var keyval in _variables)
-            {
-                if (count++ == 0)
+            foreach (var keyval in _variables) {
+                if (count++ == 0) {
                     ret.Append("; ");
-                else
+                }
+                else {
                     ret.Append(", ");
+                }
                 ret.Append(keyval.Value);
             }
             return ret.ToString();
         }
 
-        protected bool IsNumber(string token)
+        /// <summary>
+        /// Converts a string to its value representation.
+        /// </summary>
+        /// <remarks><pre>
+        /// 2004-07-20 - Jeremy Roberts
+        /// </pre></remarks>
+        /// <param name="token">The string to check.</param>
+        /// <returns></returns>
+        protected IOperand ConvertToOperand(string token)
         {
-            try
-            {
-                double.Parse(token);
-                return true;
+            try {
+                return _variables[token];
             }
-            catch
-            {
-                return false;
+            catch {
+                //if (token == "true")
+                //    return new GenericOperand<bool>(true);
+
+                //if (token == "false")
+                //    return new GenericOperand<bool>(false);
+
+                if (IsConstant(token)) {
+                    return ExpressionKeywords.Constants[token];
+                }
+
+                if (IsString(token)) {
+                    return new GenericOperand<string>(token.Substring(1, token.Length - 2));
+                }
+
+                // Convert the operand
+                return new GenericOperand<double>(double.Parse(token));
             }
         }
 
         protected bool IsConstant(string token)
         {
-            if (ExpressionKeywords.Constants.Keys.Contains(token))
+            if (ExpressionKeywords.Constants.Keys.Contains(token)) {
                 return true;
+            }
             return false;
+        }
+
+        protected bool IsNumber(string token)
+        {
+            try {
+                double.Parse(token);
+                return true;
+            }
+            catch {
+                return false;
+            }
         }
 
         protected bool IsString(string token)
@@ -546,8 +321,196 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             return (token.StartsWith("'") && token.EndsWith("'"));
         }
 
+        private void AddSetVariable<T>(string name, T val)
+        {
+            name = name.ToLower();
+            if (_variables.ContainsKey(name)
+                && _variables[name].Type == typeof(object)) {
+                var oldVar = _variables[name];
+                var newVar = new GenericVariable<T>(name);
 
-        #region compilation
+                for (int i = 0; i < _tokens.Count; i++) {
+                    if (_tokens[i] == oldVar) {
+                        _tokens[i] = newVar;
+                    }
+                }
+                _variables[name] = newVar;
+            }
+            else {
+                if (!_variables.ContainsKey(name)) {
+                    var v = new GenericVariable<T>(name);
+                    _variables[name] = v;
+                }
+            }
+
+            ((GenericVariable<T>)_variables[name]).Value = val;
+        }
+
+        private void BuildTokens()
+        {
+            _tokens = new List<IToken>();
+
+            foreach (var t in _postFunction.Tokens) {
+                if (IsVariable(t)) {
+                    if (!_variables.ContainsKey(t)) {
+                        GenericVariable<object> v;
+                        v = new GenericVariable<object>(t, null);
+                        _variables.Add(t, v);
+                        _tokens.Add(v);
+                    }
+                    else {
+                        var v = _variables[t];
+                        _tokens.Add(v);
+                    }
+                    continue;
+                }
+
+                if (ExpressionKeywords.Keywords.Count(x => x.Name == t) == 1) {
+                    var v = ExpressionKeywords.Keywords.Single(x => x.Name == t);
+                    _tokens.Add(v);
+                }
+
+                if (IsNumber(t)) {
+                    var v = (GenericOperand<double>)ConvertToOperand(t);
+                    _tokens.Add(v);
+                }
+
+                if (IsString(t)) {
+                    var v = (GenericOperand<string>)ConvertToOperand(t);
+                    _tokens.Add(v);
+                }
+
+                if (IsConstant(t)) {
+                    var v = ExpressionKeywords.Constants[t];
+                    _tokens.Add(v);
+                }
+            }
+        }
+
+        private IOperand Evaluate()
+        {
+            var evalExceptions = new Dictionary<int, Exception>();
+
+            var workstack = new Stack<IToken>();
+
+            var operands = new List<IOperand>();
+
+            IOperand result = null;
+            int currentConditionalDepth = 0;
+
+            // loop through the postfix vector
+            foreach (var token in _tokens) {
+                if (!(token is Procedure)) {
+                    // push the string on the workstack
+                    workstack.Push(token);
+                    continue;
+                }
+
+                var op = token as Procedure;
+
+                for (int i = 0; i < op.NumParameters; i++) {
+                    operands.Insert(0, (IOperand)workstack.Pop());
+                }
+
+                if (op.Name == "if"
+                    || op.Name == "elseif"
+                    || op.Name == "else") {
+                    switch (op.Name) {
+                        case "elseif":
+                            if (currentConditionalDepth > 0) {
+                                // Eat the result.
+                                continue;
+                            }
+                            goto case "if";
+
+                        case "if":
+                            var dOp1 = operands[0] as GenericOperand<bool>;
+                            if (dOp1 == null
+                                || dOp1.Type != typeof(bool)) {
+                                throw new ExpressionException("variable type error");
+                            }
+                            if (dOp1.Value) {
+                                result = operands[1];
+                                currentConditionalDepth++;
+                            }
+                            else {
+                                // Eat the result.
+                                continue;
+                            }
+                            break;
+
+                        case "else":
+                            if (currentConditionalDepth > 0) {
+                                currentConditionalDepth--;
+                                // Eat the result.
+                                continue;
+                            }
+                            result = operands[0];
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                else {
+                    if (op.VariableOperandsCount) {
+                        result = op.Evaluate(operands);
+                    }
+                    else {
+                        try {
+                            if (op.NumParameters == 0) {
+                                result = op.Evaluate();
+                            }
+                            if (op.NumParameters == 1) {
+                                result = op.Evaluate(operands[0]);
+                            }
+                            else {
+                                if (op.NumParameters == 2) {
+                                    result = op.Evaluate(operands[0], operands[1]);
+                                }
+                                else {
+                                    if (op.NumParameters == 3) {
+                                        result = op.Evaluate(operands[0], operands[1], operands[2]);
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception exp) {
+                            if (currentConditionalDepth <= 0) {
+                                throw;
+                            }
+
+                            result = new GenericOperand<Exception>(exp);
+                        }
+                    }
+                }
+
+                // Push the result on the stack
+                workstack.Push(result);
+            }
+
+            var val = workstack.Peek();
+
+            if (val is GenericOperand<Exception>) {
+                throw ((GenericOperand<Exception>)val).Value;
+            }
+
+            return (IOperand)val;
+        }
+
+        /// <summary>
+        /// Dynaamic function type.
+        /// </summary>
+        /// <remarks><pre>
+        /// 2005-12-20 - Jeremy Roberts
+        /// </pre></remarks>
+        [Serializable()]
+        public abstract class DynamicFunction
+        {
+            public abstract bool EvaluateB(Dictionary<string, double> variables);
+
+            public abstract double EvaluateD(Dictionary<string, double> variables);
+        }
 
         ///// <summary>
         ///// Compiles the functions.
@@ -555,7 +518,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         ///// <remarks><pre>
         ///// 2005-12-20 - Jeremy Roberts
         ///// </pre></remarks>
-        //protected void compile() 
+        //protected void compile()
         //{
         //    // Code to set up the object.
 
@@ -632,8 +595,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         //    this.dynamicFunction = (DynamicFunction)Activator.CreateInstance(dt, new Object[] { });
         //}
 
-        
-        //protected void emitFunction(string function, ILGenerator ilGen) 
+        //protected void emitFunction(string function, ILGenerator ilGen)
         //{
         //    string[] splitFunction = function.Split(new char[] { ' ' });
 
@@ -641,13 +603,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         //    ilGen.DeclareLocal(typeof(System.Double));
         //    ilGen.DeclareLocal(typeof(System.Double));
 
-
         //    foreach (string token in splitFunction)
         //    {
         //        // If the current string is an operator
         //        if (this.IsOperator(token))
         //        {
-        //            // call the operator 
+        //            // call the operator
         //            switch (token)
         //            {
         //            case "+":
@@ -928,8 +889,5 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         //    }
         //    ilGen.Emit(OpCodes.Ret);
         //}
-
-        #endregion
-
     }
 }

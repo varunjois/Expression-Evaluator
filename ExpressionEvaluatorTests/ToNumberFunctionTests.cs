@@ -1,41 +1,30 @@
-﻿using Vanderbilt.Biostatistics.Wfccm2;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluatorTests
 {
     [TestFixture]
     public class ToNumberFunctionTests
     {
-        Expression _func;
+        private Expression _func;
 
         [SetUp]
         public void Init()
-        { this._func = new Expression(""); }
+        {
+            _func = new Expression("");
+        }
 
         [TearDown]
         public void Clear()
-        { _func.Clear(); }
-
-        [Test]
-        public void ToNumberOperator_CalledWithPositiveWholeWithSpaces_IsCorrect()
         {
-            _func.Function = "toNumber(' 2 ')";
-            NUnit.Framework.Assert.AreEqual(2.0f, _func.EvaluateNumeric());
+            _func.Clear();
         }
 
         [Test]
-        public void ToNumberOperator_ResultFromSubstringVariable_IsCorrect()
+        public void ToNumberOperator_CalledWithNegativeWhole_IsCorrect()
         {
-            _func.Function = "toNumber(substring(a, 1, length(a) - 1))";
-            _func.AddSetVariable("a", "<2.0");
-            Assert.AreEqual(2.0f, _func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void ToNumberOperator_CalledWithPositiveWhole_IsCorrect()
-        {
-            _func.Function = "toNumber('2')";
-            NUnit.Framework.Assert.AreEqual(2.0f, _func.EvaluateNumeric());
+            _func.Function = "toNumber('-2')";
+            NUnit.Framework.Assert.AreEqual(-2.0f, _func.EvaluateNumeric());
         }
 
         [Test]
@@ -46,10 +35,28 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void ToNumberOperator_CalledWithNegativeWhole_IsCorrect()
+        public void ToNumberOperator_CalledWithPositiveWholeWithSpaces_IsCorrect()
         {
-            _func.Function = "toNumber('-2')";
-            NUnit.Framework.Assert.AreEqual(-2.0f, _func.EvaluateNumeric());
+            _func.Function = "toNumber(' 2 ')";
+            NUnit.Framework.Assert.AreEqual(2.0f, _func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void ToNumberOperator_CalledWithPositiveWhole_IsCorrect()
+        {
+            _func.Function = "toNumber('2')";
+            NUnit.Framework.Assert.AreEqual(2.0f, _func.EvaluateNumeric());
+        }
+
+        [Test]
+        [NUnit.Framework.ExpectedException(typeof(ExpressionException),
+            ExpectedMessage = "ToNumber operator used incorrectly",
+            MatchType = MessageMatch.Contains)]
+        public void ToNumberOperator_PositiveFractionNotStringWithLeftVariable_IsNotCorrect()
+        {
+            _func.Function = "toNumber(a)";
+            _func.AddSetVariable("a", 2.1);
+            NUnit.Framework.Assert.AreEqual(2.1d, _func.EvaluateNumeric());
         }
 
         [Test]
@@ -61,12 +68,21 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [NUnit.Framework.ExpectedException(typeof(ExpressionException), ExpectedMessage = "ToNumber operator used incorrectly", MatchType = MessageMatch.Contains)]
-        public void ToNumberOperator_PositiveFractionNotStringWithLeftVariable_IsNotCorrect()
+        public void ToNumberOperator_ResultFromSubstringVariable_IsCorrect()
         {
-            _func.Function = "toNumber(a)";
-            _func.AddSetVariable("a", 2.1);
-            NUnit.Framework.Assert.AreEqual(2.1d, _func.EvaluateNumeric());
+            _func.Function = "toNumber(substring(a, 1, length(a) - 1))";
+            _func.AddSetVariable("a", "<2.0");
+            Assert.AreEqual(2.0f, _func.EvaluateNumeric());
+        }
+
+        [Test]
+        [NUnit.Framework.ExpectedException(typeof(ExpressionException),
+            ExpectedMessage = "ToNumber operator used incorrectly",
+            MatchType = MessageMatch.Contains)]
+        public void ToNumberOperator_VariableMixedWithDigitWithoutSetVariable_OperatorError()
+        {
+            _func.Function = "toNumber(3a)";
+            _func.EvaluateNumeric();
         }
 
         [Test]
@@ -78,18 +94,12 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [NUnit.Framework.ExpectedException(typeof(ExpressionException), ExpectedMessage = "ToNumber operator used incorrectly", MatchType = MessageMatch.Contains)]
+        [NUnit.Framework.ExpectedException(typeof(ExpressionException),
+            ExpectedMessage = "ToNumber operator used incorrectly",
+            MatchType = MessageMatch.Contains)]
         public void ToNumberOperator_VariableWithoutSetVariable_OperatorError()
         {
             _func.Function = "toNumber(a)";
-            _func.EvaluateNumeric();
-        }
-
-        [Test]
-        [NUnit.Framework.ExpectedException(typeof(ExpressionException), ExpectedMessage = "ToNumber operator used incorrectly", MatchType = MessageMatch.Contains)]
-        public void ToNumberOperator_VariableMixedWithDigitWithoutSetVariable_OperatorError()
-        {
-            _func.Function = "toNumber(3a)";
             _func.EvaluateNumeric();
         }
 
@@ -106,6 +116,5 @@ namespace ExpressionEvaluatorTests
             _func.Function = "if (false) { tonumber('a') } else { toNumber('2') }";
             Assert.AreEqual(2.0f, _func.EvaluateNumeric());
         }
-
     }
 }

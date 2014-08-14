@@ -6,15 +6,13 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class ScientificNotationTests
     {
-        Expression _func;
+        private Expression _func;
 
         [SetUp]
-        public void Init()
-        { this._func = new Expression(""); }
+        public void Init() { _func = new Expression(""); }
 
         [TearDown]
-        public void Clear()
-        { _func.Clear(); }
+        public void Clear() { _func.Clear(); }
 
         [Test]
         public void SciNotation_Expression001_IsCorrect()
@@ -127,6 +125,5 @@ namespace ExpressionEvaluatorTests
             _func.Function = "( - 3 + 4 ) * - 403 - - 5e-1";
             Assert.AreEqual(-402.5, _func.EvaluateNumeric());
         }
-
     }
 }

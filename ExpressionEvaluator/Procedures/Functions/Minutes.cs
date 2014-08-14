@@ -3,7 +3,7 @@ using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class Minutes : Function
+    internal class Minutes : Function
     {
         public Minutes(int precedance)
             : base("minutes", precedance, 1, false)

@@ -9,7 +9,7 @@
             Close = close;
         }
 
-        public string Open { get; protected set; }
         public string Close { get; protected set; }
+        public string Open { get; protected set; }
     }
 }

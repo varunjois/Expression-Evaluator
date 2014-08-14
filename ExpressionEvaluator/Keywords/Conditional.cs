@@ -2,9 +2,8 @@
 {
     public class Conditional : Procedure
     {
-        public Conditional(string name, int precedance, int numParams, bool alwaysReturnsValue, bool variableOperandsCount)
-            : base(name, precedance, numParams, alwaysReturnsValue, variableOperandsCount)
-        {
-        }
+        public Conditional(string name, int precedance, int numParams, bool alwaysReturnsValue,
+            bool variableOperandsCount)
+            : base(name, precedance, numParams, alwaysReturnsValue, variableOperandsCount) {}
     }
 }

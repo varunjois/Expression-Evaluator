@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class Contains : Function
+    internal class Contains : Function
     {
         public Contains(int precedance)
             : base("contains", precedance, 2, false)

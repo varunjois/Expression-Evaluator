@@ -3,22 +3,19 @@ using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class IsNumber : Function
+    internal class IsNumber : Function
     {
         public IsNumber(int precedance)
             : base("isnumber", precedance, 1, false)
         {
             _name2 = "IsNumber";
             AnyBool = x => x != null && StringBool(x.ToString());
-            StringBool = x =>
-            {
-                try
-                {
+            StringBool = x => {
+                try {
                     double.Parse(x);
                     return true;
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     return false;
                 }
             };

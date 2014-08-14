@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Operators
 {
-    class Multiplication : Operator
+    internal class Multiplication : Operator
     {
         public Multiplication(int precedance)
             : base("*", precedance, 2, false)

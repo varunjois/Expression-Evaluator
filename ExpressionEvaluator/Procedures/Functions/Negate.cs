@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Procedures.Functions
 {
-    class Negate : Function
+    internal class Negate : Function
     {
         public Negate(int precedance)
             : base("neg", precedance, 1, false)
