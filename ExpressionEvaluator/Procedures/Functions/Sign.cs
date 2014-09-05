@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("sign", precedance, 1, false)
         {
             _name2 = "Sign";
-            DoubleDouble = x => x >= 0 ? 1 : -1;
+            DecimalDecimal = x => x >= 0 ? 1 : -1;
         }
     }
 }

@@ -9,7 +9,13 @@ namespace ExpressionEvaluator.Procedures.Operators
             : base("^", precedance, 2, false)
         {
             _name2 = "Power";
-            DoubleDoubleDouble = (x, y) => Math.Pow(x, y);
+            DecimalDecimalDecimal = (x, y) => {
+                double dblResult = Math.Pow((double)x, (double)y);
+                if (double.IsNaN(dblResult)) {
+                    throw new NotFiniteNumberException("Not a number");
+                }
+                return Convert.ToDecimal(dblResult.ToString("R"));
+            };
         }
     }
 }

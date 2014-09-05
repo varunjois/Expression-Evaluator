@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("neg", precedance, 1, false)
         {
             _name2 = "Negate";
-            DoubleDouble = x => -1 * x;
+            DecimalDecimal = x => -1 * x;
         }
     }
 }

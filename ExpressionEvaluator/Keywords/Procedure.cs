@@ -17,16 +17,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<DateTime, double> DatetimeDouble;
         protected Func<DateTime, TimeSpan, DateTime> DatetimeTimespanDatetime;
         protected Func<double> Double;
-        protected Func<double, double> DoubleDouble;
-        protected Func<double, double, bool> DoubleDoubleBool;
-        protected Func<double, double, double> DoubleDoubleDouble;
-        protected Func<double, string> DoubleString;
-        protected Func<double, TimeSpan> DoubleTimespan;
+        protected Func<decimal, decimal> DecimalDecimal;
+        protected Func<decimal, decimal, bool> DecimalDecimalBool;
+        protected Func<decimal, decimal, decimal> DecimalDecimalDecimal;
+        protected Func<decimal, string> DecimalString;
+        protected Func<decimal, TimeSpan> DecimalTimespan;
         protected Func<Object, Object, bool> ObjectObjectBool;
-        protected Func<List<double>, double> OperandList;
+        protected Func<List<decimal>, decimal> OperandList;
         protected Func<string, bool> StringBool;
-        protected Func<String, double> StringDouble;
-        protected Func<String, double, double, String> StringDoubleDoubleString;
+        protected Func<String, decimal> StringDecimal;
+        protected Func<String, decimal, decimal, String> StringDecimalDecimalString;
         protected Func<string, string> StringString;
         protected Func<string, string, bool> StringStringBool;
         protected Func<TimeSpan, DateTime, DateTime> TimespanDatetimeDatetime;
@@ -67,10 +67,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         public IOperand Evaluate(IOperand op1)
         {
-            if (DoubleDouble != null) {
-                if (op1.Type == typeof(double)) {
-                    var dOp1 = op1 as GenericOperand<double>;
-                    return new GenericOperand<double>(DoubleDouble(dOp1.Value));
+            if (DecimalDecimal != null) {
+                if (op1.Type == typeof(decimal)) {
+                    var dOp1 = op1 as GenericOperand<decimal>;
+                    return new GenericOperand<decimal>(DecimalDecimal(dOp1.Value));
                 }
             }
 
@@ -81,17 +81,17 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
             }
 
-            if (StringDouble != null) {
+            if (StringDecimal != null) {
                 if (op1.Type == typeof(string)) {
                     var dOp1 = op1 as GenericOperand<string>;
-                    return new GenericOperand<double>(StringDouble(dOp1.Value));
+                    return new GenericOperand<decimal>(StringDecimal(dOp1.Value));
                 }
             }
 
-            if (DoubleTimespan != null) {
-                if (op1.Type == typeof(double)) {
-                    var dOp1 = op1 as GenericOperand<double>;
-                    return new GenericOperand<TimeSpan>(DoubleTimespan(dOp1.Value));
+            if (DecimalTimespan != null) {
+                if (op1.Type == typeof(decimal)) {
+                    var dOp1 = op1 as GenericOperand<decimal>;
+                    return new GenericOperand<TimeSpan>(DecimalTimespan(dOp1.Value));
                 }
             }
 
@@ -102,10 +102,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
             }
 
-            if (DoubleString != null) {
-                if (op1.Type == typeof(double)) {
-                    var dOp1 = op1 as GenericOperand<double>;
-                    return new GenericOperand<string>(DoubleString(dOp1.Value));
+            if (DecimalString != null) {
+                if (op1.Type == typeof(decimal)) {
+                    var dOp1 = op1 as GenericOperand<decimal>;
+                    return new GenericOperand<string>(DecimalString(dOp1.Value));
                 }
             }
 
@@ -150,15 +150,15 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public IOperand Evaluate(List<IOperand> operands)
         {
             if (OperandList != null) {
-                List<double> nums = new List<double>();
+                List<decimal> nums = new List<decimal>();
                 for (int i = 0; i < operands.Count; i++) {
-                    var op = operands[i] as GenericOperand<double>;
+                    var op = operands[i] as GenericOperand<decimal>;
                     if (op != null) {
                         nums.Add(op.Value);
                     }
                 }
 
-                return new GenericOperand<double>(OperandList(nums));
+                return new GenericOperand<decimal>(OperandList(nums));
             }
             throw new ExpressionException(
                 _name2 + " operator used incorrectly. Operand types: " + operands[0].Type.Name
@@ -168,13 +168,14 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public IOperand Evaluate(IOperand op1, IOperand op2)
         {
             try {
-                if (DoubleDoubleDouble != null) {
-                    if (op1.Type == typeof(double)
-                        && op2.Type == typeof(double)) {
-                        var dOp1 = op1 as GenericOperand<double>;
-                        var dOp2 = op2 as GenericOperand<double>;
-                        return new GenericOperand<double>(
-                            DoubleDoubleDouble(dOp1.Value, dOp2.Value));
+                if (DecimalDecimalDecimal != null) {
+                    if (op1.Type == typeof(decimal)
+                        && op2.Type == typeof(decimal)) {
+                        var dOp1 = op1 as GenericOperand<decimal>;
+                        var dOp2 = op2 as GenericOperand<decimal>;
+                        return
+                            new GenericOperand<decimal>(
+                                DecimalDecimalDecimal(dOp1.Value, dOp2.Value));
                     }
                 }
 
@@ -197,12 +198,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     }
                 }
 
-                if (DoubleDoubleBool != null) {
-                    if (op1.Type == typeof(double)
-                        && op2.Type == typeof(double)) {
-                        var bOp1 = op1 as GenericOperand<double>;
-                        var bOp2 = op2 as GenericOperand<double>;
-                        return new GenericOperand<bool>(DoubleDoubleBool(bOp1.Value, bOp2.Value));
+                if (DecimalDecimalBool != null) {
+                    if (op1.Type == typeof(decimal)
+                        && op2.Type == typeof(decimal)) {
+                        var bOp1 = op1 as GenericOperand<decimal>;
+                        var bOp2 = op2 as GenericOperand<decimal>;
+                        return new GenericOperand<bool>(DecimalDecimalBool(bOp1.Value, bOp2.Value));
                     }
                 }
 
@@ -287,6 +288,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     return new GenericOperand<object>();
                 }
             }
+            catch (NotFiniteNumberException nf) {
+                throw nf;}
+            catch (DivideByZeroException dz)
+            {
+                throw dz;
+            }
             catch (Exception e) {
                 throw new ExpressionException(
                     _name2 + " operator threw an exception. Operand types: " + op1.Type.Name + ", "
@@ -300,13 +307,13 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public IOperand Evaluate(IOperand op1, IOperand op2, IOperand op3)
         {
             try {
-                if (StringDoubleDoubleString != null) {
+                if (StringDecimalDecimalString != null) {
                     if (op1.Type == typeof(string)
-                        && op2.Type == typeof(double)
-                        && op3.Type == typeof(double)) {
+                        && op2.Type == typeof(decimal)
+                        && op3.Type == typeof(decimal)) {
                         var dOp1 = op1 as GenericOperand<string>;
-                        var dOp2 = op2 as GenericOperand<double>;
-                        var dOp3 = op3 as GenericOperand<double>;
+                        var dOp2 = op2 as GenericOperand<decimal>;
+                        var dOp3 = op3 as GenericOperand<decimal>;
 
                         if ((dOp2.Value % 1) != 0
                             || (dOp3.Value % 1) != 0) {
@@ -316,7 +323,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
                         return
                             new GenericOperand<string>(
-                                StringDoubleDoubleString(dOp1.Value, dOp2.Value, dOp3.Value));
+                                StringDecimalDecimalString(dOp1.Value, dOp2.Value, dOp3.Value));
                     }
                 }
 

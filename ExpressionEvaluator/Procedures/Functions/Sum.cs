@@ -9,7 +9,7 @@ namespace ExpressionEvaluator.Procedures.Functions
         {
             _name2 = "Sum";
             OperandList = x => {
-                double sum = 0;
+                decimal sum = 0;
                 foreach (var i in x) {
                     sum += i;
                 }

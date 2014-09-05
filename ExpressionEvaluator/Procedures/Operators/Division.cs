@@ -1,4 +1,6 @@
-﻿using Vanderbilt.Biostatistics.Wfccm2;
+﻿using System;
+using System.Globalization;
+using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Operators
 {
@@ -8,12 +10,12 @@ namespace ExpressionEvaluator.Procedures.Operators
             : base("/", precedance, 2, false)
         {
             _name2 = "Division";
-            DoubleDoubleDouble = (x, y) => {
+            DecimalDecimalDecimal = (x, y) => {
                 if (y == 0) {
-                    return double.NaN;
+                    throw new DivideByZeroException();
                 }
 
-                return x / y;
+                return x/y;
             };
         }
     }

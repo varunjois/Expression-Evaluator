@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 
 namespace Vanderbilt.Biostatistics.Wfccm2
 {
@@ -12,5 +13,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public T Value { get; set; }
 
         public override string ToString() { return Value == null ? "null" : Value.ToString(); }
+
+        public GenericOperand<double> ToDouble()
+        {
+            try {
+                return new GenericOperand<double>(Convert.ToDouble(Value.ToString()));
+            }
+            catch {
+
+                return new GenericOperand<double>(Double.NaN);
+            }
+        }
     }
 }

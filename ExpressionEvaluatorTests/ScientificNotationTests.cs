@@ -39,7 +39,7 @@ namespace ExpressionEvaluatorTests
         public void SciNotation_Expression004_IsCorrect()
         {
             _func.Function = "3e - 4 - 5e - 6";
-            Assert.AreEqual(0.00029499999999999996, _func.EvaluateNumeric());
+            Assert.AreEqual(0.000295, _func.EvaluateNumeric());
         }
 
         [Test]

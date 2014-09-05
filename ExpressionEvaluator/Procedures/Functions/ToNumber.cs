@@ -9,12 +9,14 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("tonumber", precedance, 1, false)
         {
             _name2 = "ToNumber";
-            StringDouble = x => {
+            StringDecimal = x=> {
                 try {
-                    return double.Parse(x);
+                    return decimal.Parse(x);
                 }
-                catch (Exception e) {
-                    return double.NaN;
+                catch 
+                {
+
+                    throw new NotFiniteNumberException();
                 }
             };
         }

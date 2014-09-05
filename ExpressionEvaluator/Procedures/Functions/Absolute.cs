@@ -9,7 +9,13 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("abs", precedance, 1, false)
         {
             _name2 = "Absolute";
-            DoubleDouble = Math.Abs;
+            DecimalDecimal = x => {
+                double dblResult = Math.Abs((double)x);
+                if (double.IsNaN(dblResult)) {
+                    throw new NotFiniteNumberException("Not a number");
+                }
+                return Convert.ToDecimal(dblResult.ToString("R"));
+            };
         }
     }
 }

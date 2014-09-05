@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Operators
             : base("!=", precedance, 2, false)
         {
             _name2 = "NotEqual";
-            DoubleDoubleBool = (x, y) => x != y;
+            DecimalDecimalBool = (x, y) => x != y;
             BoolBoolBool = (x, y) => x != y;
             StringStringBool = (x, y) => x != y;
             TimespanTimespanBool = (x, y) => x != y;
