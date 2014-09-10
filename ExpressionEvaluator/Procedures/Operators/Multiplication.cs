@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Operators
             : base("*", precedance, 2, false)
         {
             _name2 = "Multiplication";
-            DoubleDoubleDouble = (x, y) => x * y;
+            DecimalDecimalDecimal = (x, y) =>x*y;
         }
     }
 }

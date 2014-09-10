@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("tostring", precedance, 1, false)
         {
             _name2 = "ToString";
-            DoubleString = x => x.ToString();
+            DecimalString = x => x.ToString();
             DateTimeString = x => x.ToString();
             BoolString = x => x.ToString();
             StringString = x => x;

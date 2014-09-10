@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("substring", precedance, 3, false)
         {
             _name2 = "Substring";
-            StringDoubleDoubleString = (x, y, z) => x.Substring((int)y, (int)z);
+            StringDecimalDecimalString = (x, y, z) => x.Substring((int)y, (int)z);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Vanderbilt.Biostatistics.Wfccm2;
+﻿using System;
+using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Operators
 {
@@ -8,7 +9,7 @@ namespace ExpressionEvaluator.Procedures.Operators
             : base("+", precedance, 2, false)
         {
             _name2 = "Addition";
-            DoubleDoubleDouble = (x, y) => x + y;
+            DecimalDecimalDecimal = (x, y) => x+y;
             DatetimeTimespanDatetime = (x, y) => x + y;
             TimespanDatetimeDatetime = (x, y) => y + x;
             TimespanTimespanTimespan = (x, y) => x + y;

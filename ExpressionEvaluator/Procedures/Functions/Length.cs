@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("length", precedance, 1, false)
         {
             _name2 = "Length";
-            StringDouble = x => x.Length;
+            StringDecimal = x => x.Length;
         }
     }
 }
