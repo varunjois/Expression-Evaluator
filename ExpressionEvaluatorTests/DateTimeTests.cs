@@ -45,6 +45,42 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void Days_DifferenceGreaterThanEqual_IsTrue()
+        {
+            _func.Function = "totalDays(a - b) >= 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 07, 3, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Days_DifferenceGreaterThan_IsTrue()
+        {
+            _func.Function = "totalDays(a - b) > 1";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 07, 3, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Days_DifferenceLessThanEqual_IsTrue()
+        {
+            _func.Function = "totalDays(a - b) <= 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 07, 3, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Days_DifferenceLessThan_IsTrue()
+        {
+            _func.Function = "totalDays(a - b) < 3";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 1, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 07, 3, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
         public void Days_Timespan_IsCorrect()
         {
             _func.Function = "totaldays(a)";
@@ -165,6 +201,51 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void Hours_DifferenceEqual_IsFalse()
+        {
+            _func.Function = "totalHours(a - b) == 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 20));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 23, 00));
+            Assert.IsFalse(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Hours_DifferenceGreaterThanEqual_IsTrue()
+        {
+            _func.Function = "totalHours(a - b) >= 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Hours_DifferenceGreaterThan_IsTrue()
+        {
+            _func.Function = "totalHours(a - b) > 1";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Hours_DifferenceLessThanEqual_IsTrue()
+        {
+            _func.Function = "totalHours(a - b) <= 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Hours_DifferenceLessThan_IsTrue()
+        {
+            _func.Function = "totalHours(a - b) < 3";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 1, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
         public void Hours_Timespan_IsCorrect()
         {
             _func.Function = "totalhours(a)";
@@ -261,6 +342,51 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void Munits_DifferenceEqual_IsFalse()
+        {
+            _func.Function = "totalMinutes(a - b) == 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 1, 23, 20));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 21, 00));
+            Assert.IsFalse(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Munits_DifferenceGreaterThanEqual_IsTrue()
+        {
+            _func.Function = "totalMinutes(a - b) >= 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 1, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 21, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Munits_DifferenceGreaterThan_IsTrue()
+        {
+            _func.Function = "totalMinutes(a - b) > 1";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 1, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 21, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Munits_DifferenceLessThanEqual_IsTrue()
+        {
+            _func.Function = "totalMinutes(a - b) <= 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 1, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 21, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Munits_DifferenceLessThan_IsTrue()
+        {
+            _func.Function = "totalMinutes(a - b) < 3";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 1, 23, 00));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 1, 21, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
         public void NotEqual_DateTimeEqual_True()
         {
             _func.Function = "a != b";
@@ -290,6 +416,51 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "days(1) != minutes(1)";
             Assert.AreEqual(true, _func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Seconds_DifferenceEqual_IsFalse()
+        {
+            _func.Function = "totalSeconds(a - b) == 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 20));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 3, 23, 00));
+            Assert.IsFalse(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Seconds_DifferenceGreaterThanEqual_IsTrue()
+        {
+            _func.Function = "totalSeconds(a - b) >= 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 02));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 3, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Seconds_DifferenceGreaterThan_IsTrue()
+        {
+            _func.Function = "totalSeconds(a - b) > 1";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 02));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 3, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Seconds_DifferenceLessThanEqual_IsTrue()
+        {
+            _func.Function = "totalSeconds(a - b) <= 2";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 3, 23, 02));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 3, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
+        }
+
+        [Test]
+        public void Seconds_DifferenceLessThan_IsTrue()
+        {
+            _func.Function = "totalSeconds(a - b) < 3";
+            _func.AddSetVariable("a", new DateTime(2014, 12, 09, 1, 23, 02));
+            _func.AddSetVariable("b", new DateTime(2014, 12, 09, 3, 23, 00));
+            Assert.IsTrue(_func.EvaluateBoolean());
         }
 
         [Test]
