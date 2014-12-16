@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("totalminutes", precedance, 1, false)
         {
             _name2 = "TotalMinutes";
-            TimespanDouble = x => x.TotalMinutes;
+            TimespanDecimal = x => (decimal)x.TotalMinutes;
         }
     }
 }

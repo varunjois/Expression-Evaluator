@@ -14,9 +14,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<DateTime> Datetime;
         protected Func<DateTime, DateTime, bool> DatetimeDatetimeBool;
         protected Func<DateTime, DateTime, TimeSpan> DatetimeDatetimeTimespan;
-        protected Func<DateTime, double> DatetimeDouble;
         protected Func<DateTime, TimeSpan, DateTime> DatetimeTimespanDatetime;
-        protected Func<double> Double;
         protected Func<decimal, decimal> DecimalDecimal;
         protected Func<decimal, decimal, bool> DecimalDecimalBool;
         protected Func<decimal, decimal, decimal> DecimalDecimalDecimal;
@@ -30,7 +28,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<string, string> StringString;
         protected Func<string, string, bool> StringStringBool;
         protected Func<TimeSpan, DateTime, DateTime> TimespanDatetimeDatetime;
-        protected Func<TimeSpan, double> TimespanDouble;
+        protected Func<TimeSpan, decimal> TimespanDecimal;
         protected Func<TimeSpan, TimeSpan, bool> TimespanTimespanBool;
         protected Func<TimeSpan, TimeSpan, TimeSpan> TimespanTimespanTimespan;
         protected string _name2;
@@ -95,10 +93,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
             }
 
-            if (TimespanDouble != null) {
+            if (TimespanDecimal != null) {
                 if (op1.Type == typeof(TimeSpan)) {
                     var dOp1 = op1 as GenericOperand<TimeSpan>;
-                    return new GenericOperand<double>(TimespanDouble(dOp1.Value));
+                    return new GenericOperand<decimal>(TimespanDecimal(dOp1.Value));
                 }
             }
 
@@ -289,9 +287,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
             }
             catch (NotFiniteNumberException nf) {
-                throw nf;}
-            catch (DivideByZeroException dz)
-            {
+                throw nf;
+            }
+            catch (DivideByZeroException dz) {
                 throw dz;
             }
             catch (Exception e) {
