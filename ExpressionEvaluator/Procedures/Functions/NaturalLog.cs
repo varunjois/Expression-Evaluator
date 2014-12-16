@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Functions
