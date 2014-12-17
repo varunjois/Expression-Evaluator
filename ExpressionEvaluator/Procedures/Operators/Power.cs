@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluator.Procedures.Operators
@@ -14,7 +15,7 @@ namespace ExpressionEvaluator.Procedures.Operators
                 if (double.IsNaN(dblResult)) {
                     throw new NotFiniteNumberException("Not a number");
                 }
-                return Convert.ToDecimal(dblResult.ToString("R"));
+                return Decimal.Parse(dblResult.ToString("R"), NumberStyles.Any);
             };
         }
     }
