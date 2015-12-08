@@ -46,56 +46,56 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
         {
             _func.Function = "sign(2";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
         {
             _func.Function = "sign(0.5";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
         {
             _func.Function = "sign(-2";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
         {
             _func.Function = "sign(-0.5";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
         {
             _func.Function = "sign 2)";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
         {
             _func.Function = "sign 0.5)";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
         {
             _func.Function = "sign -2)";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
         public void SignOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
         {
             _func.Function = "sign -0.5)";
