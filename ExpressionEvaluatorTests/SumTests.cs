@@ -27,5 +27,22 @@ namespace ExpressionEvaluatorTests
             func.Function = @"Sum(1, 2, 3, 4)";
             Assert.AreEqual(10, func.EvaluateNumeric());
         }
+
+        [Test]
+        public void Sum_TwoSumFunctions001_CorrectValue()
+        {
+            func.Function = @"Sum(1) + Sum(1)";
+            Assert.AreEqual(2, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Sum_TwoSumFunctions_NoException()
+        {
+            try {
+                func.Function = @"Sum(1) + Sum(1)";
+            }
+            catch {}
+            func.Function = @"Sum(1) + Sum(1)";
+        }
     }
 }
