@@ -19,8 +19,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             Expression = Expand(expression.ToLower());
             _tokens = Expression.Split(new[] {' '});
 
-            CheckFunctionFormatting(Expression, _tokens);
             CheckGrouping(Expression);
+            CheckFunctionFormatting(Expression, _tokens);
             CheckConditionals(Expression, _tokens);
         }
 
