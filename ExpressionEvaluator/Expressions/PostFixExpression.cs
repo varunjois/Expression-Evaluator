@@ -41,38 +41,32 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 if (ExpressionKeywords.IsOperand(token)) {
                     postFix.Push(token);
                 }
-                else {
-                    if (ExpressionKeywords.OpenGroupOperators.Contains(token)) {
-                        operators.Push(token);
-                    }
-                    else {
-                        if (ExpressionKeywords.ClosingGroupOperators.Contains(token)) {
-                            Grouping g = ExpressionKeywords.GetGroupingFromClose(token);
-                            currOperator = operators.Pop();
+                else if (ExpressionKeywords.OpenGroupOperators.Contains(token)) {
+                    operators.Push(token);
+                }
+                else if (ExpressionKeywords.ClosingGroupOperators.Contains(token)) {
+                    Grouping g = ExpressionKeywords.GetGroupingFromClose(token);
+                    currOperator = operators.Pop();
 
-                            while (currOperator != g.Open) {
-                                postFix.Push(currOperator);
-                                currOperator = operators.Pop();
-                            }
+                    while (currOperator != g.Open) {
+                        postFix.Push(currOperator);
+                        currOperator = operators.Pop();
+                    }
+                }
+                else if (ExpressionKeywords.IsOperator(token)) {
+                    // while precedence of the operator is <= precedence of the token
+                    while (operators.Count > 0) {
+                        if (ExpressionKeywords.GetPrecedence(token)
+                            <= ExpressionKeywords.GetPrecedence(operators.Peek())) {
+                            currOperator = operators.Pop();
+                            postFix.Push(currOperator);
                         }
                         else {
-                            if (ExpressionKeywords.IsOperator(token)) {
-                                // while precedence of the operator is <= precedence of the token
-                                while (operators.Count > 0) {
-                                    if (ExpressionKeywords.GetPrecedence(token)
-                                        <= ExpressionKeywords.GetPrecedence(operators.Peek())) {
-                                        currOperator = operators.Pop();
-                                        postFix.Push(currOperator);
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-
-                                operators.Push(token);
-                            }
+                            break;
                         }
                     }
+
+                    operators.Push(token);
                 }
             }
             while (operators.Count > 0) {
