@@ -52,9 +52,12 @@
     <Compile Include="AndOperatorTests.generated.cs" />
     <Compile Include="BooleanOperatorTests.cs" />
     <Compile Include="CaseTests.generated.cs" />
+    <Compile Include="ConcatenateTests.cs" />
     <Compile Include="ConditionalTests.cs" />
     <Compile Include="ContainsTests.cs" />
     <Compile Include="EdgeCaseTests.cs" />
+    <Compile Include="ModuloTests.cs" />
+    <Compile Include="RoundTests.cs" />
     <Compile Include="SumTests.cs" />
     <Compile Include="IsNumberFunctionTests.cs" />
     <Compile Include="ToStringFunctionTests.cs" />

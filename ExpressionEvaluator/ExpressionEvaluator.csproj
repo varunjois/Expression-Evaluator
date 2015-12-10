@@ -58,7 +58,9 @@
     <Compile Include="Keywords\Token.cs" />
     <Compile Include="Keywords\Variable.cs" />
     <Compile Include="Procedures\Functions\Absolute.cs" />
+    <Compile Include="Procedures\Functions\Concatenate.cs" />
     <Compile Include="Procedures\Functions\Contains.cs" />
+    <Compile Include="Procedures\Functions\Round.cs" />
     <Compile Include="Procedures\Functions\Sum.cs" />
     <Compile Include="Procedures\Functions\ToString.cs" />
     <Compile Include="Procedures\Functions\IsNumber.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Procedures\Operators\GreaterThan.cs" />
     <Compile Include="Procedures\Operators\LesserEqual.cs" />
     <Compile Include="Procedures\Operators\LesserThan.cs" />
+    <Compile Include="Procedures\Operators\Modulo.cs" />
     <Compile Include="Procedures\Operators\Multiplication.cs" />
     <Compile Include="Procedures\Functions\NaturalLog.cs" />
     <Compile Include="Procedures\Functions\Negate.cs" />
