@@ -65,6 +65,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 new Substring(60),
                 new Length(60),
                 new Sum(60),
+                new Round(60),
                 new Conditional("if", 70, 2, false, false),
                 new Conditional("elseif", 70, 2, false, false),
                 new Conditional("else", 70, 1, true, false),

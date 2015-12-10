@@ -59,6 +59,7 @@
     <Compile Include="Keywords\Variable.cs" />
     <Compile Include="Procedures\Functions\Absolute.cs" />
     <Compile Include="Procedures\Functions\Contains.cs" />
+    <Compile Include="Procedures\Functions\Round.cs" />
     <Compile Include="Procedures\Functions\Sum.cs" />
     <Compile Include="Procedures\Functions\ToString.cs" />
     <Compile Include="Procedures\Functions\IsNumber.cs" />
