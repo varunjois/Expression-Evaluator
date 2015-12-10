@@ -22,6 +22,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<decimal, string> DecimalString;
         protected Func<decimal, TimeSpan> DecimalTimespan;
         protected Func<Object, Object, bool> ObjectObjectBool;
+        protected Func<List<object>, string> ObjectStringOperandList;
         protected Func<string, bool> StringBool;
         protected Func<String, decimal> StringDecimal;
         protected Func<String, decimal, decimal, String> StringDecimalDecimalString;
@@ -155,9 +156,24 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                         nums.Add(op.Value);
                     }
                 }
-
                 return new GenericOperand<decimal>(DecimalDecimalOperandList(nums));
             }
+
+            if (ObjectStringOperandList != null) {
+                var items = new List<object>();
+                for (int i = 0; i < operands.Count; i++) {
+                    var opString = operands[i] as GenericOperand<string>;
+                    if (opString != null) {
+                        items.Add(opString.Value);
+                    }
+                    var opDecimal = operands[i] as GenericOperand<decimal>;
+                    if (opDecimal != null) {
+                        items.Add(opDecimal.Value);
+                    }
+                }
+                return new GenericOperand<string>(ObjectStringOperandList(items));
+            }
+
             throw new ExpressionException(
                 _name2 + " operator used incorrectly. Operand types: " + operands[0].Type.Name
                     + ", " + operands[0].Type.Name + ".");

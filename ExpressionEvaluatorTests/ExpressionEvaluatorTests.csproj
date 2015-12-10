@@ -52,6 +52,7 @@
     <Compile Include="AndOperatorTests.generated.cs" />
     <Compile Include="BooleanOperatorTests.cs" />
     <Compile Include="CaseTests.generated.cs" />
+    <Compile Include="ConcatenateTests.cs" />
     <Compile Include="ConditionalTests.cs" />
     <Compile Include="ContainsTests.cs" />
     <Compile Include="EdgeCaseTests.cs" />
