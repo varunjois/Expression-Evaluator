@@ -22,6 +22,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             Constants = new Dictionary<string, IVariable>()
             {
                 {"null", new GenericVariable<object>("null") {Value = null}},
+                {
+                    "param_terminator",
+                    new GenericVariable<string>("param_terminator") {Value = "param_terminator"}
+                },
                 {"true", new GenericVariable<bool>("true") {Value = true}},
                 {"false", new GenericVariable<bool>("false") {Value = false}}
             };

@@ -339,6 +339,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             return (token.StartsWith("'") && token.EndsWith("'"));
         }
 
+        private static bool IsParamTerminator(IToken current)
+        {
+            return current is GenericVariable<string>
+                && ((GenericVariable<string>)current).Name == "param_terminator";
+        }
+
         private void AddSetVariable<T>(string name, T val)
         {
             name = name.ToLower();
@@ -411,8 +417,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
             var workstack = new Stack<IToken>();
 
-            var operands = new List<IOperand>();
-
             IOperand result = null;
             int currentConditionalDepth = 0;
 
@@ -424,10 +428,20 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     continue;
                 }
 
+                var operands = new List<IOperand>();
                 var op = token as Procedure;
 
-                for (int i = 0; i < op.NumParameters; i++) {
-                    operands.Insert(0, (IOperand)workstack.Pop());
+                if (op.VariableOperandsCount) {
+                    var current = workstack.Pop();
+                    while (!IsParamTerminator(current)) {
+                        operands.Insert(0, (IOperand)current);
+                        current = workstack.Pop();
+                    }
+                }
+                else {
+                    for (int i = 0; i < op.NumParameters; i++) {
+                        operands.Insert(0, (IOperand)workstack.Pop());
+                    }
                 }
 
                 if (op.Name == "if"

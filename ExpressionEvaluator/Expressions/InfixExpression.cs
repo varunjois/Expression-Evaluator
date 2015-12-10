@@ -98,12 +98,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 if (!ExpressionKeywords.Functions.Contains(token)) {
                     continue;
                 }
-                var kw = ExpressionKeywords.Keywords.OfType<Function>()
-                    .Where(x => x.Name == token)
-                    .Select(x => x)
-                    .Single();
 
-                if (i + 2 + kw.NumParameters >= tokens.Count()
+                if (i + 1 >= tokens.Length
                     || tokens[i + 1] != "(") {
                     throw new ExpressionException(
                         "Function error! " + token
