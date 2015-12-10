@@ -44,6 +44,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 new Subtraction(40),
                 new Multiplication(50),
                 new Division(50),
+                new Modulo(50),
                 new Power(55),
                 new Absolute(60),
                 new Negate(60),

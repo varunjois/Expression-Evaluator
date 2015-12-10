@@ -84,6 +84,7 @@
     <Compile Include="Procedures\Operators\GreaterThan.cs" />
     <Compile Include="Procedures\Operators\LesserEqual.cs" />
     <Compile Include="Procedures\Operators\LesserThan.cs" />
+    <Compile Include="Procedures\Operators\Modulo.cs" />
     <Compile Include="Procedures\Operators\Multiplication.cs" />
     <Compile Include="Procedures\Functions\NaturalLog.cs" />
     <Compile Include="Procedures\Functions\Negate.cs" />
