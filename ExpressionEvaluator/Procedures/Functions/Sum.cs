@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Procedures.Functions
             : base("sum", precedance, 1, true)
         {
             _name2 = "Sum";
-            OperandList = x => {
+            DecimalDecimalOperandList = x => {
                 decimal sum = 0;
                 foreach (var i in x) {
                     sum += i;

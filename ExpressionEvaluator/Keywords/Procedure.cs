@@ -18,10 +18,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<decimal, decimal> DecimalDecimal;
         protected Func<decimal, decimal, bool> DecimalDecimalBool;
         protected Func<decimal, decimal, decimal> DecimalDecimalDecimal;
+        protected Func<List<decimal>, decimal> DecimalDecimalOperandList;
         protected Func<decimal, string> DecimalString;
         protected Func<decimal, TimeSpan> DecimalTimespan;
         protected Func<Object, Object, bool> ObjectObjectBool;
-        protected Func<List<decimal>, decimal> OperandList;
         protected Func<string, bool> StringBool;
         protected Func<String, decimal> StringDecimal;
         protected Func<String, decimal, decimal, String> StringDecimalDecimalString;
@@ -147,7 +147,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         public IOperand Evaluate(List<IOperand> operands)
         {
-            if (OperandList != null) {
+            if (DecimalDecimalOperandList != null) {
                 List<decimal> nums = new List<decimal>();
                 for (int i = 0; i < operands.Count; i++) {
                     var op = operands[i] as GenericOperand<decimal>;
@@ -156,7 +156,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     }
                 }
 
-                return new GenericOperand<decimal>(OperandList(nums));
+                return new GenericOperand<decimal>(DecimalDecimalOperandList(nums));
             }
             throw new ExpressionException(
                 _name2 + " operator used incorrectly. Operand types: " + operands[0].Type.Name
