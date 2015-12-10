@@ -19,8 +19,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             Expression = Expand(expression.ToLower());
             _tokens = Expression.Split(new[] {' '});
 
-            CheckFunctionFormatting(Expression, _tokens);
             CheckGrouping(Expression);
+            CheckFunctionFormatting(Expression, _tokens);
             CheckConditionals(Expression, _tokens);
         }
 
@@ -95,19 +95,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         {
             for (int i = 0; i < tokens.Length; i++) {
                 var token = tokens[i];
-                if (ExpressionKeywords.Functions.Contains(token)) {
-                    var kw = ExpressionKeywords.Keywords.OfType<Function>()
-                        .Where(x => x.Name == token)
-                        .Select(x => x)
-                        .Single();
+                if (!ExpressionKeywords.Functions.Contains(token)) {
+                    continue;
+                }
 
-                    if (i + 2 + kw.NumParameters >= tokens.Count()
-                        || tokens[i + 1] != "(") {
-                        throw new ExpressionException(
-                            "Function error! " + token
-                                + " not formatted correctly. Open and close parenthesis required. "
-                                + inFix);
-                    }
+                if (i + 1 >= tokens.Length
+                    || tokens[i + 1] != "(") {
+                    throw new ExpressionException(
+                        "Function error! " + token
+                            + " not formatted correctly. Open and close parenthesis required. "
+                            + inFix);
                 }
             }
         }

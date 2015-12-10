@@ -115,7 +115,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             AddSetVariable<string>(name, val.ToLower());
         }
 
-        public void AddSetVariable(string name, double val) { AddSetVariable<decimal>(name, (decimal)val); }
+        public void AddSetVariable(string name, double val)
+        {
+            AddSetVariable<decimal>(name, (decimal)val);
+        }
 
         public void AddSetVariable(string name, DateTime val)
         {
@@ -188,17 +191,15 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     return Double.NaN;
                 }
                 if (result is GenericOperand<decimal>) {
-                    return
-                        (result as GenericOperand<decimal>).ToDouble()
-                            .Value;
+                    return (result as GenericOperand<decimal>).ToDouble()
+                        .Value;
                 }
                 return ((GenericOperand<double>)result).Value;
             }
             catch (NotFiniteNumberException nf) {
                 return double.NaN;
             }
-            catch (DivideByZeroException nf)
-            {
+            catch (DivideByZeroException nf) {
                 return double.NaN;
             }
         }
@@ -214,9 +215,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public double GetVariableValue(string token)
         {
             try {
-
                 return ((_variables[token] as GenericVariable<decimal>).ToDouble()).Value;
-
             }
             catch {
                 return double.NaN;
@@ -310,7 +309,9 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 }
 
                 // Convert the operand
-                return new GenericOperand<decimal>(decimal.Parse(token, System.Globalization.NumberStyles.Float));
+                return
+                    new GenericOperand<decimal>(
+                        decimal.Parse(token, System.Globalization.NumberStyles.Float));
             }
         }
 
@@ -336,6 +337,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected bool IsString(string token)
         {
             return (token.StartsWith("'") && token.EndsWith("'"));
+        }
+
+        private static bool IsParamTerminator(IToken current)
+        {
+            return current is GenericVariable<string>
+                && ((GenericVariable<string>)current).Name == "param_terminator";
         }
 
         private void AddSetVariable<T>(string name, T val)
@@ -410,8 +417,6 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
             var workstack = new Stack<IToken>();
 
-            var operands = new List<IOperand>();
-
             IOperand result = null;
             int currentConditionalDepth = 0;
 
@@ -423,10 +428,20 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     continue;
                 }
 
+                var operands = new List<IOperand>();
                 var op = token as Procedure;
 
-                for (int i = 0; i < op.NumParameters; i++) {
-                    operands.Insert(0, (IOperand)workstack.Pop());
+                if (op.VariableOperandsCount) {
+                    var current = workstack.Pop();
+                    while (!IsParamTerminator(current)) {
+                        operands.Insert(0, (IOperand)current);
+                        current = workstack.Pop();
+                    }
+                }
+                else {
+                    for (int i = 0; i < op.NumParameters; i++) {
+                        operands.Insert(0, (IOperand)workstack.Pop());
+                    }
                 }
 
                 if (op.Name == "if"
@@ -492,12 +507,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                                 }
                             }
                         }
-                        catch (NotFiniteNumberException nf)
-                        {
-                            result= new GenericOperand<double>(double.NaN);
+                        catch (NotFiniteNumberException nf) {
+                            result = new GenericOperand<double>(double.NaN);
                         }
-                        catch (DivideByZeroException nf)
-                        {
+                        catch (DivideByZeroException nf) {
                             result = new GenericOperand<double>(double.NaN);
                         }
                         catch (Exception exp) {

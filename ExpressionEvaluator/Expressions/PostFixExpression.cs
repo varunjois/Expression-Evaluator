@@ -41,38 +41,41 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 if (ExpressionKeywords.IsOperand(token)) {
                     postFix.Push(token);
                 }
-                else {
-                    if (ExpressionKeywords.OpenGroupOperators.Contains(token)) {
-                        operators.Push(token);
+                else if (ExpressionKeywords.OpenGroupOperators.Contains(token)) {
+                    if (operators.Count > 0) {
+                        var kw = ExpressionKeywords.Keywords.OfType<Procedure>()
+                            .Where(x => x.Name == operators.Peek())
+                            .Select(x => x)
+                            .SingleOrDefault();
+                        if (kw.VariableOperandsCount) {
+                            postFix.Push("param_terminator");
+                        }
                     }
-                    else {
-                        if (ExpressionKeywords.ClosingGroupOperators.Contains(token)) {
-                            Grouping g = ExpressionKeywords.GetGroupingFromClose(token);
-                            currOperator = operators.Pop();
+                    operators.Push(token);
+                }
+                else if (ExpressionKeywords.ClosingGroupOperators.Contains(token)) {
+                    Grouping g = ExpressionKeywords.GetGroupingFromClose(token);
+                    currOperator = operators.Pop();
 
-                            while (currOperator != g.Open) {
-                                postFix.Push(currOperator);
-                                currOperator = operators.Pop();
-                            }
+                    while (currOperator != g.Open) {
+                        postFix.Push(currOperator);
+                        currOperator = operators.Pop();
+                    }
+                }
+                else if (ExpressionKeywords.IsOperator(token)) {
+                    // while precedence of the operator is <= precedence of the token
+                    while (operators.Count > 0) {
+                        if (ExpressionKeywords.GetPrecedence(token)
+                            <= ExpressionKeywords.GetPrecedence(operators.Peek())) {
+                            currOperator = operators.Pop();
+                            postFix.Push(currOperator);
                         }
                         else {
-                            if (ExpressionKeywords.IsOperator(token)) {
-                                // while precedence of the operator is <= precedence of the token
-                                while (operators.Count > 0) {
-                                    if (ExpressionKeywords.GetPrecedence(token)
-                                        <= ExpressionKeywords.GetPrecedence(operators.Peek())) {
-                                        currOperator = operators.Pop();
-                                        postFix.Push(currOperator);
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-
-                                operators.Push(token);
-                            }
+                            break;
                         }
                     }
+
+                    operators.Push(token);
                 }
             }
             while (operators.Count > 0) {
@@ -106,19 +109,21 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                         .Select(x => x)
                         .Single();
 
-                    var numParams = kw.NumParameters;
-                    if (kw.Name == "sum") {
-                        numParams = tokens.Length - 1;
-                        kw.NumParameters = numParams;
-                    }
-
-                    try {
-                        for (int i = 0; i < numParams; i++) {
-                            workstack.Pop();
+                    if (kw.VariableOperandsCount) {
+                        var current = "";
+                        while (current != "param_terminator") {
+                            current = workstack.Pop();
                         }
                     }
-                    catch {
-                        throw new ExpressionException("Operator error! \"" + token + "\". ");
+                    else {
+                        try {
+                            for (int i = 0; i < kw.NumParameters; i++) {
+                                workstack.Pop();
+                            }
+                        }
+                        catch {
+                            throw new ExpressionException("Operator error! \"" + token + "\". ");
+                        }
                     }
 
                     if (kw.AlwaysReturnsValue) {

@@ -46,56 +46,56 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
         public void DaysOperator_MalformedExpressionMissingRightParenPositiveWholeArgument_ThrowsException()
         {
             _func.Function = "days(2";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
         public void DaysOperator_MalformedExpressionMissingRightParenPositiveFractionArgument_ThrowsException()
         {
             _func.Function = "days(0.5";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
         public void DaysOperator_MalformedExpressionMissingRightParenNegativeWholeArgument_ThrowsException()
         {
             _func.Function = "days(-2";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Close missing", MatchType = MessageMatch.Contains)]
         public void DaysOperator_MalformedExpressionMissingRightParenNegativeFractionArgument_ThrowsException()
         {
             _func.Function = "days(-0.5";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
         public void DaysOperator_MalformedExpressionMissingLeftParenPositiveWholeArgument_ThrowsException()
         {
             _func.Function = "days 2)";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
         public void DaysOperator_MalformedExpressionMissingLeftParenPositiveFractionArgument_ThrowsException()
         {
             _func.Function = "days 0.5)";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
         public void DaysOperator_MalformedExpressionMissingLeftParenNegativeWholeArgument_ThrowsException()
         {
             _func.Function = "days -2)";
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open and close parenthesis required", MatchType = MessageMatch.Contains)]
+        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "Open missing", MatchType = MessageMatch.Contains)]
         public void DaysOperator_MalformedExpressionMissingLeftParenNegativeFractionArgument_ThrowsException()
         {
             _func.Function = "days -0.5)";
