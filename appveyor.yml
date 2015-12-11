@@ -1,11 +1,16 @@
 version: 1.2.0.{build}
 configuration: Release
+init:
+- ps: $env:GIT_SHORT_HASH = $env:APPVEYOR_REPO_COMMIT.substring(0,7)
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.*'
   assembly_version: '{version}'
   assembly_file_version: '{version}'
-  assembly_informational_version: '{version}-$(APPVEYOR_REPO_COMMIT)'
+  assembly_informational_version: '{version}-$(GIT_SHORT_HASH)'
 build:
-  publish_nuget: true
   verbosity: minimal
+after_build:
+- ps: nuget pack "$env:APPVEYOR_BUILD_FOLDER\ExpressionEvaluator\ExpressionEvaluator.csproj" -Properties "Configuration=Release;Platform=AnyCPU" -Version $env:APPVEYOR_BUILD_VERSION
+artifacts:
+- path: '**\*.nupkg'
