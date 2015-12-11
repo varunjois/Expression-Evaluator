@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Expression-Evaluator</id>
+    <version>$version$</version>
+    <authors>jrob</authors>
+    <owners>jrob</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/jrob/Expression-Evaluator</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>C# class that will interpret text as a calculation.</description>
+    <copyright>Copyright 2015</copyright>
+    <tags>calculation</tags>
+  </metadata>
+</package>

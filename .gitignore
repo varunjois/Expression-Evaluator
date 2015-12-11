@@ -12,3 +12,4 @@ debug
 TestResults
 sql
 *.docstates
+*.nupkg
