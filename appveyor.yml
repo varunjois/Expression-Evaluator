@@ -1,0 +1,11 @@
+version: 1.2.0.{build}
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}-$(APPVEYOR_REPO_COMMIT)'
+build:
+  publish_nuget: true
+  verbosity: minimal
