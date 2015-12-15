@@ -47,7 +47,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                             .Where(x => x.Name == operators.Peek())
                             .Select(x => x)
                             .SingleOrDefault();
-                        if (kw.VariableOperandsCount) {
+                        if (kw != null
+                            && kw.VariableOperandsCount) {
                             postFix.Push("param_terminator");
                         }
                     }
