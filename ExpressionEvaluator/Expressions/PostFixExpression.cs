@@ -62,6 +62,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                         postFix.Push(currOperator);
                         currOperator = operators.Pop();
                     }
+                    if (operators.Count > 0
+                        && ExpressionKeywords.Functions.Contains(operators.Peek())) {
+                        postFix.Push(operators.Pop());
+                    }
                 }
                 else if (ExpressionKeywords.IsOperator(token)) {
                     // while precedence of the operator is <= precedence of the token
