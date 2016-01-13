@@ -15,6 +15,27 @@ namespace ExpressionEvaluatorTests
         public void clear() { func.Clear(); }
 
         [Test]
+        public void Addition_StringsAndNumbers001_CorrectValue()
+        {
+            func.Function = @"'a' + 1";
+            Assert.AreEqual("a1", func.Evaluate<string>());
+        }
+
+        [Test]
+        public void Addition_StringsAndNumbers002_CorrectValue()
+        {
+            func.Function = @"1 + 'a'";
+            Assert.AreEqual("1a", func.Evaluate<string>());
+        }
+
+        [Test]
+        public void Addition_StringsAndNumbers003_CorrectValue()
+        {
+            func.Function = @"'a' + 'b'";
+            Assert.AreEqual("ab", func.Evaluate<string>());
+        }
+
+        [Test]
         public void Concatenate_AllStrings_CorrectValue()
         {
             func.Function = @"concatenate('a', 'b')";

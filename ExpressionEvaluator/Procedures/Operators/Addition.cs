@@ -13,6 +13,9 @@ namespace ExpressionEvaluator.Procedures.Operators
             DatetimeTimespanDatetime = (x, y) => x + y;
             TimespanDatetimeDatetime = (x, y) => y + x;
             TimespanTimespanTimespan = (x, y) => x + y;
+            StringStringString = (x, y) => x + y;
+            DecimalStringString = (x, y) => x + y;
+            StringDecimalString = (x, y) => x + y;
         }
     }
 }

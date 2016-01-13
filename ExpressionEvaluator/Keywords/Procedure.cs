@@ -27,8 +27,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<string, bool> StringBool;
         protected Func<String, decimal> StringDecimal;
         protected Func<String, decimal, decimal, String> StringDecimalDecimalString;
+        protected Func<String, Decimal, String> StringDecimalString;
         protected Func<string, string> StringString;
         protected Func<string, string, bool> StringStringBool;
+        protected Func<String, String, String> StringStringString;
         protected Func<TimeSpan, DateTime, DateTime> TimespanDatetimeDatetime;
         protected Func<TimeSpan, decimal> TimespanDecimal;
         protected Func<TimeSpan, TimeSpan, bool> TimespanTimespanBool;
@@ -231,6 +233,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                     }
                 }
 
+                if (StringStringString != null) {
+                    if (op1.Type == typeof(string)
+                        && op2.Type == typeof(string)) {
+                        var bOp1 = op1 as GenericOperand<string>;
+                        var bOp2 = op2 as GenericOperand<string>;
+                        return new GenericOperand<string>(
+                            StringStringString(bOp1.Value, bOp2.Value));
+                    }
+                }
+
                 if (DecimalStringString != null) {
                     if (op1.Type == typeof(decimal)
                         && op2.Type == typeof(string)) {
@@ -238,6 +250,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                         var bOp2 = op2 as GenericOperand<string>;
                         return
                             new GenericOperand<String>(DecimalStringString(bOp1.Value, bOp2.Value));
+                    }
+                }
+
+                if (StringDecimalString != null) {
+                    if (op1.Type == typeof(string)
+                        && op2.Type == typeof(decimal)) {
+                        var bOp1 = op1 as GenericOperand<string>;
+                        var bOp2 = op2 as GenericOperand<decimal>;
+                        return
+                            new GenericOperand<String>(StringDecimalString(bOp1.Value, bOp2.Value));
                     }
                 }
 
