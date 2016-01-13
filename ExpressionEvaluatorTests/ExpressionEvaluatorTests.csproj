@@ -60,6 +60,7 @@
     <Compile Include="RoundTests.cs" />
     <Compile Include="SumTests.cs" />
     <Compile Include="IsNumberFunctionTests.cs" />
+    <Compile Include="TimeComonentTests.cs" />
     <Compile Include="ToStringFormatTests.cs" />
     <Compile Include="ToStringFunctionTests.cs" />
     <Compile Include="LengthTests.cs" />

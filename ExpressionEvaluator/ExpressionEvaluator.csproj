@@ -60,7 +60,11 @@
     <Compile Include="Procedures\Functions\Absolute.cs" />
     <Compile Include="Procedures\Functions\Concatenate.cs" />
     <Compile Include="Procedures\Functions\Contains.cs" />
+    <Compile Include="Procedures\Functions\DaysComponent.cs" />
+    <Compile Include="Procedures\Functions\HoursComponent.cs" />
+    <Compile Include="Procedures\Functions\MinutesComponent.cs" />
     <Compile Include="Procedures\Functions\Round.cs" />
+    <Compile Include="Procedures\Functions\SecondsComponent.cs" />
     <Compile Include="Procedures\Functions\Sum.cs" />
     <Compile Include="Procedures\Functions\ToString.cs" />
     <Compile Include="Procedures\Functions\IsNumber.cs" />
