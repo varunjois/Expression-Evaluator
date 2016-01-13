@@ -20,6 +20,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<decimal, decimal, decimal> DecimalDecimalDecimal;
         protected Func<List<decimal>, decimal> DecimalDecimalOperandList;
         protected Func<decimal, string> DecimalString;
+        protected Func<Decimal, String, String> DecimalStringString;
         protected Func<decimal, TimeSpan> DecimalTimespan;
         protected Func<Object, Object, bool> ObjectObjectBool;
         protected Func<List<object>, string> ObjectStringOperandList;
@@ -227,6 +228,16 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                         var bOp1 = op1 as GenericOperand<string>;
                         var bOp2 = op2 as GenericOperand<string>;
                         return new GenericOperand<bool>(StringStringBool(bOp1.Value, bOp2.Value));
+                    }
+                }
+
+                if (DecimalStringString != null) {
+                    if (op1.Type == typeof(decimal)
+                        && op2.Type == typeof(string)) {
+                        var bOp1 = op1 as GenericOperand<decimal>;
+                        var bOp2 = op2 as GenericOperand<string>;
+                        return
+                            new GenericOperand<String>(DecimalStringString(bOp1.Value, bOp2.Value));
                     }
                 }
 
