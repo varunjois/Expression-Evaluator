@@ -1,3 +1,9 @@
+## 1.3.1 (2016-05-31)
+
+bug fixes:
+
+  - Cases where an if statement should evaluate to true but an incorrect comparison was causing an exception.
+
 ## 1.3.0 (2016-01-14)
 
 Enhancements:
