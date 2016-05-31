@@ -19,9 +19,11 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         protected Func<decimal, decimal, bool> DecimalDecimalBool;
         protected Func<decimal, decimal, decimal> DecimalDecimalDecimal;
         protected Func<List<decimal>, decimal> DecimalDecimalOperandList;
+        protected Func<decimal, Double, Double> DecimalDoubleDouble;
         protected Func<decimal, string> DecimalString;
         protected Func<Decimal, String, String> DecimalStringString;
         protected Func<decimal, TimeSpan> DecimalTimespan;
+        protected Func<Double, Decimal, Double> DoubleDecimalDouble;
         protected Func<Object, Object, bool> ObjectObjectBool;
         protected Func<List<object>, string> ObjectStringOperandList;
         protected Func<string, bool> StringBool;
@@ -221,6 +223,26 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                         var bOp1 = op1 as GenericOperand<decimal>;
                         var bOp2 = op2 as GenericOperand<decimal>;
                         return new GenericOperand<bool>(DecimalDecimalBool(bOp1.Value, bOp2.Value));
+                    }
+                }
+
+                if (DecimalDoubleDouble != null) {
+                    if (op1.Type == typeof(decimal)
+                        && op2.Type == typeof(double)) {
+                        var bOp1 = op1 as GenericOperand<decimal>;
+                        var bOp2 = op2 as GenericOperand<double>;
+                        return
+                            new GenericOperand<double>(DecimalDoubleDouble(bOp1.Value, bOp2.Value));
+                    }
+                }
+
+                if (DoubleDecimalDouble != null) {
+                    if (op1.Type == typeof(double)
+                        && op2.Type == typeof(decimal)) {
+                        var bOp1 = op1 as GenericOperand<double>;
+                        var bOp2 = op2 as GenericOperand<decimal>;
+                        return
+                            new GenericOperand<double>(DoubleDecimalDouble(bOp1.Value, bOp2.Value));
                     }
                 }
 

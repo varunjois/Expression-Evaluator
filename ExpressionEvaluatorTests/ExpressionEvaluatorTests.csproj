@@ -55,6 +55,7 @@
     <Compile Include="ConcatenateTests.cs" />
     <Compile Include="ConditionalTests.cs" />
     <Compile Include="ContainsTests.cs" />
+    <Compile Include="EdgeCaseNestedToNumber.cs" />
     <Compile Include="EdgeCaseTests.cs" />
     <Compile Include="ModuloTests.cs" />
     <Compile Include="RoundTests.cs" />

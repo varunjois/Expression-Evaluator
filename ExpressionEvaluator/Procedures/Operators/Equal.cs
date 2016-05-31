@@ -13,6 +13,8 @@ namespace ExpressionEvaluator.Procedures.Operators
             StringStringBool = (x, y) => x == y;
             TimespanTimespanBool = (x, y) => x == y;
             DatetimeDatetimeBool = (x, y) => x == y;
+            DecimalDoubleDouble = (x, y) => double.NaN;
+            DoubleDecimalDouble = (x, y) => double.NaN;
             ObjectObjectBool = (x, y) => x == y;
             AnyAnyBool = (x, y) => {
                 if (x.GetType() != y.GetType()) {

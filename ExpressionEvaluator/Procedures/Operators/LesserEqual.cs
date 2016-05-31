@@ -11,6 +11,8 @@ namespace ExpressionEvaluator.Procedures.Operators
             DecimalDecimalBool = (x, y) => x <= y;
             TimespanTimespanBool = (x, y) => x <= y;
             DatetimeDatetimeBool = (x, y) => x <= y;
+            DecimalDoubleDouble = (x, y) => double.NaN;
+            DoubleDecimalDouble = (x, y) => double.NaN;
         }
     }
 }
