@@ -1,3 +1,10 @@
+## 1.4.0 (2016-12-21)
+
+Enhancements:
+
+  - Updated GetVariableValue to return other variable types.
+  - Expanded IExpression to include additional AddSetVariable implementations.
+
 ## 1.3.1 (2016-05-31)
 
 bug fixes:
