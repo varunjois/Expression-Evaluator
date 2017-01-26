@@ -6,26 +6,19 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class SumTests
     {
-        private Expression func;
-
         [SetUp]
         public void init() { func = new Expression(""); }
 
         [TearDown]
         public void clear() { func.Clear(); }
 
+        private Expression func;
+
         [Test]
         public void Sum_NestedSumFunctions_CorrectValue()
         {
             func.Function = @"Sum(1, Sum(1, 2, Sum(1,2,3)), 3)";
             Assert.AreEqual(13, func.EvaluateNumeric());
-        }
-
-        [Test]
-        public void Sum_NumbersAndVariable_EmptyVariableIgnored()
-        {
-            func.Function = @"Sum(a, 2, 3, 4)";
-            Assert.AreEqual(9, func.EvaluateNumeric());
         }
 
         [Test]
@@ -57,13 +50,6 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void Sum_Numbers_subtract_IsCorrect()
-        {
-            func.Function = @"sum(5,6)-Sum(1, 2, 3, 4)";
-            Assert.AreEqual(1, func.EvaluateNumeric());
-        }
-
-        [Test]
         public void Sum_Numbers_subtract_decimal_Devide_IsCorrect()
         {
             func.Function = @"(sum(6.5,6)-Sum(1.5, 2, 3, 4))/2";
@@ -92,10 +78,17 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void Sum_TwoSumFunctions001_CorrectValue()
+        public void Sum_Numbers_subtract_IsCorrect()
         {
-            func.Function = @"Sum(1) + Sum(1)";
-            Assert.AreEqual(2, func.EvaluateNumeric());
+            func.Function = @"sum(5,6)-Sum(1, 2, 3, 4)";
+            Assert.AreEqual(1, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Sum_NumbersAndVariable_EmptyVariableIgnored()
+        {
+            func.Function = @"Sum(a, 2, 3, 4)";
+            Assert.AreEqual(9, func.EvaluateNumeric());
         }
 
         [Test]
@@ -106,6 +99,13 @@ namespace ExpressionEvaluatorTests
             }
             catch {}
             func.Function = @"Sum(1) + Sum(1)";
+        }
+
+        [Test]
+        public void Sum_TwoSumFunctions001_CorrectValue()
+        {
+            func.Function = @"Sum(1) + Sum(1)";
+            Assert.AreEqual(2, func.EvaluateNumeric());
         }
 
         [Test]
