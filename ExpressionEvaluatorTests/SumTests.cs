@@ -15,6 +15,13 @@ namespace ExpressionEvaluatorTests
         private Expression func;
 
         [Test]
+        public void Sum_InnerCalculation_CorrectValue()
+        {
+            func.Function = @"Sum(1+1, 1+1, 1+2)";
+            Assert.AreEqual(7, func.EvaluateNumeric());
+        }
+
+        [Test]
         public void Sum_NestedSumFunctions_CorrectValue()
         {
             func.Function = @"Sum(1, Sum(1, 2, Sum(1,2,3)), 3)";
