@@ -41,7 +41,8 @@ namespace ExpressionEvaluatorTests
 
         [Test]
         [NUnit.Framework.ExpectedException(typeof(ExpressionException),
-            ExpectedMessage = "Operator error! \"substring\".", MatchType = MessageMatch.Contains)]
+            ExpectedMessage = "StartIndex cannot be less than zero.",
+            MatchType = MessageMatch.Contains)]
         public void SubstringOperator_CalledWithNegativeIndex_IsCorrect()
         {
             _func.Function = "substring('hello', -1, 3)";
@@ -56,6 +57,13 @@ namespace ExpressionEvaluatorTests
         {
             _func.Function = "substring(3a, 0, 1)";
             _func.Evaluate<String>();
+        }
+
+        [Test]
+        public void SubstringOperator_InnerCalculation_IsCorrect()
+        {
+            _func.Function = "substring('hello', 1-1, 1+2)";
+            NUnit.Framework.Assert.AreEqual("hel", _func.Evaluate<String>());
         }
 
         [Test]

@@ -82,6 +82,12 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
                     operators.Push(token);
                 }
+                else if (ExpressionKeywords.IsVariableDelilimter(token)) {
+                    if (!ExpressionKeywords.OpenGroupOperators.Contains(operators.Peek())) {
+                        currOperator = operators.Pop();
+                        postFix.Push(currOperator);
+                    }
+                }
             }
             while (operators.Count > 0) {
                 currOperator = operators.Pop();

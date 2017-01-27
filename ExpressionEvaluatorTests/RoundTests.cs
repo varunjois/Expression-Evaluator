@@ -6,13 +6,41 @@ namespace ExpressionEvaluatorTests
     [TestFixture]
     public class RoundTests
     {
-        private Expression func;
-
         [SetUp]
         public void init() { func = new Expression(""); }
 
         [TearDown]
         public void clear() { func.Clear(); }
+
+        private Expression func;
+
+        [Test]
+        public void Round_InnerCalclationAdd_CorrectValue()
+        {
+            func.Function = @"round(3+4, 1)";
+            Assert.AreEqual(7m, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Round_InnerCalculation_CorrectValue()
+        {
+            func.Function = @"round(3/4, 1)";
+            Assert.AreEqual(.8m, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Round_InnerCalculationMulti_CorrectValue()
+        {
+            func.Function = @"round((.75), 1)";
+            Assert.AreEqual(.8m, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Round_InnerCalculationParens_CorrectValue()
+        {
+            func.Function = @"round((3/4)+4, 1)";
+            Assert.AreEqual(4.8m, func.EvaluateNumeric());
+        }
 
         [Test]
         public void Round_MidPoint001_CorrectValue()

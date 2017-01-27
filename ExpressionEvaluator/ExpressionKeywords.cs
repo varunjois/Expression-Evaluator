@@ -79,6 +79,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 new Grouping("Paranthesis", "(", ")"),
                 new Grouping("Curley Braces", "{", "}"),
                 new StringGrouping("String", "'"),
+                new VariableDelimiter("Comma", ","),
             };
 
             Operators = Keywords.OfType<Operator>()
@@ -90,6 +91,10 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 .ToList();
 
             StringGroupOperators = Keywords.OfType<StringGrouping>()
+                .Select(x => x.Delimiter)
+                .ToList();
+
+            VariableDelimiterOperators = Keywords.OfType<VariableDelimiter>()
                 .Select(x => x.Delimiter)
                 .ToList();
 
@@ -108,6 +113,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 .Select(x => x.Name)
                 .ToList();
         }
+
+        public static List<string> VariableDelimiterOperators { get; set; }
 
         public static Grouping GetGroupingFromClose(string token)
         {
@@ -147,7 +154,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public static bool IsOperand(string token)
         {
             if (!IsOperator(token)
-                && !GroupOperators.Contains(token)) {
+                && !GroupOperators.Contains(token)  && !IsVariableDelilimter(token)) {
                 return true;
             }
 
@@ -167,6 +174,11 @@ namespace Vanderbilt.Biostatistics.Wfccm2
             return Operators.Union(Functions)
                 .Union(ConditionalOperators)
                 .Contains(token);
+        }
+
+        public static bool IsVariableDelilimter(string token)
+        {
+            return VariableDelimiterOperators.Contains(token);
         }
     }
 }

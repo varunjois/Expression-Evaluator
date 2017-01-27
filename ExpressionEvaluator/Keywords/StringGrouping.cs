@@ -1,10 +1,8 @@
 ﻿namespace Vanderbilt.Biostatistics.Wfccm2
 {
-    public class StringGrouping : Keyword
+    public class StringGrouping : DelimiterToken
     {
         public StringGrouping(string name, string delimiter)
-            : base(name, 0) { Delimiter = delimiter; }
-
-        public string Delimiter { get; protected set; }
+            : base(name, delimiter) { }
     }
 }
