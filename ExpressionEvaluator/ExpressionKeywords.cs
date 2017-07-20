@@ -72,6 +72,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
                 new Length(60),
                 new Sum(60),
                 new Round(60),
+                new Ceiling(60),
+                new Floor(60),
                 new Concatenate(60),
                 new Conditional("if", 70, 2, false, false),
                 new Conditional("elseif", 70, 2, false, false),
@@ -154,7 +156,8 @@ namespace Vanderbilt.Biostatistics.Wfccm2
         public static bool IsOperand(string token)
         {
             if (!IsOperator(token)
-                && !GroupOperators.Contains(token)  && !IsVariableDelilimter(token)) {
+                && !GroupOperators.Contains(token)
+                && !IsVariableDelilimter(token)) {
                 return true;
             }
 
