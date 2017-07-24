@@ -9,10 +9,16 @@ namespace ExpressionEvaluatorTests
         private Expression func;
 
         [SetUp]
-        public void init() { func = new Expression(""); }
+        public void init()
+        {
+            func = new Expression("");
+        }
 
         [TearDown]
-        public void clear() { func.Clear(); }
+        public void clear()
+        {
+            func.Clear();
+        }
 
         [Test]
         public void Ceiling_InnerCalclationAdd_CorrectValue()
@@ -43,6 +49,34 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void Ceiling_InnerCalculationNegative_CorrectValue()
+        {
+            func.Function = @"ceiling(-0.12 )";
+            Assert.AreEqual(0, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Ceiling_InnerCalculationNegativeRound_CorrectValue()
+        {
+            func.Function = @"ceiling(-7.12 )";
+            Assert.AreEqual(-7, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Ceiling_InnerCalculationParenthesis_CorrectValue()
+        {
+            func.Function = @"ceiling(3/4+4)";
+            Assert.AreEqual(5, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Ceiling_InnerCalculationParens_CorrectValue()
+        {
+            func.Function = @"ceiling(6+{3/4+4})";
+            Assert.AreEqual(11, func.EvaluateNumeric());
+        }
+
+        [Test]
         public void Ceiling_InnerCalculationSubstract_CorrectValue()
         {
             func.Function = @"ceiling(2.56 -1.5)";
@@ -55,18 +89,11 @@ namespace ExpressionEvaluatorTests
             func.Function = @"ceiling(1.5*0)";
             Assert.AreEqual(0, func.EvaluateNumeric());
         }
-
         [Test]
-        public void Ceiling_InnerCalculationNegative_CorrectValue()
+        public void Ceiling_InnerCalculationParenthesisSum_CorrectValue()
         {
-            func.Function = @"ceiling(-0.12 )";
-            Assert.AreEqual(0, func.EvaluateNumeric());
-        }
-        [Test]
-        public void Ceiling_InnerCalculationNegativeRound_CorrectValue()
-        {
-            func.Function = @"ceiling(-7.12 )";
-            Assert.AreEqual(-7, func.EvaluateNumeric());
+            func.Function = @"ceiling(6+{3/sum(4,4)})";
+            Assert.AreEqual(7, func.EvaluateNumeric());
         }
     }
 }

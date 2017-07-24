@@ -9,10 +9,16 @@ namespace ExpressionEvaluatorTests
         private Expression func;
 
         [SetUp]
-        public void init() { func = new Expression(""); }
+        public void init()
+        {
+            func = new Expression("");
+        }
 
         [TearDown]
-        public void clear() { func.Clear(); }
+        public void clear()
+        {
+            func.Clear();
+        }
 
         [Test]
         public void Floor_InnerCalclationAdd_CorrectValue()
@@ -38,7 +44,7 @@ namespace ExpressionEvaluatorTests
         [Test]
         public void Floor_InnerCalculationMulti_CorrectValue()
         {
-            func.Function = @"floor(5*1.5)";
+            func.Function = @"floor((5*(1.5)))";
             Assert.AreEqual(7, func.EvaluateNumeric());
         }
 
@@ -57,6 +63,20 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
+        public void Floor_InnerCalculationParens_CorrectValue()
+        {
+            func.Function = @"floor(6+{3/4+4})";
+            Assert.AreEqual(10, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Floor_InnerCalculationParenthesis_CorrectValue()
+        {
+            func.Function = @"floor(3/4+4)";
+            Assert.AreEqual(4, func.EvaluateNumeric());
+        }
+
+        [Test]
         public void Floor_InnerCalculationSubstract_CorrectValue()
         {
             func.Function = @"floor(2.56 -1.5)";
@@ -68,6 +88,13 @@ namespace ExpressionEvaluatorTests
         {
             func.Function = @"floor(1.5*0)";
             Assert.AreEqual(0, func.EvaluateNumeric());
+        }
+
+        [Test]
+        public void Floor_InnerCalculationParenthesisSum_CorrectValue()
+        {
+            func.Function = @"floor(6+{3/sum(4,4)})";
+            Assert.AreEqual(6, func.EvaluateNumeric());
         }
     }
 }
