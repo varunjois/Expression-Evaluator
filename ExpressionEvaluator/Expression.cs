@@ -122,10 +122,7 @@ namespace Vanderbilt.Biostatistics.Wfccm2
 
         public void AddSetVariable(string name, bool val) { AddSetVariable<bool>(name, val); }
 
-        public void AddSetVariable(string name, string val)
-        {
-            AddSetVariable<string>(name, val.ToLower());
-        }
+        public void AddSetVariable(string name, string val) { AddSetVariable<string>(name, val); }
 
         /// <summary>
         /// Clears all information.
