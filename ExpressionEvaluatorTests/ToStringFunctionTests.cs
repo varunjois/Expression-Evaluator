@@ -1,8 +1,8 @@
 ﻿// ReSharper disable InconsistentNaming
 
 using System;
-using Vanderbilt.Biostatistics.Wfccm2;
 using NUnit.Framework;
+using Vanderbilt.Biostatistics.Wfccm2;
 
 namespace ExpressionEvaluatorTests
 {
@@ -12,16 +12,15 @@ namespace ExpressionEvaluatorTests
         private Expression func;
 
         [SetUp]
-        public void init() { func = new Expression(""); }
+        public void init()
+        {
+            func = new Expression("");
+        }
 
         [TearDown]
-        public void clear() { func.Clear(); }
-
-        [Test]
-        public void ToStringOperator_BooleanInputWithSpaces_IsCorrect()
+        public void clear()
         {
-            func.Function = "toString( true )";
-            Assert.AreEqual("True", func.Evaluate<string>());
+            func.Clear();
         }
 
         [Test]
@@ -32,10 +31,10 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void ToStringOperator_NumericInputWithSpaces_IsCorrect()
+        public void ToStringOperator_BooleanInputWithSpaces_IsCorrect()
         {
-            func.Function = "toString( 2 )";
-            Assert.AreEqual("2", func.Evaluate<string>());
+            func.Function = "toString( true )";
+            Assert.AreEqual("True", func.Evaluate<string>());
         }
 
         [Test]
@@ -46,16 +45,23 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        public void ToStringOperator_StringInputWithSpaces_IsCorrect()
+        public void ToStringOperator_NumericInputWithSpaces_IsCorrect()
         {
-            func.Function = "toString( 'test' )";
-            Assert.AreEqual("test", func.Evaluate<string>());
+            func.Function = "toString( 2 )";
+            Assert.AreEqual("2", func.Evaluate<string>());
         }
 
         [Test]
         public void ToStringOperator_StringInput_IsCorrect()
         {
             func.Function = "toString('test')";
+            Assert.AreEqual("test", func.Evaluate<string>());
+        }
+
+        [Test]
+        public void ToStringOperator_StringInputWithSpaces_IsCorrect()
+        {
+            func.Function = "toString( 'test' )";
             Assert.AreEqual("test", func.Evaluate<string>());
         }
 

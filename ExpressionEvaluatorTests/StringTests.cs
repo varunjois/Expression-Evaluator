@@ -21,7 +21,8 @@ namespace ExpressionEvaluatorTests
         }
 
         [Test]
-        [ExpectedException(typeof(ExpressionException), ExpectedMessage = "String grouping error",
+        [ExpectedException(
+            typeof(ExpressionException), ExpectedMessage = "String grouping error",
             MatchType = MessageMatch.Contains)]
         public void String_TooManySeperators_Exception()
         {
